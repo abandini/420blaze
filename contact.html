@@ -40,7 +40,7 @@
                 
                 <div class="contact-form">
                     <h2>Contact Form</h2>
-                    <form action="https://getform.io/f/bolmoqya" method="POST" class="blazin-form">
+                    <form id="contactForm" class="blazin-form">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -59,9 +59,9 @@
                         <div class="form-group location-group">
                             <label>Location</label>
                             <div class="location-inputs">
-                                <input type="text" name="city" placeholder="City" required>
-                                <input type="text" name="state" placeholder="State" required>
-                                <input type="text" name="zip" placeholder="ZIP" required>
+                                <input type="text" name="city" id="city" placeholder="City" required>
+                                <input type="text" name="state" id="state" placeholder="State" required>
+                                <input type="text" name="zip" id="zip" placeholder="ZIP" required>
                             </div>
                         </div>
                         
@@ -72,11 +72,13 @@
                         
                         <div class="form-group">
                             <label class="checkbox-container">
-                                <input type="checkbox" name="subscribe" checked>
+                                <input type="checkbox" name="subscribe" id="subscribe" checked>
                                 <span class="checkmark"></span>
                                 Subscribe to 420 event updates
                             </label>
                         </div>
+                        
+                        <div id="formStatus" class="form-status"></div>
                         
                         <button type="submit" class="btn">Blaze It Up <i class="fas fa-paper-plane"></i></button>
                     </form>
@@ -143,5 +145,44 @@
 
     <script src="js/script.js"></script>
     <script src="js/particles.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            const formStatus = document.getElementById('formStatus');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading message
+                    formStatus.innerHTML = '<p class="loading">Sending your message...</p>';
+                    
+                    // Get form data
+                    const formData = new FormData(contactForm);
+                    
+                    // Send form data to Getform.io
+                    fetch('https://getform.io/f/bolmoqya', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Redirect to thank you page
+                            window.location.href = 'thank-you.html';
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        formStatus.innerHTML = '<p class="error">There was a problem sending your message. Please try again.</p>';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
