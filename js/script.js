@@ -1,7 +1,7 @@
 // Countdown Timer
 function updateCountdown() {
     const now = new Date();
-    const targetDate = new Date('April 20, 2025 00:00:00');
+    const targetDate = new Date('April 20, 2026 00:00:00');
     
     // Calculate time difference
     const diff = targetDate - now;
