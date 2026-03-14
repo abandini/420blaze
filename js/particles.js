@@ -39,23 +39,48 @@ function createLeafParticles() {
     
     function createLeafImage(color) {
         const leafCanvas = document.createElement('canvas');
-        leafCanvas.width = 30;
-        leafCanvas.height = 30;
+        leafCanvas.width = 40;
+        leafCanvas.height = 40;
         const leafCtx = leafCanvas.getContext('2d');
-        
-        // Draw a cannabis leaf shape
+
+        // Draw a 7-pointed cannabis leaf
         leafCtx.fillStyle = color;
+        leafCtx.save();
+        leafCtx.translate(20, 20);
+        leafCtx.scale(0.45, 0.45);
+
+        function drawFinger(ctx, angle, length, width) {
+            ctx.save();
+            ctx.rotate(angle);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(-width, -length * 0.4, -width * 0.6, -length * 0.8, 0, -length);
+            ctx.bezierCurveTo(width * 0.6, -length * 0.8, width, -length * 0.4, 0, 0);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Center finger (longest)
+        drawFinger(leafCtx, 0, 38, 7);
+        // Inner fingers
+        drawFinger(leafCtx, -0.45, 30, 6);
+        drawFinger(leafCtx, 0.45, 30, 6);
+        // Middle fingers
+        drawFinger(leafCtx, -0.85, 22, 5);
+        drawFinger(leafCtx, 0.85, 22, 5);
+        // Outer fingers (shortest)
+        drawFinger(leafCtx, -1.2, 15, 4);
+        drawFinger(leafCtx, 1.2, 15, 4);
+
+        // Stem
         leafCtx.beginPath();
-        
-        // Draw leaf
-        leafCtx.moveTo(15, 0);
-        leafCtx.bezierCurveTo(10, 10, 5, 15, 0, 15);
-        leafCtx.bezierCurveTo(5, 20, 10, 25, 15, 30);
-        leafCtx.bezierCurveTo(20, 25, 25, 20, 30, 15);
-        leafCtx.bezierCurveTo(25, 15, 20, 10, 15, 0);
-        
+        leafCtx.moveTo(-1.5, 0);
+        leafCtx.lineTo(-0.5, 18);
+        leafCtx.lineTo(0.5, 18);
+        leafCtx.lineTo(1.5, 0);
         leafCtx.fill();
-        
+
+        leafCtx.restore();
         return leafCanvas;
     }
     
