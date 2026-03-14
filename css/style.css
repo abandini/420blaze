@@ -1395,6 +1395,179 @@ footer {
     }
 }
 
+/* App Promo Section (365 Days of Weed) */
+.app-promo {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #0D3320 0%, #1a4a2e 50%, #0D3320 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.app-promo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><text x="15" y="35" font-family="Arial" font-size="20" fill="%2363D471" fill-opacity="0.04">365</text></svg>');
+    opacity: 0.5;
+}
+
+.app-promo-content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.app-promo-text {
+    color: #fff;
+}
+
+.app-badge {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: var(--deep-green);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.app-promo-text h2 {
+    font-family: 'Righteous', 'Arial', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.app-tagline {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.app-features {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.app-features li {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.app-features li i {
+    color: var(--secondary-color);
+    margin-right: 0.8rem;
+    width: 20px;
+}
+
+.app-buttons .btn {
+    font-size: 1.1rem;
+    padding: 0.9rem 2rem;
+    background: var(--secondary-color);
+    color: var(--deep-green);
+}
+
+.app-buttons .btn:hover {
+    background: #fff;
+    color: var(--deep-green);
+}
+
+.app-buttons .btn i {
+    margin-right: 0.5rem;
+}
+
+/* App mockup */
+.app-mockup {
+    display: flex;
+    justify-content: center;
+}
+
+.app-screen {
+    width: 280px;
+    background: #1a1a2e;
+    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 212, 113, 0.15);
+    border: 2px solid rgba(99, 212, 113, 0.2);
+}
+
+.app-screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--secondary-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(99, 212, 113, 0.15);
+}
+
+.app-screen-header i {
+    font-size: 1.2rem;
+}
+
+.app-screen-day {
+    font-family: 'Righteous', monospace;
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.app-screen-title {
+    font-family: 'Righteous', 'Arial', sans-serif;
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 0.8rem;
+}
+
+.app-screen-body {
+    color: #888;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .app-promo-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .app-features {
+        text-align: left;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+    }
+
+    .app-buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .app-mockup {
+        margin-top: 1rem;
+    }
+
+    .app-screen {
+        width: 250px;
+    }
+}
+
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
