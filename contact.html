@@ -68,11 +68,20 @@
                         </div>
                         
                         <div class="form-group location-group">
-                            <label>Location</label>
+                            <span class="form-group-label">Location</span>
                             <div class="location-inputs">
-                                <input type="text" name="city" id="city" placeholder="City" required>
-                                <input type="text" name="state" id="state" placeholder="State" required>
-                                <input type="text" name="zip" id="zip" placeholder="ZIP" required>
+                                <div>
+                                    <label for="city" class="sr-only">City</label>
+                                    <input type="text" name="city" id="city" placeholder="City" required>
+                                </div>
+                                <div>
+                                    <label for="state" class="sr-only">State</label>
+                                    <input type="text" name="state" id="state" placeholder="State" required>
+                                </div>
+                                <div>
+                                    <label for="zip" class="sr-only">ZIP</label>
+                                    <input type="text" name="zip" id="zip" placeholder="ZIP" required>
+                                </div>
                             </div>
                         </div>
                         
