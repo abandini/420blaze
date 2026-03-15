@@ -1873,3 +1873,152 @@ footer {
         padding: 2rem;
     }
 }
+
+/* ===========================
+   Culture Landing Page
+   =========================== */
+.culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 20px;
+}
+
+.culture-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    padding: 2.5rem 2rem;
+    border-radius: 10px;
+    border-top: 3px solid var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.culture-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.culture-card-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 122, 56, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.culture-card-icon i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.culture-card h3 {
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+}
+
+.culture-card p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ===========================
+   Culture Content Pages
+   =========================== */
+.culture-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 20px 5rem;
+}
+
+.culture-content h2 {
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.culture-content h2:first-child {
+    margin-top: 0;
+}
+
+.culture-content h3 {
+    font-family: 'Righteous', sans-serif;
+    font-size: 1.3rem;
+    color: var(--deep-green);
+    margin: 2rem 0 0.5rem;
+}
+
+.culture-content p {
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.culture-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.culture-content ul li {
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+    list-style: disc;
+}
+
+.culture-back {
+    display: inline-block;
+    margin-top: 3rem;
+    padding: 0.7rem 1.5rem;
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.culture-back:hover {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.book-callout {
+    background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.book-callout p {
+    color: #ccc;
+}
+
+.book-callout a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .culture-grid {
+        grid-template-columns: 1fr;
+    }
+}
