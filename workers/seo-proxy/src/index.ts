@@ -3,8 +3,12 @@
  * Sits in front of CF Pages, applies KV-driven meta tag mutations via HTMLRewriter.
  */
 
+import { handleAffiliateRedirect } from './affiliate.js';
+
 interface Env {
   BEAST_SEO: KVNamespace;
+  AFFILIATE_LINKS: KVNamespace;
+  AFFILIATE_DB: D1Database;
 }
 
 const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
@@ -17,10 +21,11 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 
 const ROBOTS = `User-agent: *
 Allow: /
+Disallow: /go/
 Sitemap: https://420blazin.com/sitemap.xml`;
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // Serve sitemap and robots.txt
@@ -29,6 +34,21 @@ export default {
     }
     if (url.pathname === '/robots.txt') {
       return new Response(ROBOTS, { headers: { 'Content-Type': 'text/plain', 'Cache-Control': 'public, max-age=3600' } });
+    }
+
+    // Affiliate redirects — must be before origin fetch
+    if (url.pathname.startsWith('/go/')) {
+      const slug = url.pathname.replace('/go/', '');
+      if (!slug) return new Response('Not Found', { status: 404 });
+      return handleAffiliateRedirect(
+        slug,
+        '420blazin',
+        request.headers.get('Referer'),
+        request.headers.get('User-Agent'),
+        env.AFFILIATE_LINKS,
+        env.AFFILIATE_DB,
+        ctx,
+      );
     }
 
     // Fetch from CF Pages origin

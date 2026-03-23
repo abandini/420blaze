@@ -6,6 +6,15 @@ compatibility_date = "2024-12-01"
 binding = "BEAST_SEO"
 id = "36c1eaef07ad4d049b0001a6a353fabc"
 
+[[kv_namespaces]]
+binding = "AFFILIATE_LINKS"
+id = "ac17af39fd1147f880a9b2623e812511"
+
+[[d1_databases]]
+binding = "AFFILIATE_DB"
+database_name = "affiliate-analytics"
+database_id = "49a87468-8340-47a4-b0c6-e0a75e5f09c8"
+
 [[routes]]
 pattern = "420blazin.com/*"
 zone_name = "420blazin.com"
