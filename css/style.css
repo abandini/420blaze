@@ -2608,3 +2608,18 @@ footer {
     color: #666;
     margin-bottom: 1.5rem;
 }
+
+/* Affiliate Disclosure */
+.affiliate-disclosure {
+    background: #f0f7f2;
+    border: 1px solid #d4e8d4;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0 0 2rem;
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.6;
+}
+.affiliate-disclosure strong {
+    color: #333;
+}
