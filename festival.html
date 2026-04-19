@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>420Blazin Festival 2027 — Cleveland's First All-Day 420 Festival</title>
+    <meta name="description" content="Cleveland's first all-day 420 festival. Wake & Bake Brunch at 10am, live music all day, Maggot Brain at midnight. April 18, 2027. Tell us what YOU want.">
+    <meta property="og:title" content="420Blazin Festival 2027 — Cleveland's First All-Day 420 Festival">
+    <meta property="og:description" content="Wake & Bake Brunch at 10am. Maggot Brain at midnight. 14 hours of music, food, and culture. Cleveland, April 18, 2027.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://420blazin.com/festival">
+    <meta property="og:image" content="https://420blazin.com/images/cannabis-plant.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .festival-hero {
+            background: linear-gradient(135deg, #0D3320 0%, #1a0a2e 50%, #0D3320 100%);
+            color: #fff;
+            padding: 4rem 20px;
+            text-align: center;
+        }
+        .festival-hero h2 {
+            font-family: 'Righteous', cursive;
+            font-size: 3rem;
+            color: #F7A400;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(247,164,0,0.3);
+        }
+        .festival-hero .fest-date {
+            font-family: 'Righteous', cursive;
+            font-size: 1.5rem;
+            color: #63D471;
+            margin-bottom: 1rem;
+        }
+        .festival-hero .fest-tagline {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+        .fest-timeline {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        .fest-timeline-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(99,212,113,0.2);
+            padding: 1rem 1.5rem;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .fest-timeline-item:first-child { border-radius: 8px 0 0 8px; }
+        .fest-timeline-item:last-child { border-radius: 0 8px 8px 0; }
+        .fest-timeline-item .time { font-family: 'Righteous', cursive; font-size: 1.1rem; color: #F7A400; }
+        .fest-timeline-item .what { font-size: 0.9rem; color: #aaa; margin-top: 0.3rem; }
+
+        .fest-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 20px;
+        }
+        .fest-section h2 {
+            font-family: 'Righteous', cursive;
+            font-size: 2rem;
+            color: var(--deep-green);
+            margin-bottom: 1rem;
+        }
+        .fest-section h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--deep-green);
+            margin: 1.5rem 0 0.5rem;
+        }
+        .fest-section p, .fest-section li {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .venue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .venue-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .venue-card:hover, .venue-card.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 20px rgba(0,122,56,0.15);
+        }
+        .venue-card.selected::after {
+            content: '\2713';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary-color);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .venue-card h3 {
+            font-family: 'Righteous', cursive;
+            color: var(--deep-green);
+            margin: 0 0 0.3rem;
+            font-size: 1.2rem;
+        }
+        .venue-card .venue-vibe {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .venue-card .venue-cap {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .venue-card p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .price-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .price-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .price-btn:hover, .price-btn.selected {
+            border-color: var(--primary-color);
+            background: #f0fff0;
+        }
+        .price-btn.selected {
+            box-shadow: 0 2px 10px rgba(0,122,56,0.2);
+        }
+        .price-btn .amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--deep-green);
+            display: block;
+        }
+        .price-btn .label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        .interest-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        .interest-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        .interest-check:hover {
+            border-color: var(--primary-color);
+            background: #f8fff8;
+        }
+        .interest-check input { accent-color: var(--primary-color); width: 18px; height: 18px; }
+
+        .survey-form {
+            background: linear-gradient(135deg, #f8fff8, #f4f6f0);
+            border: 2px solid var(--primary-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+        .survey-form label {
+            display: block;
+            font-weight: 700;
+            color: var(--deep-green);
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+        .survey-form input[type="email"],
+        .survey-form input[type="text"],
+        .survey-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 1.5rem;
+            background: #fff;
+        }
+        .survey-form textarea { min-height: 80px; resize: vertical; }
+        .survey-form input:focus, .survey-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,122,56,0.1);
+        }
+        .submit-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .submit-btn:hover { background: #006830; }
+        .submit-btn:disabled { background: #999; cursor: not-allowed; }
+
+        .fest-cta-strip {
+            background: var(--deep-green);
+            color: #fff;
+            text-align: center;
+            padding: 2.5rem 20px;
+        }
+        .fest-cta-strip h2 {
+            font-family: 'Righteous', cursive;
+            color: #F7A400;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .fest-cta-strip p { color: #aaa; font-size: 1rem; }
+
+        .success-msg {
+            display: none;
+            background: #f0fff0;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .success-msg h3 { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .success-msg p { color: #555; }
+
+        @media (max-width: 600px) {
+            .festival-hero h2 { font-size: 2rem; }
+            .fest-timeline { flex-direction: column; }
+            .fest-timeline-item { border-radius: 0; }
+            .fest-timeline-item:first-child { border-radius: 8px 8px 0 0; }
+            .fest-timeline-item:last-child { border-radius: 0 0 8px 8px; }
+            .price-options { flex-direction: column; }
+        }
+    </style>
+    <!-- PostHog Analytics -->
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageviewId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_yMcK3cIJ6O3gtN18IpBVi5UQKIE1CQyPmdav8t9dgPS',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only'})
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    <header>
+        <div class="logo-container">
+            <h1>&#x1F33F; <span class="green">420</span>Blazin<span class="green">.com</span></h1>
+        </div>
+        <div id="clock-420" class="clock-420">4:20</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">420 Events</a></li>
+                <li><a href="cleveland-420.html">Cleveland 420</a></li>
+                <li><a href="culture.html">Cannabis Culture</a></li>
+                <li><a href="merch.html">Merch</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="https://www.365daysofweed.com" target="_blank" rel="noopener noreferrer">365 Days of Weed</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+
+    <section class="festival-hero">
+        <p class="fest-date">Saturday, April 18, 2027 &bull; Cleveland, Ohio</p>
+        <h2>420Blazin Festival</h2>
+        <p class="fest-tagline">Cleveland's first all-day 420 celebration. 14 hours of live music, food, cannabis culture, and community &mdash; from Wake &amp; Bake Brunch to a midnight Maggot Brain finale.</p>
+
+        <div class="fest-timeline">
+            <div class="fest-timeline-item">
+                <div class="time">10 AM</div>
+                <div class="what">Wake &amp; Bake Brunch</div>
+            </div>
+            <div class="fest-timeline-item">
+                <div class="time">12 PM</div>
+                <div class="what">Music &amp; Vendors Open</div>
+            </div>
+            <div class="fest-timeline-item">
+                <div class="time">5 PM</div>
+                <div class="what">Headliner Sets Begin</div>
+            </div>
+            <div class="fest-timeline-item">
+                <div class="time">12 AM</div>
+                <div class="what">Maggot Brain Finale</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="fest-section">
+        <h2>We're Building This Festival For You</h2>
+        <p>Cleveland's 420 scene is growing &mdash; but there's nothing like a proper all-day festival. Every event this year sold out instantly or started too late. So we're planning something better for 2027, and we want your input on every detail.</p>
+        <p>This isn't a corporate event. This is Blazin Bill and the 420Blazin community building Cleveland's 420 festival from scratch. Your answers below directly shape what this becomes.</p>
+
+        <h2>The Vision</h2>
+        <ul>
+            <li><strong>Wake &amp; Bake Brunch (10 AM):</strong> Start the day right. Coffee bar, mimosas, breakfast, and mellow morning vibes.</li>
+            <li><strong>Afternoon Sessions (12&ndash;5 PM):</strong> Reggae, jam bands, vendor village, dispensary booths, glass art, food trucks, and gear demos.</li>
+            <li><strong>Evening Headliners (5 PM&ndash;12 AM):</strong> Funk, soul, and psychedelic rock building to the finale.</li>
+            <li><strong>The Closer:</strong> A Cleveland tradition reborn &mdash; <em>Maggot Brain</em> at midnight. WMMS played the full Funkadelic cut every Sunday at 1:30 AM from 1976 to 1995. We're bringing it back, live, to close the night.</li>
+        </ul>
+
+        <h2>Help Us Pick the Venue</h2>
+        <p>We're considering three very different venues. Each creates a different festival experience. Which one speaks to you?</p>
+
+        <div class="venue-grid">
+            <div class="venue-card" onclick="selectVenue(this, 'agora')" id="venue-agora">
+                <h3>The Agora Theatre</h3>
+                <div class="venue-vibe">The Big-League Option</div>
+                <div class="venue-cap"><i class="fas fa-users"></i> Up to 2,000 &bull; 5000 Euclid Ave</div>
+                <p>Cleveland's legendary rock venue. Full production, two rooms (brunch in the Ballroom, main acts in the Theatre). Parliament-Funkadelic, the Dead &mdash; everyone has played this stage. Professional sound and lights included.</p>
+            </div>
+            <div class="venue-card" onclick="selectVenue(this, 'fairgrounds')" id="venue-fairgrounds">
+                <h3>Cuyahoga County Fairgrounds</h3>
+                <div class="venue-vibe">The Space &amp; Value Option</div>
+                <div class="venue-cap"><i class="fas fa-users"></i> 2,500+ &bull; Middleburg Heights</div>
+                <p>Massive indoor space across multiple buildings. The Cannabis &amp; Music Expo already uses this venue. Tons of room for vendors, food trucks, and activities. 7,500 parking spots. Budget-friendly means cheaper tickets for everyone.</p>
+            </div>
+            <div class="venue-card" onclick="selectVenue(this, 'forestcity')" id="venue-forestcity">
+                <h3>Forest City Brewery</h3>
+                <div class="venue-vibe">The Intimate Craft Experience</div>
+                <div class="venue-cap"><i class="fas fa-users"></i> Up to 250 &bull; 2135 Columbus Rd</div>
+                <p>Historic Waldorf Beer Hall with cavernous ceilings, warm woodwork, craft beer on tap, and a beer garden. Intimate, up-close vibes. Smaller crowd means you're part of the show, not watching from a distance.</p>
+            </div>
+        </div>
+
+        <h2>What Would You Pay?</h2>
+        <p>Help us price this right. Ticket includes all-day access and all music. Brunch and VIP are add-ons.</p>
+
+        <div class="price-options">
+            <div class="price-btn" onclick="selectPrice(this, '25')">
+                <span class="amount">$25</span>
+                <span class="label">Early Bird</span>
+            </div>
+            <div class="price-btn" onclick="selectPrice(this, '40')">
+                <span class="amount">$40</span>
+                <span class="label">General Admission</span>
+            </div>
+            <div class="price-btn" onclick="selectPrice(this, '65')">
+                <span class="amount">$65</span>
+                <span class="label">GA + Brunch</span>
+            </div>
+            <div class="price-btn" onclick="selectPrice(this, '125')">
+                <span class="amount">$125</span>
+                <span class="label">VIP All-Access</span>
+            </div>
+        </div>
+
+        <h2>What Matters Most to You?</h2>
+        <div class="interest-options">
+            <label class="interest-check"><input type="checkbox" name="interest" value="live-music"> Live Music</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="brunch"> Wake &amp; Bake Brunch</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="food-trucks"> Food Trucks</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="vendor-village"> Vendor Village</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="dispensary-booths"> Dispensary Booths</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="vaporizer-demos"> Vaporizer Demos</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="glass-art"> Glass Art</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="education"> Cannabis Education</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="networking"> Networking / Community</label>
+            <label class="interest-check"><input type="checkbox" name="interest" value="vip-lounge"> VIP Lounge</label>
+        </div>
+
+        <div class="survey-form" id="survey-form">
+            <h2 style="font-family:'Righteous',cursive; color:var(--deep-green); margin-bottom:0.5rem;">Get Early Bird Access</h2>
+            <p style="color:#666; margin-bottom:1.5rem;">Drop your email and we'll notify you first when early bird tickets go on sale. Your survey answers help us build a better festival.</p>
+
+            <label for="fest-name">Name</label>
+            <input type="text" id="fest-name" name="name" placeholder="Blazin Bill">
+
+            <label for="fest-email">Email (for early bird notification)</label>
+            <input type="email" id="fest-email" name="email" placeholder="you@example.com" required>
+
+            <label for="fest-comments">Anything else? Band requests, food ideas, suggestions...</label>
+            <textarea id="fest-comments" name="comments" placeholder="I want to see Hot Sauce Gravy Band close with Maggot Brain..."></textarea>
+
+            <button type="button" class="submit-btn" id="submit-btn" onclick="submitSurvey()">Count Me In</button>
+        </div>
+
+        <div class="success-msg" id="success-msg">
+            <h3>You're on the list!</h3>
+            <p>We'll hit you up first when early bird tickets drop. Thanks for helping us build Cleveland's 420 festival.</p>
+            <p style="margin-top:1rem;"><a href="index.html" class="btn">Back to 420Blazin.com</a></p>
+        </div>
+    </section>
+
+    <section class="fest-cta-strip">
+        <h2>April 18, 2027</h2>
+        <p>Wake &amp; Bake at 10. Maggot Brain at midnight. Cleveland, let's build this.</p>
+    </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>420Blazin.com</h2>
+                <p>Your ultimate 420 guide</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="events.html">420 Events</a></li>
+                    <li><a href="cleveland-420.html">Cleveland 420</a></li>
+                    <li><a href="culture.html">Cannabis Culture</a></li>
+                    <li><a href="merch.html">Merch Store</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-legal">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025-2026 420Blazin.com. All Rights Reserved. | Must be 21+ | Please consume responsibly.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/particles.js"></script>
+    <script>
+    // Festival survey state
+    var surveyData = { venue: '', price: '', interests: [], name: '', email: '', comments: '' };
+
+    function selectVenue(el, venue) {
+        document.querySelectorAll('.venue-card').forEach(function(c) { c.classList.remove('selected'); });
+        el.classList.add('selected');
+        surveyData.venue = venue;
+        trackSurvey('venue_selected', venue);
+    }
+
+    function selectPrice(el, price) {
+        document.querySelectorAll('.price-btn').forEach(function(c) { c.classList.remove('selected'); });
+        el.classList.add('selected');
+        surveyData.price = price;
+        trackSurvey('price_selected', price);
+    }
+
+    function trackSurvey(event, value) {
+        if (window.posthog) {
+            posthog.capture('festival_survey_' + event, { value: value });
+        }
+    }
+
+    function submitSurvey() {
+        var email = document.getElementById('fest-email').value;
+        if (!email || !email.includes('@')) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        // Gather interests
+        surveyData.interests = [];
+        document.querySelectorAll('input[name="interest"]:checked').forEach(function(cb) {
+            surveyData.interests.push(cb.value);
+        });
+        surveyData.name = document.getElementById('fest-name').value;
+        surveyData.email = email;
+        surveyData.comments = document.getElementById('fest-comments').value;
+
+        // Track in PostHog
+        if (window.posthog) {
+            posthog.capture('festival_survey_submitted', {
+                venue: surveyData.venue,
+                price: surveyData.price,
+                interests: surveyData.interests,
+                has_comments: surveyData.comments.length > 0
+            });
+            posthog.identify(email, {
+                name: surveyData.name,
+                festival_interest: true,
+                preferred_venue: surveyData.venue,
+                preferred_price: surveyData.price,
+                interests: surveyData.interests
+            });
+        }
+
+        // Show success
+        document.getElementById('survey-form').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+
+        // Also try to send via form endpoint if available
+        try {
+            fetch('https://formspree.io/f/xpwzgkqo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(surveyData)
+            });
+        } catch(e) { /* PostHog has the data regardless */ }
+    }
+    </script>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f6c4d4d13b646129837d042ed29c9d5"}'></script>
+</body>
+</html>
