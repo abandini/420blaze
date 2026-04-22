@@ -2623,3 +2623,80 @@ footer {
 .affiliate-disclosure strong {
     color: #333;
 }
+
+/* ---- Gear Card Image Swap Hover ---- */
+.gear-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(99,212,113,0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    display: block;
+}
+.gear-card:hover {
+    border-color: #63D471;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(99,212,113,0.15);
+}
+.gear-card .gear-img-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 180px;
+    margin: 0 auto 0.8rem;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+.gear-card .gear-img-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: opacity 0.4s ease;
+}
+.gear-card .gear-img-wrap .gear-img-hover {
+    opacity: 0;
+}
+.gear-card:hover .gear-img-wrap .gear-img-default {
+    opacity: 0;
+}
+.gear-card:hover .gear-img-wrap .gear-img-hover {
+    opacity: 1;
+}
+.gear-card .gear-name {
+    font-family: 'Righteous', cursive;
+    color: #fff;
+    font-size: 1rem;
+}
+.gear-card .gear-price {
+    color: #63D471;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin: 0.3rem 0;
+}
+.gear-card .gear-label {
+    color: #999;
+    font-size: 0.8rem;
+}
+.gear-card .gear-cta {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(99,212,113,0.15);
+    color: #63D471;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+.gear-card:hover .gear-cta {
+    opacity: 1;
+    transform: translateY(0);
+}
