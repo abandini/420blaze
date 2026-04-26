@@ -1,0 +1,16 @@
+name = "420blazin-music-scraper"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+workers_dev = true
+
+[triggers]
+crons = ["0 6 * * *"]  # Daily at 6 AM UTC (2 AM ET)
+
+[[d1_databases]]
+binding = "DB"
+database_name = "music-events-db"
+database_id = "cf01df22-3f0c-4ea5-9598-c9a7840b2e6f"
+
+[[kv_namespaces]]
+binding = "PAGES"
+id = "36c1eaef07ad4d049b0001a6a353fabc"
