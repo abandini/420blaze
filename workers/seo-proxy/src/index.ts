@@ -14,9 +14,30 @@ interface Env {
 const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://420blazin.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://420blazin.com/events</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://420blazin.com/cleveland-420</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://420blazin.com/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://420blazin.com/events.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/cleveland-420.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/culture.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://420blazin.com/culture-flower.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-terpenes.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-plants.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-glass.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-rolling.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-edibles.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-concentrates.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/culture-celebrations.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://420blazin.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/blog/best-dry-herb-vaporizers.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/blog/the-nose-knows.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/blog/tasting-notes-001-runtz.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://420blazin.com/blog/wake-and-bake-protocol.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://420blazin.com/blog/cannabis-vaporizer-guide.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/merch.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://420blazin.com/festival.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://420blazin.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://420blazin.com/music-events.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://420blazin.com/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>`;
 
 const ROBOTS = `User-agent: *
