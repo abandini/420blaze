@@ -154,10 +154,12 @@ header {
 
 nav ul {
     display: flex;
+    align-items: center;
 }
 
 nav ul li {
     margin-left: 1.5rem;
+    position: relative;
 }
 
 nav ul li a {
@@ -171,6 +173,112 @@ nav ul li a:hover,
 nav ul li a.active {
     color: var(--secondary-color);
     border-bottom: 2px solid var(--secondary-color);
+}
+
+/* Dropdown Nav */
+nav ul li.has-dropdown > a::after {
+    content: ' \25BE';
+    font-size: 0.7em;
+    opacity: 0.6;
+}
+
+nav ul li .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--deep-green);
+    border: 1px solid rgba(99,212,113,0.2);
+    border-radius: 0 0 8px 8px;
+    min-width: 200px;
+    padding: 0.5rem 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    z-index: 200;
+}
+
+nav ul li:hover .dropdown,
+nav ul li:focus-within .dropdown {
+    display: block;
+}
+
+nav ul li .dropdown li {
+    margin: 0;
+    display: block;
+}
+
+nav ul li .dropdown li a {
+    display: block;
+    padding: 0.6rem 1.2rem;
+    color: #b8d4b8;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+nav ul li .dropdown li a:hover {
+    background: rgba(99,212,113,0.1);
+    color: var(--secondary-color);
+    border-bottom: none;
+}
+
+/* Festival CTA button in nav */
+nav .nav-cta {
+    background: var(--accent-color);
+    color: #1a1a1a !important;
+    padding: 0.4rem 1rem !important;
+    border-radius: 6px;
+    font-weight: 700 !important;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+nav .nav-cta:hover {
+    background: #e8960a;
+    border-bottom: none !important;
+    color: #1a1a1a !important;
+}
+
+/* Mobile hamburger */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background: #b8d4b8;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+@media (max-width: 900px) {
+    .hamburger { display: block; }
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem 0;
+        gap: 0;
+    }
+    nav ul.open { display: flex; }
+    nav ul li { margin: 0; }
+    nav ul li a { display: block; padding: 0.8rem 1rem; }
+    nav ul li .dropdown {
+        position: static;
+        border: none;
+        box-shadow: none;
+        min-width: 100%;
+        padding-left: 1rem;
+        background: rgba(0,0,0,0.15);
+        border-radius: 0;
+    }
+    nav ul li .dropdown li a { padding-left: 2rem; font-size: 0.85rem; }
+    .clock-420 { display: none; }
 }
 
 /* Hero Section */

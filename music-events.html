@@ -28,15 +28,41 @@
         </div>
         <div id="clock-420" class="clock-420">4:20</div>
         <nav>
+            <button class="hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="events.html">420 Events</a></li>
-                <li><a href="cleveland-420.html">Cleveland 420</a></li>
-                <li><a href="music-events.html" class="active">Live Music</a></li>
-                <li><a href="culture.html">Cannabis Culture</a></li>
-                <li><a href="merch.html">Merch</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li class="has-dropdown"><a href="events.html">Events</a>
+                    <ul class="dropdown">
+                        <li><a href="events.html">420 Events</a></li>
+                        <li><a href="cleveland-420.html">Cleveland 420</a></li>
+                        <li><a href="music-events.html">Live Music</a></li>
+                        <li><a href="festival.html">Festival 2027</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="culture.html">Culture</a>
+                    <ul class="dropdown">
+                        <li><a href="culture-flower.html">Premium Flower</a></li>
+                        <li><a href="culture-terpenes.html">Terpenes</a></li>
+                        <li><a href="culture-concentrates.html">Concentrates</a></li>
+                        <li><a href="culture-edibles.html">Edibles</a></li>
+                        <li><a href="culture-glass.html">Glass &amp; Pipes</a></li>
+                        <li><a href="culture-plants.html">Growing</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="blog.html">Blog</a>
+                    <ul class="dropdown">
+                        <li><a href="blog/best-dry-herb-vaporizers.html">Best Vaporizers 2026</a></li>
+                        <li><a href="blog/the-nose-knows.html">The Nose Knows</a></li>
+                        <li><a href="blog/tasting-notes-001-runtz.html">Tasting Notes: Runtz</a></li>
+                        <li><a href="blog/wake-and-bake-protocol.html">Wake &amp; Bake Protocol</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown"><a href="merch.html">Shop</a>
+                    <ul class="dropdown">
+                        <li><a href="merch.html">420Blazin Merch</a></li>
+                        <li><a href="blog/best-dry-herb-vaporizers.html">Vaporizer Guide</a></li>
+                    </ul>
+                </li>
+                <li><a href="festival.html" class="nav-cta">Festival 2027</a></li>
             </ul>
         </nav>
     </header>
