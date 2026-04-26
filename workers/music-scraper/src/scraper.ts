@@ -7,6 +7,7 @@
 import { Venue, VENUES } from './venues';
 import { calculateStonerScore } from './filter';
 import { EventRow, upsertEvent } from './db';
+import { fetchBandsInTownEvents } from './bandsintown';
 
 export interface ScrapedEvent {
   name: string;
@@ -161,6 +162,45 @@ function parseGenericHTML(html: string): ScrapedEvent[] {
   return events;
 }
 
+/**
+ * Parse Grog Shop calendar page.
+ * Events are in article-like blocks with title, date ("Sun, Apr 26"), and ticket links.
+ */
+function parseGrogShop(html: string): ScrapedEvent[] {
+  const events: ScrapedEvent[] = [];
+  const today = todayISO();
+
+  // Grog Shop lists: title, "w/ supporting acts", date line "Sun, Apr 26 Doors: 7:00 pm / Show: 7:45 pm"
+  const eventPattern = /<h[2-4][^>]*>\s*(?:<a[^>]*>)?([^<]+)(?:<\/a>)?\s*<\/h[2-4]>[\s\S]*?(\w{3},\s+\w{3}\s+\d{1,2})[\s\S]*?(?:Doors?:\s*(\d{1,2}:\d{2}\s*[ap]m))?[\s\S]*?(?:Show:\s*(\d{1,2}:\d{2}\s*[ap]m))?/gi;
+  let match;
+
+  while ((match = eventPattern.exec(html)) !== null) {
+    const name = match[1].trim();
+    const rawDate = match[2];
+    const doors = match[3] || undefined;
+    const showTime = match[4] || undefined;
+    const date = parseFuzzyDate(rawDate);
+
+    if (name && date && date >= today) {
+      // Look for price near this match
+      const vicinity = html.substring(match.index, match.index + 800);
+      const priceMatch = vicinity.match(/\$(\d+(?:\.\d{2})?)/);
+      const ticketMatch = vicinity.match(/href="([^"]*ticketweb[^"]*|[^"]*buy[^"]*)"/i);
+
+      events.push({
+        name,
+        date,
+        doors,
+        showTime,
+        price: priceMatch ? `$${priceMatch[1]}` : undefined,
+        ticketUrl: ticketMatch ? ticketMatch[1] : undefined,
+      });
+    }
+  }
+
+  return events.length > 0 ? events : parseJsonLd(html);
+}
+
 // ---- Helpers ----
 
 function todayISO(): string {
@@ -197,18 +237,37 @@ function formatTime(isoOrTime: string): string {
 export async function scrapeVenue(venue: Venue): Promise<ScrapedEvent[]> {
   try {
     const html = await fetchPage(venue.calendarUrl);
+    let events: ScrapedEvent[];
 
     switch (venue.slug) {
       case 'winchester':
-        return parseWinchester(html);
+        // Winchester calendar is JS-rendered, try HTML first then BandsInTown
+        events = parseWinchester(html);
+        if (events.length === 0) {
+          console.log(`[SCRAPER] ${venue.name}: HTML parse empty, trying BandsInTown`);
+          events = await fetchBandsInTownEvents(venue.slug);
+        }
+        return events;
       case 'beachland':
         return parseBeachland(html);
+      case 'grog-shop':
+        return parseGrogShop(html);
       default:
-        return parseGenericHTML(html);
+        events = parseGenericHTML(html);
+        // If generic parser finds nothing, try BandsInTown
+        if (events.length === 0) {
+          events = await fetchBandsInTownEvents(venue.slug);
+        }
+        return events;
     }
   } catch (err: any) {
     console.error(`[SCRAPER] Error scraping ${venue.name}: ${err.message}`);
-    return []; // Fail safe: skip venue, never crash
+    // Last resort: try BandsInTown
+    try {
+      return await fetchBandsInTownEvents(venue.slug);
+    } catch {
+      return [];
+    }
   }
 }
 

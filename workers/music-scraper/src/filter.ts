@@ -20,7 +20,7 @@ const HIGH_KEYWORDS = [
 const MEDIUM_KEYWORDS = [
   'doom', 'stoner metal', 'sludge', 'sludge metal',
   'jam night', 'open jam', 'blues jam', 'jam session',
-  'deadhead', 'hippie',
+  'deadhead', 'hippie fest', 'hippie hill',
   'trippy', 'space rock', 'krautrock',
   'funk', 'soul', 'afrobeat', 'afrofunk',
   'bluegrass', 'newgrass', 'folk jam',
@@ -39,6 +39,22 @@ const EXCLUDE_KEYWORDS = [
   'cancelled', 'canceled', 'postponed',
 ];
 
+/**
+ * Word-boundary-aware keyword match.
+ * Prevents "ween" matching "Sweeney" or "hippie" matching "Blvck Hippie" (indie band).
+ * Uses regex word boundaries for short keywords (<=5 chars), plain includes for longer phrases.
+ */
+function matchesKeyword(text: string, keyword: string): boolean {
+  // Multi-word phrases are safe to use includes (low false positive risk)
+  if (keyword.includes(' ') || keyword.length > 8) {
+    return text.includes(keyword);
+  }
+  // Short single words need word boundary matching
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(?:^|\\W)${escaped}(?:$|\\W)`, 'i');
+  return re.test(text);
+}
+
 export function calculateStonerScore(eventName: string, genreTags: string): number {
   const text = `${eventName} ${genreTags}`.toLowerCase();
 
@@ -47,14 +63,14 @@ export function calculateStonerScore(eventName: string, genreTags: string): numb
     if (text.includes(kw)) return 0;
   }
 
-  // Check high-confidence keywords (score 4-5)
+  // Check high-confidence keywords (score 5)
   for (const kw of HIGH_KEYWORDS) {
-    if (text.includes(kw)) return 5;
+    if (matchesKeyword(text, kw)) return 5;
   }
 
   // Check medium-confidence keywords (score 3)
   for (const kw of MEDIUM_KEYWORDS) {
-    if (text.includes(kw)) return 3;
+    if (matchesKeyword(text, kw)) return 3;
   }
 
   return 0;

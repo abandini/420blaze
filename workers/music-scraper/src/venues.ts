@@ -19,7 +19,7 @@ export const VENUES: Venue[] = [
     name: 'Winchester Music Tavern',
     neighborhood: 'Lakewood',
     calendarUrl: 'https://thewinchestermusictavern.com/calendar/',
-    calendarType: 'html',
+    calendarType: 'html',  // NOTE: JS-rendered calendar, may need BandsInTown fallback
     address: '12112 Madison Ave, Lakewood, OH',
     vibeMatch: 'high',
   },
@@ -45,7 +45,7 @@ export const VENUES: Venue[] = [
     slug: 'grog-shop',
     name: 'Grog Shop',
     neighborhood: 'Coventry',
-    calendarUrl: 'https://grogshop.gs/events/',
+    calendarUrl: 'https://grogshop.gs/calendar/',
     calendarType: 'html',
     address: '2785 Euclid Heights Blvd, Cleveland Heights, OH',
     vibeMatch: 'medium',

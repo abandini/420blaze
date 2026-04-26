@@ -70,6 +70,28 @@ describe('calculateStonerScore', () => {
   it('scores 0 for open mic', () => {
     expect(calculateStonerScore('Open Mic Night hosted by Dave', '')).toBe(0);
   });
+
+  // FALSE POSITIVE PREVENTION — word boundary tests
+  it('scores 0 for Sunny Sweeney (ween substring)', () => {
+    expect(calculateStonerScore('Sunny Sweeney @ The Winchester', '')).toBe(0);
+  });
+  it('scores 5 for actual Ween', () => {
+    expect(calculateStonerScore('Ween Live at Agora', '')).toBe(5);
+  });
+  it('scores 0 for Blvck Hippie (indie band, not 420)', () => {
+    // "hippie" as a keyword is too broad for band names
+    // Blvck Hippie is an indie rock band, not 420-adjacent
+    expect(calculateStonerScore('Blvck Hippie', 'indie rock')).toBe(0);
+  });
+  it('scores 3 for actual hippie fest event', () => {
+    expect(calculateStonerScore('Hippie Fest - Peace Love Music', '')).toBe(3);
+  });
+  it('scores 0 for Soulfood (soul substring in non-music context)', () => {
+    expect(calculateStonerScore('Soulfood Kitchen Night', '')).toBe(0);
+  });
+  it('scores 3 for actual soul music', () => {
+    expect(calculateStonerScore('Northern Soul Night', 'soul')).toBe(3);
+  });
 });
 
 describe('is420Adjacent', () => {
