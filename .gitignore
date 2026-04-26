@@ -1,2 +1,4 @@
 workers/seo-proxy/node_modules/
 merch-videos/
+.dev.vars
+workers/music-scraper/node_modules/
