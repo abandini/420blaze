@@ -1,7 +1,15 @@
 /**
  * Venue calendar scraper.
- * Fetches venue pages via HTTP, parses events from HTML.
- * Each venue gets a dedicated parser for reliability.
+ * Parsers calibrated against actual venue HTML snapshots (2026-04-27).
+ *
+ * Venue status:
+ *   Beachland   — STATIC HTML (Webflow): .title + .start-date divs ✓
+ *   Foundry     — STATIC HTML (WordPress + TicketWeb): tw-event-name + date text ✓
+ *   Grog Shop   — JS-RENDERED (TicketWeb calendar): BandsInTown fallback
+ *   Winchester  — JS-RENDERED ("Calendar Loading..."): BandsInTown fallback
+ *   Happy Dog   — JS-RENDERED (OpenDate): BandsInTown fallback
+ *   Mahalls     — EMPTY RESPONSE: BandsInTown fallback
+ *   Agora       — MINIMAL HTML: BandsInTown fallback
  */
 
 import { Venue, VENUES } from './venues';
@@ -30,78 +38,80 @@ async function fetchPage(url: string): Promise<string> {
 }
 
 /**
- * Parse Winchester Music Tavern calendar.
- * Uses WordPress The Events Calendar plugin with tribe-events markup.
- */
-function parseWinchester(html: string): ScrapedEvent[] {
-  const events: ScrapedEvent[] = [];
-  const today = todayISO();
-
-  // Match event blocks via datetime + title pattern
-  const eventPattern = /datetime="(\d{4}-\d{2}-\d{2})[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]*)"[^>]*>([^<]+)<\/a>/gi;
-  let match;
-
-  while ((match = eventPattern.exec(html)) !== null) {
-    const date = match[1];
-    const url = match[2];
-    const name = match[3].trim();
-
-    if (name && date && date >= today) {
-      const timeMatch = html.substring(match.index, match.index + 500)
-        .match(/(\d{1,2}:\d{2}\s*[APap][Mm])/);
-
-      events.push({
-        name,
-        date,
-        showTime: timeMatch ? timeMatch[1] : undefined,
-        ticketUrl: url.startsWith('http') ? url : `https://thewinchestermusictavern.com${url}`,
-      });
-    }
-  }
-
-  // Fallback: JSON-LD structured data
-  if (events.length === 0) {
-    return parseJsonLd(html);
-  }
-
-  return events;
-}
-
-/**
- * Parse Beachland Ballroom shows page.
+ * Parse Beachland Ballroom (Webflow site).
+ * Structure: <div class="title"><div>NAME</div></div>
+ *            <div class="start-date"><div>DATE</div></div>
+ *            <a href="/shows/SLUG" class="webflow-link">
+ * 114 events found in snapshot.
  */
 function parseBeachland(html: string): ScrapedEvent[] {
   const events: ScrapedEvent[] = [];
   const today = todayISO();
 
-  // Look for show blocks with date + artist info
-  const showBlocks = html.match(/<div[^>]*class="[^"]*show[^"]*"[\s\S]*?(?=<div[^>]*class="[^"]*show|$)/gi) || [];
+  // Extract title + start-date pairs from the Webflow dynamic list
+  const titlePattern = /class="title"><div>([^<]+)<\/div>/g;
+  const datePattern = /class="start-date"><div>([^<]+)<\/div>/g;
+  const urlPattern = /href="(\/shows\/[^"]+)"/g;
 
-  for (const block of showBlocks) {
-    const nameMatch = block.match(/<h[2-4][^>]*>\s*(?:<a[^>]*>)?([^<]+)(?:<\/a>)?\s*<\/h/i);
-    const dateMatch = block.match(/datetime="(\d{4}-\d{2}-\d{2})/i)
-      || block.match(/(\w+day,?\s+\w+\s+\d{1,2}(?:,?\s*\d{4})?)/i);
-    const doorsMatch = block.match(/[Dd]oors?\s*[:@]?\s*(\d{1,2}:\d{2}\s*[APap][Mm])/i);
-    const showMatch = block.match(/[Ss]how\s*[:@]?\s*(\d{1,2}:\d{2}\s*[APap][Mm])/i);
-    const priceMatch = block.match(/(\$[\d.]+|No Cover|Free)/i);
+  const titles: string[] = [];
+  const dates: string[] = [];
+  const urls: string[] = [];
 
-    if (nameMatch) {
-      const rawDate = dateMatch ? (dateMatch[1]) : '';
-      const date = rawDate.match(/\d{4}-\d{2}-\d{2}/) ? rawDate : parseFuzzyDate(rawDate);
+  let m;
+  while ((m = titlePattern.exec(html)) !== null) titles.push(m[1].trim());
+  while ((m = datePattern.exec(html)) !== null) dates.push(m[1].trim());
+  while ((m = urlPattern.exec(html)) !== null) urls.push(m[1]);
 
-      if (date && date >= today) {
-        events.push({
-          name: nameMatch[1].trim(),
-          date,
-          doors: doorsMatch ? doorsMatch[1] : undefined,
-          showTime: showMatch ? showMatch[1] : undefined,
-          price: priceMatch ? priceMatch[1] : undefined,
-        });
-      }
+  const count = Math.min(titles.length, dates.length);
+  for (let i = 0; i < count; i++) {
+    const date = parseFuzzyDate(dates[i]);
+    if (date && date >= today) {
+      events.push({
+        name: decodeEntities(titles[i]),
+        date,
+        ticketUrl: urls[i] ? `https://www.beachlandballroom.com${urls[i]}` : undefined,
+      });
     }
   }
 
-  return events.length > 0 ? events : parseJsonLd(html);
+  console.log(`[PARSER] Beachland: ${titles.length} titles, ${dates.length} dates, ${events.length} future events`);
+  return events;
+}
+
+/**
+ * Parse Foundry Concert Club (WordPress + TicketWeb).
+ * Structure: tw-event-name with <a>NAME</a> near date text "April 27, 2026"
+ * 77 date instances found in snapshot.
+ */
+function parseFoundry(html: string): ScrapedEvent[] {
+  const events: ScrapedEvent[] = [];
+  const today = todayISO();
+
+  // Pattern: date text followed by event name in tw-name link
+  const pattern = /(\w+ \d{1,2}, \d{4})[\s\S]*?class="tw-name[^"]*"[^>]*>\s*(?:<a[^>]*>)?([^<]+)/gi;
+  let match;
+
+  while ((match = pattern.exec(html)) !== null) {
+    const date = parseFuzzyDate(match[1]);
+    const name = decodeEntities(match[2].trim());
+
+    if (date && date >= today && name.length > 2) {
+      // Look for price and time nearby
+      const vicinity = html.substring(match.index, match.index + 1000);
+      const priceMatch = vicinity.match(/\$[\d.]+/);
+      const timeMatch = vicinity.match(/(\d{1,2}:\d{2}\s*[APap][Mm])/);
+
+      events.push({
+        name,
+        date,
+        showTime: timeMatch ? timeMatch[1] : undefined,
+        price: priceMatch ? priceMatch[0] : undefined,
+      });
+    }
+  }
+
+  console.log(`[PARSER] Foundry: ${events.length} events parsed`);
+  return events;
 }
 
 /**
@@ -119,7 +129,7 @@ function parseJsonLd(html: string): ScrapedEvent[] {
       const items = Array.isArray(data) ? data : (data['@graph'] || [data]);
 
       for (const item of items) {
-        if (item['@type'] === 'Event' && item.name && item.startDate) {
+        if ((item['@type'] === 'Event' || item['@type'] === 'MusicEvent') && item.name && item.startDate) {
           const date = item.startDate.substring(0, 10);
           if (date >= today) {
             events.push({
@@ -136,69 +146,6 @@ function parseJsonLd(html: string): ScrapedEvent[] {
     } catch { /* skip malformed JSON-LD */ }
   }
   return events;
-}
-
-/**
- * Generic HTML event parser — conservative approach.
- * Relies on JSON-LD first, then common HTML patterns.
- */
-function parseGenericHTML(html: string): ScrapedEvent[] {
-  const jsonLdEvents = parseJsonLd(html);
-  if (jsonLdEvents.length > 0) return jsonLdEvents;
-
-  const events: ScrapedEvent[] = [];
-  const today = todayISO();
-  const eventPattern = /class="[^"]*event[^"]*"[\s\S]*?<(?:h[2-4]|a|strong)[^>]*>([^<]{3,80})<\/(?:h[2-4]|a|strong)>[\s\S]*?datetime="(\d{4}-\d{2}-\d{2})/gi;
-  let match;
-
-  while ((match = eventPattern.exec(html)) !== null) {
-    const name = match[1].trim();
-    const date = match[2];
-    if (name && date >= today) {
-      events.push({ name, date });
-    }
-  }
-
-  return events;
-}
-
-/**
- * Parse Grog Shop calendar page.
- * Events are in article-like blocks with title, date ("Sun, Apr 26"), and ticket links.
- */
-function parseGrogShop(html: string): ScrapedEvent[] {
-  const events: ScrapedEvent[] = [];
-  const today = todayISO();
-
-  // Grog Shop lists: title, "w/ supporting acts", date line "Sun, Apr 26 Doors: 7:00 pm / Show: 7:45 pm"
-  const eventPattern = /<h[2-4][^>]*>\s*(?:<a[^>]*>)?([^<]+)(?:<\/a>)?\s*<\/h[2-4]>[\s\S]*?(\w{3},\s+\w{3}\s+\d{1,2})[\s\S]*?(?:Doors?:\s*(\d{1,2}:\d{2}\s*[ap]m))?[\s\S]*?(?:Show:\s*(\d{1,2}:\d{2}\s*[ap]m))?/gi;
-  let match;
-
-  while ((match = eventPattern.exec(html)) !== null) {
-    const name = match[1].trim();
-    const rawDate = match[2];
-    const doors = match[3] || undefined;
-    const showTime = match[4] || undefined;
-    const date = parseFuzzyDate(rawDate);
-
-    if (name && date && date >= today) {
-      // Look for price near this match
-      const vicinity = html.substring(match.index, match.index + 800);
-      const priceMatch = vicinity.match(/\$(\d+(?:\.\d{2})?)/);
-      const ticketMatch = vicinity.match(/href="([^"]*ticketweb[^"]*|[^"]*buy[^"]*)"/i);
-
-      events.push({
-        name,
-        date,
-        doors,
-        showTime,
-        price: priceMatch ? `$${priceMatch[1]}` : undefined,
-        ticketUrl: ticketMatch ? ticketMatch[1] : undefined,
-      });
-    }
-  }
-
-  return events.length > 0 ? events : parseJsonLd(html);
 }
 
 // ---- Helpers ----
@@ -232,43 +179,57 @@ function formatTime(isoOrTime: string): string {
   return isoOrTime;
 }
 
+function decodeEntities(str: string): string {
+  return str
+    .replace(/&#039;/g, "'")
+    .replace(/&#8211;/g, "–")
+    .replace(/&#8217;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
 // ---- Main Scrape Functions ----
 
 export async function scrapeVenue(venue: Venue): Promise<ScrapedEvent[]> {
+  let events: ScrapedEvent[] = [];
+
   try {
     const html = await fetchPage(venue.calendarUrl);
-    let events: ScrapedEvent[];
 
     switch (venue.slug) {
-      case 'winchester':
-        // Winchester calendar is JS-rendered, try HTML first then BandsInTown
-        events = parseWinchester(html);
-        if (events.length === 0) {
-          console.log(`[SCRAPER] ${venue.name}: HTML parse empty, trying BandsInTown`);
-          events = await fetchBandsInTownEvents(venue.slug);
-        }
-        return events;
       case 'beachland':
-        return parseBeachland(html);
-      case 'grog-shop':
-        return parseGrogShop(html);
+        // Webflow static HTML — reliable parser
+        events = parseBeachland(html);
+        break;
+
+      case 'foundry':
+        // WordPress + TicketWeb — static HTML with tw-name + date pairs
+        events = parseFoundry(html);
+        break;
+
       default:
-        events = parseGenericHTML(html);
-        // If generic parser finds nothing, try BandsInTown
-        if (events.length === 0) {
-          events = await fetchBandsInTownEvents(venue.slug);
-        }
-        return events;
+        // Try JSON-LD first (some sites have it)
+        events = parseJsonLd(html);
+        break;
     }
   } catch (err: any) {
-    console.error(`[SCRAPER] Error scraping ${venue.name}: ${err.message}`);
-    // Last resort: try BandsInTown
+    console.log(`[SCRAPER] ${venue.name}: fetch/parse error: ${err.message}`);
+  }
+
+  // Fallback to BandsInTown for JS-rendered venues or empty results
+  if (events.length === 0) {
+    console.log(`[SCRAPER] ${venue.name}: no HTML events, trying BandsInTown`);
     try {
-      return await fetchBandsInTownEvents(venue.slug);
+      events = await fetchBandsInTownEvents(venue.slug);
     } catch {
-      return [];
+      console.log(`[SCRAPER] ${venue.name}: BandsInTown also failed`);
     }
   }
+
+  console.log(`[SCRAPER] ${venue.name}: ${events.length} total events`);
+  return events;
 }
 
 export async function scrapeAllVenues(db: D1Database): Promise<{
@@ -285,7 +246,6 @@ export async function scrapeAllVenues(db: D1Database): Promise<{
   for (const venue of VENUES) {
     try {
       const events = await scrapeVenue(venue);
-      console.log(`[SCRAPER] ${venue.name}: found ${events.length} events`);
 
       for (const event of events) {
         scraped++;
