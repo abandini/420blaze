@@ -69,6 +69,15 @@ export const VENUES: Venue[] = [
     vibeMatch: 'medium',
   },
   {
+    slug: 'forest-city-brewery',
+    name: 'Forest City Brewery',
+    neighborhood: 'Tremont',
+    calendarUrl: 'https://forestcitybrewery.com/events',
+    calendarType: 'html',
+    address: '2135 Columbus Rd, Cleveland, OH',
+    vibeMatch: 'high',  // Validated: hosted packed Willie Nelson tribute Apr 29 2026
+  },
+  {
     slug: 'agora',
     name: 'Agora Theatre',
     neighborhood: 'Midtown',
