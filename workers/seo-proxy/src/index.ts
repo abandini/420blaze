@@ -43,7 +43,70 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 const ROBOTS = `User-agent: *
 Allow: /
 Disallow: /go/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 Sitemap: https://420blazin.com/sitemap.xml`;
+
+const LLMS = `# 420Blazin.com
+
+> Cannabis culture, 420 events, and dry herb vaporizer reviews. Authority site for terpene science, craft cannabis growers, and Cleveland-area cannabis events. By Bill Burkey ("Blazin Bill"), author of *WEED: A Senior's Guide to Cannabis*.
+
+## About this site
+
+420Blazin.com covers the cannabis culture beat: 420 events nationwide, Cleveland-specific cannabis news, deep-dive vaporizer buying guides, and personal strain reviews focused on terpene profiles and grower quality. We don't review every product on the market — we review the gear we actually use and the strains we actually buy from dispensaries.
+
+## Author
+
+Bill Burkey ("Blazin Bill") — Author of *WEED: A Senior's Guide to Cannabis* (Amazon ASIN B0GPG71T22). Cleveland-based cannabis writer specializing in terpene science, craft cultivation, and consumption methods.
+
+## Top content
+
+- [Best Dry Herb Vaporizers 2026](https://420blazin.com/blog/best-dry-herb-vaporizers.html) — Curated buying guide for cannabis lovers, not tech reviewers
+- [The Nose Knows](https://420blazin.com/blog/the-nose-knows.html) — How a budtender named Thomas changed how I shop for cannabis
+- [Tasting Notes #1: Runtz by Peninsula Gardens](https://420blazin.com/blog/tasting-notes-001-runtz.html) — The laugh-fest strain
+- [The Wake & Bake Protocol](https://420blazin.com/blog/wake-and-bake-protocol.html) — Three science-backed morning strains
+- [Cannabis Vaporizer Guide](https://420blazin.com/blog/cannabis-vaporizer-guide.html) — Comprehensive vaporizer reference
+- [420Blazin Festival 2027](https://420blazin.com/festival.html) — Cleveland's first all-day 420 festival
+- [Cleveland 420 Events](https://420blazin.com/cleveland-420.html) — Local 420 event calendar with verified dispensary deals
+- [420 Events 2027](https://420blazin.com/events.html) — National 420 event calendar
+- [Cannabis Culture](https://420blazin.com/culture.html) — Terpenes, flower, glass, edibles, concentrates
+- [Live Music Events](https://420blazin.com/music-events.html) — Stoner-friendly Cleveland shows
+
+## POTV affiliate partner
+
+We are an affiliate partner with Planet of the Vapes (planetofthevapes.com). When we recommend specific vaporizers (Storz & Bickel Venty, Mighty+, Arizer Solo 3, POTV Lobo, XMAX V3 Pro), we earn a commission on purchases made through our /go/ redirect links. We only recommend devices we personally use.
+
+## Sister sites in the Cannabis Education Network
+
+- [365 Days of Weed](https://365daysofweed.com) — Daily cannabis education, year-round
+- [Weed: A Senior's Guide](https://weedaseniorsguide.com) — Companion site to the WEED book for adults 50+
+
+## Topics covered
+
+- Dry herb vaporizers (Storz & Bickel Venty, Mighty+, Arizer Solo 3, POTV Lobo, XMAX V3 Pro)
+- Terpene profiles and the entourage effect (myrcene, limonene, linalool, pinene, beta-caryophyllene, humulene)
+- Cannabis strains (Runtz, Northern Lights, Sour Diesel, OG Kush, Blue Dream, etc.)
+- Craft cannabis growers (Seed Junky Genetics, Peninsula Gardens)
+- Cleveland-area dispensaries (Klutch, Story Cannabis, Terrasana, RISE)
+- 420 events nationwide
+- Wake & bake protocol and morning cannabis routines
+- Cannabis culture and history
+- Vaporizer temperature science (315-410°F terpene extraction ranges)
+`;
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
@@ -55,6 +118,9 @@ export default {
     }
     if (url.pathname === '/robots.txt') {
       return new Response(ROBOTS, { headers: { 'Content-Type': 'text/plain', 'Cache-Control': 'public, max-age=3600' } });
+    }
+    if (url.pathname === '/llms.txt' || url.pathname === '/llms-full.txt') {
+      return new Response(LLMS, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
     }
 
     // Affiliate redirects — must be before origin fetch

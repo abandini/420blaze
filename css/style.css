@@ -2892,3 +2892,33 @@ footer {
     .continue-reading .cr-title { font-size: 1.4rem; }
     .continue-reading { padding: 2rem 15px; }
 }
+
+/* ---- TL;DR / Quick Answer Boxes (GEO optimization) ---- */
+.tldr-box {
+    background: linear-gradient(135deg, #f0fff0, #e8f5e8);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 12px 12px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0 2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.tldr-box .tldr-label {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+.tldr-box p {
+    margin: 0.5rem 0 0;
+    color: #2c2c2c;
+}
+.tldr-box strong {
+    color: var(--deep-green);
+}
