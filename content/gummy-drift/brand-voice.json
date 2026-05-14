@@ -1,0 +1,290 @@
+{
+  "brand": {
+    "name": "420Blazin",
+    "domain": "https://420blazin.com",
+    "tagline": "Your Ultimate 420 Guide",
+    "personality": {
+      "archetype": "Explorer/Jester hybrid",
+      "tone_words": ["chill", "knowledgeable", "culturally fluent", "irreverent", "community-minded"],
+      "never_tone": ["stoner-stereotype lazy", "preachy", "clinical", "condescending", "apologetic about cannabis"],
+      "humor_style": "Knowing wink humor — you're in on the joke. Cannabis culture references that reward insiders but don't alienate newcomers. Blazin Bill is the cool uncle who knows his stuff.",
+      "sample_voice": "Nobody needs permission to enjoy a plant that's been around for 10,000 years. But a little knowledge makes the ride a lot smoother. That's why we're here. 🌿"
+    },
+    "mission": "Be the definitive cannabis culture hub — events, education, merch, and community — anchored in Cleveland but reaching nationally.",
+    "visual_identity": {
+      "primary_colors": ["#16A34A", "#000000", "#FFD700"],
+      "emoji_palette": ["🌿", "🔥", "💨", "✌️", "🎵", "💚"],
+      "imagery_style": "Premium cannabis aesthetic — not tacky stoner clichés. Think elevated streetwear, botanical beauty, psychedelic art, festival energy. Gold and green."
+    }
+  },
+  "voice": {
+    "facebook": {
+      "register": "conversational and educational",
+      "post_length": "medium-to-long",
+      "format_preferences": ["educational posts with value", "event listings", "merch drops", "blog post teasers", "cannabis culture deep dives", "strain spotlights"],
+      "cta_style": "Laid-back invitation — 'Check it out' not 'ACT NOW'. Let the content sell itself."
+    },
+    "x_twitter": {
+      "register": "witty and culturally fluent",
+      "thread_style": "Mix of quick hits and occasional educational threads (e.g., '5 things nobody tells you about edible dosing')",
+      "hashtag_strategy": "#420 #Cannabis #CannaCulture #420Blazin #Cleveland420 — context-dependent, not every post",
+      "engagement_hooks": ["cannabis hot takes", "strain debates", "420 countdown", "Cleveland-specific cannabis news", "book excerpts"]
+    }
+  },
+  "audience": {
+    "primary": {
+      "age_range": "25-55",
+      "demographics": "Cannabis enthusiasts, legal market consumers, culture-interested adults, Cleveland-area cannabis community",
+      "location_focus": ["Cleveland OH", "Ohio (statewide — legal market)", "National cannabis community"]
+    },
+    "secondary": {
+      "age_range": "55+",
+      "demographics": "Cannabis-curious seniors — bridge audience to weedaseniorsguide.com",
+      "note": "This audience segment gets funneled to the Senior's Guide for deeper education"
+    },
+    "psychographics": {
+      "values": ["cannabis normalization", "quality over quantity", "education over hype", "community", "craft culture"],
+      "pain_points": ["stigma around cannabis use", "overwhelming product choices at dispensaries", "misinformation", "want events and community not just products"],
+      "desires": ["connect with like-minded people", "learn about cannabis properly", "rep the culture with quality merch", "find 420 events"],
+      "media_habits": "Facebook for community groups and event discovery. X for real-time cannabis industry news and culture commentary. Reddit for deep discussion (r/trees, r/OhioMarijuana)."
+    }
+  },
+  "platforms": {
+    "active": ["facebook", "x_twitter"],
+    "recommended": [
+      {
+        "platform": "instagram",
+        "rationale": "Cannabis visual culture is massive on IG — glass art, flower photography, lifestyle shots, merch styling. Critical for merch sales.",
+        "priority": "high"
+      },
+      {
+        "platform": "reddit",
+        "rationale": "r/trees (2M+), r/OhioMarijuana, r/CannabisExtracts — high-value community engagement. Book promotion via genuinely helpful posts, not spam.",
+        "priority": "high"
+      },
+      {
+        "platform": "youtube",
+        "rationale": "Cannabis education content has massive search volume. Strain reviews, event coverage, 'how to' content. Long-term SEO play.",
+        "priority": "medium"
+      }
+    ],
+    "accounts": {
+      "facebook": { "handle": "420Blazin", "page_id": "", "publora_channel_id": "" },
+      "x_twitter": { "handle": "", "page_id": "", "publora_channel_id": "" }
+    }
+  },
+  "products": [
+    {
+      "name": "WEED: A Senior's Guide to Cannabis (Kindle)",
+      "type": "book",
+      "price": "$9.99",
+      "url": "https://www.amazon.com/WEED-Seniors-Cannabis-Bought-Ticket-ebook/dp/B0GPG71T22/",
+      "margin_estimate": "70% (KDP royalty)",
+      "best_selling": true,
+      "seasonal": false,
+      "peak_months": ["April", "November", "December"],
+      "upsell_pairs": ["WEED Paperback", "365 Days of Weed app"]
+    },
+    {
+      "name": "WEED: A Senior's Guide to Cannabis (Paperback)",
+      "type": "book",
+      "price": "$17.99",
+      "url": "https://www.amazon.com/WEED-Seniors-Cannabis-Bought-Ticket-ebook/dp/B0GPG71T22/",
+      "margin_estimate": "30-40% (KDP paperback)",
+      "best_selling": false,
+      "seasonal": false,
+      "peak_months": ["April", "November", "December"],
+      "upsell_pairs": ["WEED Kindle"]
+    },
+    {
+      "name": "420 Day 2026 Limited Edition Tee",
+      "type": "merch",
+      "price": "$34.99",
+      "url": "https://store.420blazin.com/product/27390456/420-day-2026-limited-edition-tee",
+      "margin_estimate": "40-50%",
+      "best_selling": true,
+      "seasonal": true,
+      "peak_months": ["March", "April"],
+      "upsell_pairs": ["420Blazin Dad Hat", "Logo Sticker"]
+    },
+    {
+      "name": "Sacred Geometry Cannabis Tee",
+      "type": "merch",
+      "price": "$29.99",
+      "url": "https://store.420blazin.com/product/27390458/sacred-geometry-cannabis-tee-premium-art",
+      "margin_estimate": "40-50%",
+      "best_selling": false,
+      "seasonal": false,
+      "peak_months": [],
+      "upsell_pairs": ["Psychedelic 420 Tee"]
+    },
+    {
+      "name": "Champion Tie-Dye Hoodie",
+      "type": "merch",
+      "price": "$69.99",
+      "url": "https://store.420blazin.com/product/27393592/420-champion-tie-dye-hoodie-embroidered",
+      "margin_estimate": "30-40%",
+      "best_selling": false,
+      "seasonal": false,
+      "peak_months": ["October", "November", "December", "March", "April"],
+      "upsell_pairs": ["420 Embroidered Beanie"]
+    },
+    {
+      "name": "I Took My Meds Tee",
+      "type": "merch",
+      "price": "$24.99",
+      "url": "https://store.420blazin.com/product/27420674/420blazin-i-took-my-meds-tee-cannabis-humor",
+      "margin_estimate": "45-55%",
+      "best_selling": false,
+      "seasonal": false,
+      "peak_months": [],
+      "upsell_pairs": ["Wake & Bake Mug", "Powered by THC Tee"]
+    },
+    {
+      "name": "365 Days of Weed App",
+      "type": "app",
+      "price": "Free (ad-supported / premium tier TBD)",
+      "url": "https://www.365daysofweed.com",
+      "margin_estimate": "N/A — audience building asset",
+      "best_selling": false,
+      "seasonal": false,
+      "peak_months": [],
+      "upsell_pairs": ["WEED book", "420Blazin merch"]
+    }
+  ],
+  "revenue": {
+    "monthly_target": 2000,
+    "revenue_streams": [
+      {
+        "stream": "Book sales (Amazon KDP)",
+        "current_monthly": 0,
+        "target_monthly": 800,
+        "growth_lever": "Social drives Amazon traffic. Educational posts establish authority, then soft-sell the book as the deeper resource."
+      },
+      {
+        "stream": "Merch (Printify POD via store.420blazin.com)",
+        "current_monthly": 0,
+        "target_monthly": 800,
+        "growth_lever": "Culture-first content builds brand affinity. Merch is the badge of belonging. 420 Day creates annual urgency spike."
+      },
+      {
+        "stream": "Site traffic monetization (affiliate, ads, sponsorship)",
+        "current_monthly": 0,
+        "target_monthly": 400,
+        "growth_lever": "Blog SEO + social amplification drives traffic. Dispensary affiliate programs, cannabis brand partnerships."
+      }
+    ],
+    "utm_template": "?utm_source={platform}&utm_medium=social&utm_campaign=420blazin_{campaign_name}&utm_content={post_id}",
+    "conversion_funnel": {
+      "awareness": "Cannabis culture content reaches enthusiasts and curious newcomers via shares and hashtags",
+      "consideration": "Educational blog posts, book excerpts, and strain guides establish Blazin Bill as a trusted voice",
+      "purchase": "Book CTAs from educational content, merch CTAs from culture content, event guides drive site traffic for monetization"
+    }
+  },
+  "content_strategy": {
+    "pillars": [
+      {
+        "name": "Cannabis Education",
+        "description": "Strain science, dosing guides, terpene profiles, consumption methods, legal updates",
+        "weight": 0.30,
+        "example_posts": [
+          "The entourage effect isn't marketing BS. When cannabinoids and terpenes work together, the whole is greater than the sum of its parts. Here's what that actually means for your next dispensary visit 🧵",
+          "Start low. Go slow. Three words that could save every new cannabis user from a bad time. Here's the dosing guide nobody gave you."
+        ]
+      },
+      {
+        "name": "Culture & Community",
+        "description": "420 history, cannabis art, music connections, lifestyle content, community spotlights",
+        "weight": 0.25,
+        "example_posts": [
+          "The Waldos didn't set out to create a global holiday. Five high school kids, a treasure map, and 4:20 PM. The origin story of 420. 🌿",
+          "Cleveland's cannabis scene is quietly becoming one of the best in the Midwest. Here's what's happening that nobody's talking about."
+        ]
+      },
+      {
+        "name": "Merch & Product",
+        "description": "New drops, styling, customer photos, limited editions",
+        "weight": 0.20,
+        "example_posts": [
+          "The 420 Day 2026 Limited Edition Tee just dropped. Gold typography, royal crest styling, and it'll never be printed again after April. 🔥",
+          "IYKYK. The Minimalist Leaf Tee — for when you want to rep the culture without announcing it to the whole office."
+        ]
+      },
+      {
+        "name": "Book Promotion",
+        "description": "Excerpts, senior cannabis stories, medical cannabis education, book reviews",
+        "weight": 0.15,
+        "example_posts": [
+          "Your grandma's arthritis might respond better to a 1:1 THC:CBD tincture than another round of NSAIDs. Chapter 7 of WEED: A Senior's Guide covers exactly this.",
+          "The fastest-growing cannabis demographic? Adults over 55. We wrote the book on it. Literally."
+        ]
+      },
+      {
+        "name": "Events & 420 Day",
+        "description": "Event listings, 420 Day countdown, Cleveland 420, festival coverage",
+        "weight": 0.10,
+        "example_posts": [
+          "420 Day 2026 falls on a Monday. That means a full weekend of pre-game events. Here's every celebration we know about so far.",
+          "Cleveland 420 guide is live. Every event, every deal, every dispensary. Bookmark this."
+        ]
+      }
+    ],
+    "posting_cadence": {
+      "facebook_per_week": 5,
+      "x_per_week": 10,
+      "optimal_times": {
+        "facebook": ["12:00 PM ET", "4:20 PM ET", "8:00 PM ET"],
+        "x_twitter": ["8:20 AM ET", "12:00 PM ET", "4:20 PM ET", "9:00 PM ET"]
+      }
+    },
+    "seasonal_calendar": [
+      { "period": "Jan-Feb", "theme": "New year cannabis resolutions, education content, early 420 Day teases", "intensity": "normal" },
+      { "period": "March", "theme": "420 Day countdown begins, merch push, event guide buildout", "intensity": "high" },
+      { "period": "April", "theme": "PEAK — 420 Day is the Super Bowl. Daily content, real-time coverage, merch urgency", "intensity": "peak" },
+      { "period": "May-Jun", "theme": "Outdoor season, growing content, festival previews", "intensity": "normal" },
+      { "period": "Jul-Aug", "theme": "Summer strains, festival coverage, cannabis travel", "intensity": "normal" },
+      { "period": "Sep-Oct", "theme": "Fall harvest content, Halloween cannabis culture, hoodie season merch", "intensity": "normal" },
+      { "period": "Nov-Dec", "theme": "Gift guide (book + merch), holiday edibles, year-end cannabis recap", "intensity": "high" }
+    ],
+    "content_rules": [
+      "Never promote underage cannabis use — 21+ always",
+      "Always include 'consume responsibly' sentiment where appropriate",
+      "No medical claims — educational framing only, always suggest consulting healthcare providers",
+      "No sourcing, dealing, or black market references",
+      "Cannabis-positive but not cannabis-is-harmless — honest about responsible use",
+      "Platform compliance: Facebook and Instagram have strict cannabis advertising policies — educational/cultural content only, no direct product sales of cannabis itself (merch and books are fine)",
+      "4:20 PM ET is a posting sweet spot — use it",
+      "Cross-promote weedaseniorsguide.com for senior-specific content, 365daysofweed.com for daily engagement"
+    ]
+  },
+  "analytics": {
+    "tracking_tool": "Site analytics + Amazon KDP reports",
+    "key_metrics": ["book_sales_units", "merch_revenue", "site_sessions_from_social", "amazon_click_through", "email_signups"],
+    "feedback_interval": "weekly",
+    "optimization_signals": [
+      { "signal": "book_sales_attributed_to_social", "weight": 0.35 },
+      { "signal": "merch_purchases_from_social", "weight": 0.30 },
+      { "signal": "site_click_through_rate", "weight": 0.20 },
+      { "signal": "email_list_growth", "weight": 0.15 }
+    ]
+  },
+  "cross_promotion": {
+    "sibling_brands": [
+      {
+        "brand": "Weed: A Senior's Guide",
+        "relationship": "The book is THE primary product. 420Blazin is the culture brand, weedaseniorsguide.com is the education brand. They feed each other.",
+        "cross_promo_frequency": "frequently — every educational post is a natural bridge"
+      },
+      {
+        "brand": "365 Days of Weed",
+        "relationship": "Daily engagement app. Drives repeat visits and builds habit. Promotes from 420Blazin as the daily companion.",
+        "cross_promo_frequency": "weekly"
+      },
+      {
+        "brand": "Dyngus Day",
+        "relationship": "Same creator, different universe. Occasional 'Blazin Bill does Dyngus Day' crossover content if it fits.",
+        "cross_promo_frequency": "rarely — only during Dyngus Day week since dates overlap with 420"
+      }
+    ]
+  }
+}

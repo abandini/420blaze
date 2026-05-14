@@ -1,0 +1,116 @@
+# Experiment Log
+
+> Every meaningful site change, with a hypothesis and the metric we expect to move. The point isn't statistical significance — at 100 visits/week we don't have it. The point is: when something works (or fails), we know **what we did** and **what we expected**.
+
+## How to use this
+
+When making any meaningful change:
+1. Add an entry below with a unique ID (`EXP-NNN`)
+2. Note the hypothesis ("expected outcome")
+3. Note the metric you'll watch
+4. Note the launch date
+5. After T+7 / T+14 / T+30, add the actual outcome
+
+This is a *changelog*, not a randomized controlled trial. When traffic 10x's, swap to PostHog feature flags for real A/B testing.
+
+---
+
+## EXP-001 — GEO Phase 1 Foundation
+
+**Date:** 2026-04-30
+**Change:** Deployed AI-friendly robots.txt + llms.txt + Person/Article/Review JSON-LD schema across 420blazin, 365weed, weedaseniorsguide.
+**Hypothesis:** AI search engines (Perplexity, ChatGPT, Claude.ai) will start citing the network within 14-30 days.
+**Metric:** AI citation rate (queries cited / total queries tested) — baseline 0/10 prior to deployment.
+**Status:** Active. **Outcome (T+1, May 2):** 2/10 — Perplexity cited 420blazin.com/cleveland-420 for Cleveland 4/20 query. Modest immediate effect.
+
+## EXP-002 — Phase 2 Cannabis Calendar Hub
+
+**Date:** 2026-05-01
+**Change:** Shipped /cannabis-holidays-2026 (hub) + /710-dab-day-2026 (Phase 2 deep) + /green-wednesday-2026 (deep).
+**Hypothesis:** Each new page will get organic search traffic within 14-30 days. Cluster will outrank thin individual-date pages competitors run.
+**Metric:** Pageviews on each new page; GSC impressions; AI citations for "cannabis holidays 2026" / "7/10 dab day" queries.
+**Status:** Active. **Outcome (T+1):** /710-dab-day-2026 had 2 pv day 1; /green-wednesday-2026 had 1 pv. Direct-share traffic (not yet indexed by Google).
+
+## EXP-003 — Phase 3 Stoner Movies Cluster
+
+**Date:** 2026-05-01
+**Change:** Shipped /stoner-movies (22-film hub) + /blog/half-baked-sour-diesel-pairing.html (deep pairing post).
+**Hypothesis:** Pairing format will earn natural backlinks from movie/cannabis blogs. Stoner movie keyword has high search volume + low difficulty.
+**Metric:** Backlinks to /stoner-movies (Ahrefs/Moz check at T+30); GSC impressions for "best stoner movies".
+**Status:** Active. **Outcome (T+1):** 1 pv on Half Baked post; 0 on hub yet.
+
+## EXP-004 — Cross-site Network Footers
+
+**Date:** 2026-05-01
+**Change:** Added "Cannabis Education Network" footer cards to 365weed (React app) and confirmed existing on weedaseniorsguide. 420blazin homepage already had book promo and 365weed callout.
+**Hypothesis:** 420blazin's 100+ weekly pageviews will feed sister sites currently at 3-6/week. Expected lift: seniorsguide → 10+/week, 365weed → 8+/week within 14 days.
+**Metric:** Weekly pageviews per host (Cloudflare Analytics).
+**Status:** Active. **Outcome (T+1):** seniorsguide 4 → 6 pv (+50% but tiny absolute). 365weed flat at 3.
+
+## EXP-005 — Book CTA on top-traffic pages
+
+**Date:** 2026-05-01
+**Change:** Added "By Bill Burkey" + book cover + Amazon CTA to /cleveland-420, /events, /music-events. Previously book CTA was only on homepage (8 pv/week). Now on pages totaling 66 pv/week.
+**Hypothesis:** Book Amazon clicks (and downstream KDP sales) will increase ~6-9x given exposure increase.
+**Metric:** Amazon book CTA clicks (need PostHog event or UTM tracking — see EXP-006); KDP royalty report monthly.
+**Status:** Active. **Outcome:** No tracking yet — see EXP-006. Self-correcting note: shipping a CTA without tracking is exactly the gap I called out. UTM tags ship next.
+
+## EXP-007 — Title + meta rewrite for zero-click pages (KV mutations)
+
+**Date:** 2026-05-04
+**Change:** Updated `mutation:420blazin:/`, `mutation:420blazin:/events` and added KV entries for `mutation:420blazin:/blog` and `mutation:420blazin:/culture` in BEAST_SEO KV with new titles + meta descriptions. Replaces stale March-15 experiment (EXP-001 baseline) on the high-impression-zero-click pages.
+**Hypothesis:** GSC reports `/events` (113 imp/0 clk), `/` (174 imp/0 clk), `/blog` (25 imp/0 clk), `/culture` (31 imp/0 clk). New titles emphasize benefit-over-brand and add specifics (years, product names, cities). Expected CTR lift: 0% → 2-4% over 14 days as Google re-ranks with fresh metadata.
+**Metric:** Per-page CTR in GSC (current = 0%); per-page click count in GSC.
+**Status:** Active. Watch GSC at T+7 (May 11) and T+14 (May 18). Compare to EXP-001 baseline.
+
+## EXP-008 — PostHog explicit-capture rollout
+
+**Date:** 2026-05-04
+**Change:** Extended `js/tracking.js` to capture `potv_outbound_click` (with slug + UTM), `continue_reading_click` (with card title), `amazon_buy_click`, and cross-site clicks. Used `transport: 'sendBeacon'` for navigation-safe capture. Installed tracking.js on 14 previously-missing pages (5 new pages + 6 blog posts + music-events + festival + merch).
+**Hypothesis:** PostHog funnel for the cannabis network goes from showing 0 outbound/Amazon/Continue Reading clicks (broken) to showing real conversion data. Expected: at least 20+ /go/ click events captured per week within 7 days.
+**Metric:** PostHog event count for `potv_outbound_click`, `amazon_buy_click`, `continue_reading_click`. Compare against D1 affiliate_clicks count for the same period — reconciliation should be ~70%+ (D1 catches direct-to-/go/ traffic that bypasses on-site clicks).
+**Status:** Active.
+
+## EXP-006 — UTM tagging on outbound CTAs
+
+**Date:** 2026-05-02
+**Change:** Add `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` to (a) Amazon book CTAs by source page, (b) POTV /go/* redirects already log per-page referrer in D1.
+**Hypothesis:** Amazon UTM tags will let us see in KDP / Amazon Associates which 420blazin page actually drove the sale (vs. raw "amazon-redirect" attribution).
+**Metric:** Amazon click attribution becomes per-source-page instead of all-direct.
+**Status:** Active.
+
+## EXP-009 — Audit-driven blog post: commercial gummy dosage drift
+
+**Date:** 2026-05-14
+**Change:** Published `/blog/dosage-effect-drift-commercial-gummies` using a Creator-Auditor-Corrector audit-driven workflow — a 35-item pass/fail rubric with an isolated auditor agent that web-fetched every cited source to confirm the claim. First blog post produced this way. Hit 35/35 on the first audit pass; the process also caught a swapped-number error in the rubric itself. Followed PUBLISHING-CHECKLIST: 4 inbound links (index, blog, culture-edibles, cannabis-brownies), no-extension canonical, FAQ schema removed (no visible FAQ section), sitemap + llms.txt updated, worker + Pages deployed, submitted to GSC + IndexNow.
+**Hypothesis:** A citation-heavy educational post grounded in 6 peer-reviewed/lab sources will (a) get indexed within 3-7 days given the 4 inbound links from existing pages, and (b) earn AI-engine citations faster than experiential posts because every factual claim is independently sourced. Expect first GSC impressions by T+7 (May 21).
+**Metric:** GSC indexing verdict + impressions for the URL; AI citation rate for "why isn't my 10mg gummy 10mg"-type queries. Compare indexing speed against cannabis-brownies (published May 6, still "unknown to Google" at T+8 — the counter-case of a late-linked post).
+**Status:** Active. Watch GSC at T+7 (May 21) and T+14 (May 28).
+
+---
+
+## UTM scheme
+
+For all outbound CTAs, use:
+
+```
+utm_source=420blazin (or 365weed, seniorsguide)
+utm_medium=book-cta (or vape-cta, dispensary-cta, content)
+utm_campaign=YYYY-MM-experiment-id (e.g. 2026-05-EXP005)
+utm_content=<source-page-slug> (e.g. cleveland-420, events, music-events)
+```
+
+Example outbound Amazon link:
+```
+https://www.amazon.com/dp/B0GPG71T22?tag=blazinbill-20&utm_source=420blazin&utm_medium=book-cta&utm_campaign=2026-05-EXP005&utm_content=cleveland-420
+```
+
+This propagates to Amazon Associates referral tracking, so we can see which source page drives book sales.
+
+---
+
+## Cadence
+
+- New entry **before** any meaningful site change goes live
+- Outcome update at **T+7**, **T+14**, and **T+30** for each entry
+- Review monthly — kill experiments that aren't moving metrics

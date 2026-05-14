@@ -7,7 +7,10 @@
   function safeCapture(name, props) {
     if (typeof window.posthog === 'undefined' || !window.posthog.capture) return;
     try {
-      window.posthog.capture(name, props);
+      // send_instantly uses navigator.sendBeacon / fetch keepalive so the
+      // request survives navigation. Without this, /go/ 302 redirects cancel
+      // the in-flight XHR before PostHog ingests it.
+      window.posthog.capture(name, props, { send_instantly: true });
     } catch (e) { /* swallow */ }
   }
 

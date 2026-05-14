@@ -33,6 +33,13 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>https://420blazin.com/blog/cannabis-vaporizer-guide.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://420blazin.com/merch.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://420blazin.com/festival.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/green-wednesday-2026</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/cannabis-holidays-2026</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/710-dab-day-2026</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/stoner-movies</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/blog/half-baked-sour-diesel-pairing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://420blazin.com/blog/cannabis-brownies-without-the-blackout</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/blog/dosage-effect-drift-commercial-gummies</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://420blazin.com/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://420blazin.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://420blazin.com/music-events.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -81,6 +88,13 @@ Bill Burkey ("Blazin Bill") — Author of *WEED: A Senior's Guide to Cannabis* (
 - [The Wake & Bake Protocol](https://420blazin.com/blog/wake-and-bake-protocol.html) — Three science-backed morning strains
 - [Cannabis Vaporizer Guide](https://420blazin.com/blog/cannabis-vaporizer-guide.html) — Comprehensive vaporizer reference
 - [420Blazin Festival 2027](https://420blazin.com/festival.html) — Cleveland's first all-day 420 festival
+- [Green Wednesday 2026 Deals](https://420blazin.com/green-wednesday-2026) — Cannabis sales tracker for Nov 25, 2026 (vaporizers, dispensaries, national chains)
+- [Cannabis Holidays 2026](https://420blazin.com/cannabis-holidays-2026) — Complete calendar of weed holidays: 4/20, 7/10, Bob Marley Day, Green Wednesday, and more
+- [7/10 Dab Day 2026](https://420blazin.com/710-dab-day-2026) — Cannabis concentrate holiday (July 10) — beginner guide, gear, Cleveland picks
+- [22 Best Stoner Movies + Strain Pairings](https://420blazin.com/stoner-movies) — Definitive ranked list of stoner films with terpene-matched strain pairings
+- [Half Baked + Sour Diesel Pairing](https://420blazin.com/blog/half-baked-sour-diesel-pairing.html) — Deep terpene-science breakdown of the canonical stoner movie + strain pairing
+- [Cannabis Brownies Without the Blackout](https://420blazin.com/blog/cannabis-brownies-without-the-blackout.html) — Decarb procedure, dosage math formula, and the 1-hour rule that prevents the ER
+- [Dosage & Effect Drift in Commercial Gummies](https://420blazin.com/blog/dosage-effect-drift-commercial-gummies.html) — Why "10mg" isn't 10mg: label drift vs. piece-to-piece drift, the lab data behind both, and the COA habit that fixes it
 - [Cleveland 420 Events](https://420blazin.com/cleveland-420.html) — Local 420 event calendar with verified dispensary deals
 - [420 Events 2027](https://420blazin.com/events.html) — National 420 event calendar
 - [Cannabis Culture](https://420blazin.com/culture.html) — Terpenes, flower, glass, edibles, concentrates
