@@ -34,6 +34,7 @@ NEW_PAGES = [
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/half-baked-sour-diesel-pairing.html"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/cannabis-brownies-without-the-blackout.html"),
     ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/blog/cannabis-brownies-safe-dosing-seniors/"),
+    ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/your-grandmother-probably-did/"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/dosage-effect-drift-commercial-gummies"),
 ]
 
