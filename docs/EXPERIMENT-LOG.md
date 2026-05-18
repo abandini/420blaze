@@ -111,6 +111,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-012 — Unified nav redesign: clickable logo + dropdowns + a11y
+
+**Date:** 2026-05-18
+**Change:** Rebuilt the `<header>` block across all 35 HTML files on 420blazin.com. Logo (leaf icon + "420Blazin.com" wordmark) is now wrapped in a single `<a href="/">` so the universal "click the logo to go home" convention works. Dropped the redundant "Home" item from primary nav. Unified Events/Culture/Blog/Shop dropdowns across every page (previously each section reinvented its own nav). Blog dropdown now surfaces the audit-driven posts (dosage-drift, brownies, vaporizers, nose-knows) instead of stale ordering. Added `aria-label="Primary"` on `<nav>` and `aria-expanded="false"` on the hamburger button. Blog post pages use `../` prefixes; top-level pages use bare paths.
+**Hypothesis:** Pages-per-session climbs because users can now navigate from any deep page back to a section index in one click. Bounce rate on blog posts drops because the "way out" isn't the back button. Mobile nav usability improves with proper aria states for screen readers.
+**Metric:** PostHog session pages-per-session (currently ~1.4) and `$pageview` events on `/`, `/culture`, `/blog` from blog-post referrers. Target: +20% pages-per-session at T+30.
+**Status:** Active. Deployed via wrangler pages deploy on 2026-05-18. Verified on production: `https://420blazin.com/` and `https://420blazin.com/blog/cannabis-brownies-without-the-blackout` both render new header with clickable logo and correct relative paths.
+
 ---
 
 ## UTM scheme
