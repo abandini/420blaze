@@ -95,6 +95,22 @@ This is a *changelog*, not a randomized controlled trial. When traffic 10x's, sw
 **Metric:** PostHog $pageview count + average session duration for the page (vs site average); GSC impressions/clicks for "your grandmother probably did this" branded queries and the unbranded historical queries; AI citation test results. T+7 (May 25), T+14 (June 1), T+30 (June 17) checkpoints.
 **Status:** Active. Submitted to GSC + IndexNow at publish. Initial GSC verdict NEUTRAL ("Discovered - currently not indexed") — fastest possible state for a page minutes old.
 
+## EXP-011 — Restore affiliate revenue path: 5 dead /go/ slugs fixed
+
+**Date:** 2026-05-18
+**Change:** Discovered during PostHog tracking debug that **5 of 10 /go/ slugs in the AFFILIATE_LINKS KV namespace pointed to 404 pages** because POTV / Storz-Bickel restructured product URLs and the slugs were never refreshed. Last 7 days: **96 of 153 (63%) `/go/` clicks went to dead pages**, earning $0 commission instead of an affiliate payout. Fixed:
+- `arizer-solo-3` (34 clicks/wk) — appended `-vaporizer` suffix per POTV's new naming pattern
+- `xmax-v3-pro` (25 clicks/wk) — same `-vaporizer` suffix
+- `venty` (21 clicks/wk) — POTV slug changed from `storz-and-bickel-venty` to `venty-vaporizer`
+- `potv-lobo` (14 clicks/wk) — `-vaporizer` suffix
+- `volcano-hybrid` (2 clicks/wk) — **network change** from `awin-sb` (Storz-Bickel direct via AWIN, URL 404'd) to `potv-refersion` (POTV). KV entry flagged with a `note` field for visibility. Bill should decide whether to chase a new SB direct URL or leave on POTV.
+
+All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on all URLs.
+
+**Hypothesis:** Restoring the 5 broken slugs converts ~96 weekly clicks from $0 to live affiliate pages. Conservative model: 3% conversion × $20 avg commission = ~$58/week ($230/month) restored. Real upside likely higher — arizer-solo-3 and xmax-v3-pro alone (59 weekly clicks) are the highest-converting buyer-intent slugs.
+**Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
+**Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
+
 ---
 
 ## UTM scheme
