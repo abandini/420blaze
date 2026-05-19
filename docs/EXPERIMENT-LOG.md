@@ -111,6 +111,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-013 — GSC Recipe schema cleanup (brownies post)
+
+**Date:** 2026-05-19
+**Change:** GSC flagged 4 non-critical Recipe structured data warnings on `/blog/cannabis-brownies-without-the-blackout`. Closed 2 of them: added `url` (with `#step-*` fragments) and `image` to each of the 6 `HowToStep` entries, plus added matching `id` anchors in the article body so URLs resolve to real headings. Left `aggregateRating` (no real review system; faking it violates Google policy) and step `video` (none exists) unfixed — both non-critical.
+**Hypothesis:** GSC warning count drops 4→2 after re-crawl. Recipe rich result eligibility is preserved or slightly improved. No measurable traffic effect expected — Recipe carousel dominated by AllRecipes/NYT Cooking, but the article was already ranking on regular SERP for "cannabis brownies dosage" queries.
+**Metric:** GSC Enhancements → Recipes panel after re-crawl. Resubmit URL via Inspection API to expedite.
+**Status:** Active. Deployed 2026-05-19 (c8870ab).
+
 ## EXP-012 — Unified nav redesign: clickable logo + dropdowns + a11y
 
 **Date:** 2026-05-18
