@@ -40,6 +40,7 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>https://420blazin.com/blog/half-baked-sour-diesel-pairing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://420blazin.com/blog/cannabis-brownies-without-the-blackout</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://420blazin.com/blog/dosage-effect-drift-commercial-gummies</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://420blazin.com/blog/memorial-day-weekend-cannabis-three-strain-plan</loc><lastmod>2026-05-23</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://420blazin.com/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://420blazin.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://420blazin.com/music-events.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -95,6 +96,7 @@ Bill Burkey ("Blazin Bill") — Author of *WEED: A Senior's Guide to Cannabis* (
 - [Half Baked + Sour Diesel Pairing](https://420blazin.com/blog/half-baked-sour-diesel-pairing.html) — Deep terpene-science breakdown of the canonical stoner movie + strain pairing
 - [Cannabis Brownies Without the Blackout](https://420blazin.com/blog/cannabis-brownies-without-the-blackout.html) — Decarb procedure, dosage math formula, and the 1-hour rule that prevents the ER
 - [Dosage & Effect Drift in Commercial Gummies](https://420blazin.com/blog/dosage-effect-drift-commercial-gummies.html) — Why "10mg" isn't 10mg: label drift vs. piece-to-piece drift, the lab data behind both, and the COA habit that fixes it
+- [Memorial Day Cannabis Plan 2026](https://420blazin.com/blog/memorial-day-weekend-cannabis-three-strain-plan) — Three strains for a three-day weekend: Pineapple Fruz (wake), Peninsula Gardens Runtz (day), Purple Push Pop (sleep), with pacing tips
 - [Cleveland 420 Events](https://420blazin.com/cleveland-420.html) — Local 420 event calendar with verified dispensary deals
 - [420 Events 2027](https://420blazin.com/events.html) — National 420 event calendar
 - [Cannabis Culture](https://420blazin.com/culture.html) — Terpenes, flower, glass, edibles, concentrates

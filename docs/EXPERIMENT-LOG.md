@@ -111,6 +111,23 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-014 — Memorial Day weekend strain post (Facebook-first design)
+
+**Date:** 2026-05-23
+**Change:** Published `/blog/memorial-day-weekend-cannabis-three-strain-plan` — three-strain weekend rotation post (Seed Junky Pineapple Fruz / Peninsula Gardens Runtz / Seed Junky Purple Push Pop) anchored on the user-supplied rolling-tray photo. Strain facts verified against Seedfinder and Leafly. Includes visible FAQ block (matching FAQPage schema), Article + Person JSON-LD, Memorial Day veteran-acknowledgement paragraph linking to VA cannabis page, Continue Reading section linking to Runtz tasting notes / brownies / Cleveland 420.
+
+**Inbound link plan executed:**
+- Homepage Continue Reading: card added as first slot (highest leverage).
+- `/blog` index: featured as lead card with custom border color.
+- `/blog/tasting-notes-001-runtz`: contextual body-text paragraph linking out (highest-weight inbound, contextually relevant).
+- Blog dropdown nav: added across all 36 HTML files.
+
+**Hypothesis:** Unlike prior audit-driven blog posts (best-vapes: 2 views/wk, dosage-drift: ~0 views/wk), this one is designed for the Facebook channel — the *only* channel actually moving traffic per last week's analytics (184 of 293 views were FB→/shop). Strong visual hero (three-color joints on calendar) + time-pegged + shareable hook. If Bill shares the FB post with the same network that drove the /shop spike, the prediction is **>50 pageviews in the first 72 hours** vs. <5 for audit-driven posts that relied on organic discovery.
+
+**Metric:** PostHog `$pageview` count for `/blog/memorial-day-weekend-cannabis-three-strain-plan` at T+3 days (May 26 EOD). Secondary: referrer breakdown (facebook.com share vs. other) and pages-per-session for FB-referred visitors (last week's FB→/shop traffic bounced at 1.06 pps; if this post crosses 1.5 pps, that's the "engaged" threshold).
+
+**Status:** Active. Deployed 2026-05-23. Sitemap + llms.txt updated, KV title set, IndexNow pinged (Bing/IndexNow both HTTP 200), GSC URL Inspection returns NEUTRAL (Discovered, not yet indexed — normal for day-0). **Bill needs to share the post on Facebook for the hypothesis to be testable.**
+
 ## EXP-013 — GSC Recipe schema cleanup (brownies post)
 
 **Date:** 2026-05-19
