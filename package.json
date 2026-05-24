@@ -1,0 +1,30 @@
+{
+  "name": "420blaze",
+  "version": "1.0.0",
+  "description": "A 420-themed website for the domain 420blazin.com, celebrating 420 day on April 20, 2025.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sitemap:gen": "node scripts/generate-sitemap.mjs",
+    "predeploy:seo": "npm run sitemap:gen",
+    "deploy:seo": "cd workers/seo-proxy && wrangler deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abandini/420blaze.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abandini/420blaze/issues"
+  },
+  "homepage": "https://github.com/abandini/420blaze#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev",
+    "predeploy": "node ../../scripts/generate-sitemap.mjs",
     "deploy": "wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest"

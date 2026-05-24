@@ -2,6 +2,11 @@ name = "420blazin-seo"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
+# Regenerate sitemap-data.ts from the repo's HTML files before every deploy.
+# Source of truth is the filesystem, not the worker source. See scripts/generate-sitemap.mjs.
+[build]
+command = "node ../../scripts/generate-sitemap.mjs"
+
 [[kv_namespaces]]
 binding = "BEAST_SEO"
 id = "36c1eaef07ad4d049b0001a6a353fabc"
