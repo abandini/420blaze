@@ -35,6 +35,7 @@ NEW_PAGES = [
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/cannabis-brownies-without-the-blackout.html"),
     ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/blog/cannabis-brownies-safe-dosing-seniors/"),
     ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/your-grandmother-probably-did/"),
+    ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/blog/senior-dog-frozen-treats-cbd-terpenes/"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/dosage-effect-drift-commercial-gummies"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/memorial-day-weekend-cannabis-three-strain-plan"),
 ]
