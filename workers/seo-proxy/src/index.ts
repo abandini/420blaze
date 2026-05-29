@@ -96,6 +96,14 @@ export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    // Normalize www → apex. The CF Pages origin only serves the apex host, so
+    // proxying www.* straight through returns a 5xx. Redirect to the canonical
+    // apex host instead (fixes GSC "Server error (5xx)" on www.420blazin.com).
+    if (url.hostname === 'www.420blazin.com') {
+      url.hostname = '420blazin.com';
+      return Response.redirect(url.toString(), 301);
+    }
+
     // Serve sitemap and robots.txt
     if (url.pathname === '/sitemap.xml') {
       return new Response(SITEMAP, { headers: { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' } });
