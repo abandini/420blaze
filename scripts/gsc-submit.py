@@ -38,6 +38,7 @@ NEW_PAGES = [
     ("sc-domain:weedaseniorsguide.com", "https://weedaseniorsguide.com/blog/senior-dog-frozen-treats-cbd-terpenes/"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/dosage-effect-drift-commercial-gummies"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/memorial-day-weekend-cannabis-three-strain-plan"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/how-to-smoke-hash"),
 ]
 
 

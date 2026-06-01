@@ -111,6 +111,28 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-015 — "How to Smoke Hash" evergreen how-to post
+
+**Date:** 2026-06-01
+**Change:** Published `/blog/how-to-smoke-hash` — a beginner/senior how-to for consuming hash correctly, hung on a true personal hook (budtender Thomas at Dacut recommended Strawberry Cough hash; it calms the author and helps them sleep). Built via the **audit-driven workflow**: 6-lane parallel web research → synthesized cited fact sheet → Creator draft → fresh-context Auditor (re-fetched every citation) → Corrector. Covers hash types (kief/charas/bubble/rosin), star grades + full-melt, the combustion-vs-vaporization science (temperature ladder: terpene/cannabinoid boiling points vs. ~230°C combustion onset vs. ~900°C flame), 4 ranked consumption methods + 2 "skip these," senior start-low dosing, and the honest Strawberry-Cough-sedation explanation (myrcene-led per Leafly + biphasic THC + concentration + CBN — none of it contradicting the "daytime sativa" label). Article + Person + FAQPage JSON-LD; visible FAQ matches schema.
+
+**Inbound link plan executed:**
+- Homepage Continue Reading: new lead card.
+- `/blog` index: featured card.
+- `/culture-concentrates`: contextual body-text link (highest topical relevance — this is the concentrates hub).
+- `/blog/best-dry-herb-vaporizers`: contextual link (vaporizer is method #2; highest-commercial-intent anchor).
+- Blog dropdown nav across all HTML files.
+
+**Hypothesis:** This is a deliberate pivot away from calendar-anchored content (see post-4/20 cliff: April 2,376 pv → May ~169 pv as the holiday peg passed). "How to smoke hash" / "how to smoke pressed hash" / "what is full melt hash" are evergreen, steady-volume, high-purchase-intent queries with no time decay. The senior/start-low angle + Cleveland/Ohio dispensary specificity is an under-served niche vs. Leafly/RQS/Reddit generalist results. Prediction: **negligible launch spike (<5 pv in 72h, no FB push planned), but positive GSC impression slope by T+30** — the page should start surfacing for long-tail hash queries within 2-4 weeks and compound, unlike the calendar posts that flatline to zero after their date passes.
+
+**Metric:** GSC impressions + average position for the page's target queries at T+14 and T+30 (primary — this is a search bet, not a social bet). Secondary: PostHog `$pageview` (filtered `$host LIKE '%420blazin%'`) and `/go/` clicks on the new hash-gear affiliate slugs (`dynavap-b`, `dynacoil`, `lobo-concentrate-pads`) + existing `venty`/`xmax-v3-pro`.
+
+**New affiliate redirects (POTV / Refersion 9035362.47d69b, 15%):** `/go/dynavap-b` (DynaVap The B, $59), `/go/dynacoil` (DynaCoil, $25), `/go/lobo-concentrate-pads` ($3.95) — added to AFFILIATE_LINKS KV, all verified 302→POTV in production. Surfaced in a "gear that makes hash easy" callout in Method 2.
+
+**Built via audit-driven workflow:** 6-lane web research → synthesized fact sheet → Creator → 18-verifier adversarial citation audit (each re-fetched its source) → Corrector. Audit caught 14 issues incl. a fabricated author ("Lavender et al." → real **Arnold et al., 2024**), wrong study year, a multiplier/byproduct/temp/grade misattribution, and unsupported senior-dose figures. All fixed before deploy.
+
+**T+0 status (2026-06-01):** Deployed (worker + Pages). KV title set, sitemap auto-regenerated + submitted, llms.txt updated, IndexNow pinged (IndexNow.org + Bing both HTTP 200). GSC URL Inspection: **NEUTRAL** ("URL is unknown to Google" — normal day-0; page has 4+ inbound links so expect indexing in 1-3 days). Production verified: KV title renders, tracking.js present, canonical clean, all 3 JSON-LD blocks parse, hero image 200, 3 new affiliate redirects 302→POTV with rfsn tag.
+
 ## EXP-014 — Memorial Day weekend strain post (Facebook-first design)
 
 **Date:** 2026-05-23
