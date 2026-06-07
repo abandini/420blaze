@@ -111,6 +111,23 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-016 — Strain Finder (interactive terpene tool, evergreen)
+
+**Date:** 2026-06-07
+**Change:** Published `/strain-finder` — an interactive, data-driven tool that matches cannabis flower by terpene profile two ways: (1) **pick a feeling** (Sleep / Calm / Laugh & Social / Focus / Energy / Body Relief) → it explains the terpene "recipe" and ranks matching in-stock flower; (2) **match a strain you love** → cosine-similarity on the terpene vector finds the closest in-stock profiles. Plus a sortable terpene table (47 flowers, all 11 terpenes), a terpene "what it's associated with" legend, and a how-to-shop-by-COA section. Pure client-side JS, no backend.
+
+**Data pipeline:** "claude cowork" keeps `/terrasana/terrasana_cleveland_flower_terpenes.xlsx` refreshed on a schedule → `scripts/build-strain-data.py` → `data/strain-terpenes.json` → page `fetch()`es it (with an embedded fallback). So the live tool stays current with zero code changes when the spreadsheet updates. Re-run: `python3 scripts/build-strain-data.py` (reads /terrasana by default).
+
+**Guardrails:** medical-claims-clean ("associated with", "folk/preliminary", "not medical advice"); all data-derived strings HTML-escaped (`esc()`) before render (security-hook flagged innerHTML). Anti-slop: terpene-color-coded bars/chips/table, not a gray table.
+
+**Inbound link plan:** homepage Continue Reading card; Culture dropdown nav across all HTML files; body links from `/culture-terpenes` and `/blog/the-nose-knows` (the on-thesis anchors); footer Quick Links.
+
+**Hypothesis:** This is the strongest evergreen-search bet yet (continuing the EXP-015 pivot off the calendar cliff). "What strain for [sleep/anxiety/laughs]", "best terpene for X", "strain finder by terpene", and "Cleveland dispensary terpene" are steady-volume, high-intent, no-decay queries. The terpene-first + mood-based + Cleveland-local + real-lab-data angle is a niche Leafly/Weedmaps don't own. It's also sticky/shareable (interactive) and the literal embodiment of the site's "read the terpenes, not the label" thesis (The Nose Knows). Prediction: GSC impressions accrue on long-tail terpene/mood queries by T+30; PostHog `strainfinder_*` custom events (tab/mood/match) show real interaction; higher pages-per-session from finder → blog/affiliate.
+
+**Metric:** GSC impressions + position at T+14/T+30 for terpene/mood/strain-finder queries (primary). Secondary: PostHog `strainfinder_mood` / `strainfinder_match` / `strainfinder_tab` event counts (engagement) filtered `$host LIKE '%420blazin%'`; pages-per-session.
+
+**Status:** Active. Deployed 2026-06-07.
+
 ## EXP-015 — "How to Smoke Hash" evergreen how-to post
 
 **Date:** 2026-06-01
