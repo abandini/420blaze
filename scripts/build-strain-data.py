@@ -1,30 +1,47 @@
 #!/usr/bin/env python3
 """
-build-strain-data.py — convert the Terrasana flower terpene spreadsheet into the
-JSON the /strain-finder page reads.
+build-strain-data.py — merge the dispensary flower terpene spreadsheets into the
+single JSON the /strain-finder page reads.
 
-Data flow:  coworker's schedule -> updated .xlsx -> THIS SCRIPT -> data/strain-terpenes.json -> page fetch
+Data flow:  claude-cowork keeps /terrasana/*.xlsx refreshed -> THIS SCRIPT -> data/strain-terpenes.json -> page fetch
 
-Usage:
-    python3 scripts/build-strain-data.py [path/to/terrasana_cleveland_flower_terpenes.xlsx]
+Usage:  python3 scripts/build-strain-data.py
+Output: data/strain-terpenes.json  ({updated, dispensaries[], count, products[]})
 
-Default input is $TERRASANA_XLSX or ~/Downloads/terrasana_cleveland_flower_terpenes.xlsx
-Output: data/strain-terpenes.json (relative to repo root)
-
-The xlsx is expected to have a "Terpene Grid" sheet with columns:
-Product, Size, Brand, Type, THC %, Total Terps %, Beta Myrcene, Limonene,
+Each source xlsx has a grid sheet with these columns (Size is optional):
+Product, [Size], Brand, Type, THC %, Total Terps %, Beta Myrcene, Limonene,
 Beta Caryophyllene, Linalool, Humulene, Alpha Pinene, Beta Pinene, Bisabolol,
 Caryophyllene Oxide, Eucalyptol, Nerolidol
-and a "Notes" sheet whose 2nd line contains the pull date.
+Columns are mapped BY HEADER NAME, so a missing Size column is handled gracefully.
 """
 import json, os, re, sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-# Default input is the in-repo /terrasana folder that "claude cowork" keeps refreshed on a schedule.
-DEFAULT_XLSX = os.environ.get("TERRASANA_XLSX",
-    str(REPO / "terrasana" / "terrasana_cleveland_flower_terpenes.xlsx"))
+SRC_DIR = Path(os.environ.get("TERRASANA_DIR", str(REPO / "terrasana")))
 OUT = REPO / "data" / "strain-terpenes.json"
+
+# Each dispensary the coworker keeps refreshed in SRC_DIR.
+SOURCES = [
+    {"key": "terrasana", "label": "Terrasana", "location": "Cleveland, OH", "state": "OH",
+     "color": "#1a8754", "url": "https://terrasanacannabisco.com/cleveland-medical-menu/",
+     "file": "terrasana_cleveland_flower_terpenes.xlsx"},
+    {"key": "dacut", "label": "Dacut", "location": "Monroe, MI", "state": "MI",
+     "color": "#2471a3", "url": "https://dacut.com/",
+     "file": "dacut_monroe_flower_terpenes.xlsx"},
+]
+
+# header label (lowercased) -> output field
+COLMAP = {
+    "product": "name", "size": "size", "brand": "brand", "type": "type",
+    "thc %": "thc", "total terps %": "terps",
+    "beta myrcene": "myrcene", "limonene": "limonene", "beta caryophyllene": "caryophyllene",
+    "linalool": "linalool", "humulene": "humulene", "alpha pinene": "apinene",
+    "beta pinene": "bpinene", "bisabolol": "bisabolol",
+    "caryophyllene oxide": "caryophylleneoxide", "eucalyptol": "eucalyptol", "nerolidol": "nerolidol",
+}
+NUM_FIELDS = {"thc", "terps", "myrcene", "limonene", "caryophyllene", "linalool", "humulene",
+              "apinene", "bpinene", "bisabolol", "caryophylleneoxide", "eucalyptol", "nerolidol"}
 
 def num(x):
     if x is None or x == "—" or x == "":
@@ -34,51 +51,65 @@ def num(x):
     except (TypeError, ValueError):
         return 0.0
 
+def pull_date(wb):
+    """Find the menu pull date in the Notes sheet, tolerant of layout:
+    combined line ('...pulled 2026-06-07') OR 2-column ('Pull date' | '2026-06-08')."""
+    if "Notes" not in wb.sheetnames:
+        return ""
+    rows = [" ".join(str(c) for c in r if c is not None) for r in wb["Notes"].iter_rows(values_only=True)]
+    for line in rows:  # prefer a line that mentions pulling
+        if "pull" in line.lower():
+            m = re.search(r"(\d{4}-\d{2}-\d{2})", line)
+            if m:
+                return m.group(1)
+    for line in rows:  # fallback: any date in the Notes sheet
+        m = re.search(r"(\d{4}-\d{2}-\d{2})", line)
+        if m:
+            return m.group(1)
+    return ""
+
 def main():
     try:
         import openpyxl
     except ImportError:
         sys.exit("openpyxl required:  pip install openpyxl")
 
-    xlsx = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(DEFAULT_XLSX)
-    if not xlsx.exists():
-        sys.exit(f"input spreadsheet not found: {xlsx}")
-
-    wb = openpyxl.load_workbook(xlsx, data_only=True)
-    ws = wb["Terpene Grid"]
-    rows = list(ws.iter_rows(values_only=True))
-
-    # try to read the pull date from the Notes sheet
-    pulled = ""
-    if "Notes" in wb.sheetnames:
-        for r in wb["Notes"].iter_rows(values_only=True):
-            if r and r[0] and "pulled" in str(r[0]).lower():
-                m = re.search(r"(\d{4}-\d{2}-\d{2})", str(r[0]))
-                if m:
-                    pulled = m.group(1)
-
-    products = []
-    for r in rows[1:]:
-        if not r or not r[0]:
+    products, dispensaries, dates = [], [], []
+    for src in SOURCES:
+        path = SRC_DIR / src["file"]
+        if not path.exists():
+            print(f"  skip {src['key']}: {path} not found")
             continue
-        products.append({
-            "name": r[0], "size": r[1], "brand": r[2], "type": r[3],
-            "thc": num(r[4]), "terps": num(r[5]),
-            "myrcene": num(r[6]), "limonene": num(r[7]), "caryophyllene": num(r[8]),
-            "linalool": num(r[9]), "humulene": num(r[10]), "apinene": num(r[11]),
-            "bpinene": num(r[12]), "bisabolol": num(r[13]),
-            "caryophylleneoxide": num(r[14]), "eucalyptol": num(r[15]), "nerolidol": num(r[16]),
-        })
+        wb = openpyxl.load_workbook(path, data_only=True)
+        ws = wb[wb.sheetnames[0]]
+        rows = list(ws.iter_rows(values_only=True))
+        header = [str(h).strip().lower() if h is not None else "" for h in rows[0]]
+        idx = {COLMAP[h]: i for i, h in enumerate(header) if h in COLMAP}
+        updated = pull_date(wb)
+        dates.append(updated)
+        n = 0
+        for r in rows[1:]:
+            if not r or idx.get("name") is None or not r[idx["name"]]:
+                continue
+            rec = {"dispensary": src["key"]}
+            for field, i in idx.items():
+                v = r[i] if i < len(r) else None
+                rec[field] = num(v) if field in NUM_FIELDS else (v if v is not None else "")
+            rec.setdefault("size", "")
+            products.append(rec)
+            n += 1
+        dispensaries.append({k: src[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": n, "updated": updated})
+        print(f"  {src['key']}: {n} products (updated {updated or 'unknown'})")
 
     payload = {
-        "source": "Terrasana Cleveland (Garfield Heights) — medical menu",
-        "updated": pulled or "",
+        "updated": max([d for d in dates if d] or [""]),
+        "dispensaries": dispensaries,
         "count": len(products),
         "products": products,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=1))
-    print(f"wrote {OUT}  ({len(products)} products, updated {payload['updated'] or 'unknown'})")
+    print(f"wrote {OUT}  ({len(products)} products across {len(dispensaries)} dispensaries)")
 
 if __name__ == "__main__":
     main()

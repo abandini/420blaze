@@ -128,6 +128,8 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 
 **Status:** Active. Deployed 2026-06-07.
 
+**Update 2026-06-08 — 2nd dispensary added (Dacut Monroe, MI):** Converter generalized to multi-dispensary (`scripts/build-strain-data.py` now merges every xlsx in `/terrasana`, maps columns by header name, tags each product with `dispensary`, emits `dispensaries[]` metadata). Data is now **148 flowers across 2 stores** (Terrasana Cleveland OH 47 + Dacut Monroe MI 101). Page adds a **store filter bar** (All / Terrasana / Dacut) that scopes the mood finder, strain matcher, and table; per-result store badges; a "Store" table column; and an **Ohio/Michigan CTA** ("In Ohio → Terrasana; near Monroe, MI → Dacut, *Thomas's shop*" — ties to The Nose Knows, the budtender who started the hash journey). New PostHog event `strainfinder_disp`. Adds geographic lift: the tool now serves two markets. Deployed + browser-verified (Dacut filter scopes correctly). Dacut menu is recreational (some products typed "N/A" — fine, the tool ranks on terpenes not labels).
+
 ## EXP-015 — "How to Smoke Hash" evergreen how-to post
 
 **Date:** 2026-06-01

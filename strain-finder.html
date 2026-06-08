@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cannabis Strain Finder by Terpene &amp; Mood | 420Blazin.com</title>
-    <meta name="description" content="Pick a feeling or a strain you love, and find its terpene match from real Cleveland dispensary lab data. Sortable terpene table for 47 flowers inside.">
+    <meta name="description" content="Pick a feeling or a strain you love and find its terpene match from real lab data at two dispensaries — Terrasana (Cleveland, OH) and Dacut (Monroe, MI).">
     <meta property="og:title" content="Strain Finder: Match Cannabis by Terpene &amp; Mood">
     <meta property="og:description" content="Tell it the vibe you want — sleep, calm, laughs, focus — or the strain you already love, and it finds your terpene match from real dispensary lab data.">
     <meta property="og:type" content="website">
@@ -156,11 +156,16 @@
     <main id="main-content">
         <div class="sf-wrap">
             <h1 style="font-family:'Righteous',sans-serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.12;margin-bottom:6px;">Strain Finder: Match Cannabis by Terpene &amp; Mood</h1>
-            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. Tell it the <strong>feeling you want</strong> or a <strong>strain you already love</strong>, and it finds your match from real dispensary lab data.</p>
+            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. Tell it the <strong>feeling you want</strong> or a <strong>strain you already love</strong>, and it finds your match from real lab data at two dispensaries &mdash; <strong>Terrasana</strong> (Cleveland, OH) and <strong>Dacut</strong> (Monroe, MI).</p>
 
             <div class="sf-explain">
                 <strong>How this works:</strong> The indica/sativa word on the jar is a poor predictor of how flower actually feels &mdash; a 2022 analysis of 90,000+ samples found labels barely track the chemistry. What <em>does</em> steer the experience is the <strong>terpene profile</strong> plus your dose. This tool ranks real flower by terpene, two ways. <span class="sf-note">Educational only &mdash; not medical advice. Terpene&ndash;effect links are associations, some preliminary; effects vary by person, batch, and dose.</span>
             </div>
+
+            <div style="background:#eef4fb;border:1px solid #cfe0f0;border-radius:10px;padding:14px 18px;margin:16px 0 6px;font-size:0.93rem;">
+                <strong>📍 Two stores, two states.</strong> Shopping in <strong>Ohio</strong>? That&rsquo;s <span style="color:#1a8754;font-weight:700;">Terrasana</span> (Cleveland). Near <strong>Monroe, Michigan</strong>? That&rsquo;s <span style="color:#2471a3;font-weight:700;">Dacut</span> &mdash; <strong>Thomas&rsquo;s shop</strong>, the budtender who kicked off this whole terpene rabbit hole (<a href="blog/the-nose-knows">The Nose Knows</a>). Pick a store, or browse both:
+            </div>
+            <div id="dispBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 4px;"></div>
 
             <div class="sf-tabs" role="tablist">
                 <button class="sf-tab active" id="tab-mood" onclick="showTab('mood')">😌 Pick a feeling</button>
@@ -219,7 +224,7 @@
                 </div>
             </section>
 
-            <p class="blog-disclaimer" style="font-size:0.82rem;color:#777;margin-top:30px;"><em>Data: a dated snapshot of one Cleveland dispensary&rsquo;s published lab results, refreshed periodically. Terpene levels vary batch to batch &mdash; always confirm the COA on the actual jar. This tool is for education, not medical advice; cannabis affects everyone differently. Ohio adult-use is 21+. Cannabis remains federally Schedule I.</em></p>
+            <p class="blog-disclaimer" style="font-size:0.82rem;color:#777;margin-top:30px;"><em>Data: dated snapshots of two dispensaries&rsquo; published lab results &mdash; Terrasana (Cleveland, OH) and Dacut (Monroe, MI) &mdash; refreshed periodically. Terpene levels vary batch to batch &mdash; always confirm the COA on the actual jar. This tool is for education, not medical advice; cannabis affects everyone differently. Ohio adult-use is 21+. Cannabis remains federally Schedule I.</em></p>
         </div>
     </main>
 
@@ -266,6 +271,12 @@
     ];
 
     let DATA=FALLBACK.slice();
+    DATA.forEach(function(p){if(!p.dispensary)p.dispensary="terrasana";});
+    let DISPENSARIES=[];            // populated from live JSON
+    let activeDisp="all";           // current dispensary filter
+    const DISPMETA={terrasana:{label:"Terrasana",loc:"Cleveland, OH",color:"#1a8754"},dacut:{label:"Dacut",loc:"Monroe, MI",color:"#2471a3"}};
+    function dmeta(k){return DISPMETA[k]||{label:k||"",loc:"",color:"#777"};}
+    function FD(){return activeDisp==="all"?DATA:DATA.filter(function(p){return p.dispensary===activeDisp;});}
     const val=(p,k)=> k==="pinene" ? (p.apinene||0)+(p.bpinene||0) : (p[k]||0);
     function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
@@ -285,8 +296,11 @@
     }
     function leadTerp(p){let best="limonene",bv=-1;TKEYS.forEach(k=>{const v=val(p,k);if(v>bv){bv=v;best=k;}});return best;}
     function cardHTML(p,why){
-      const meta=esc(p.type)+" &middot; "+esc(p.brand)+" &middot; "+esc(p.size)+" &middot; THC "+val(p,"thc").toFixed(2)+"% &middot; terps "+val(p,"terps").toFixed(2)+"%";
-      return '<div class="res-card"><div class="res-head"><h3>'+esc(p.name)+'</h3><span class="res-meta">'+meta+'</span></div>'+barsHTML(p)+(why?'<div class="why">'+why+'</div>':"")+'</div>';
+      const dm=dmeta(p.dispensary);
+      const badge='<span style="display:inline-block;font-size:0.68rem;font-weight:700;color:#fff;background:'+dm.color+';border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:middle;">'+esc(dm.label)+' &middot; '+esc(dm.loc)+'</span>';
+      const sz=p.size?(" &middot; "+esc(p.size)):"";
+      const meta=esc(p.type)+" &middot; "+esc(p.brand)+sz+" &middot; THC "+val(p,"thc").toFixed(2)+"% &middot; terps "+val(p,"terps").toFixed(2)+"%";
+      return '<div class="res-card"><div class="res-head"><h3>'+esc(p.name)+badge+'</h3><span class="res-meta">'+meta+'</span></div>'+barsHTML(p)+(why?'<div class="why">'+why+'</div>':"")+'</div>';
     }
 
     function renderMoodGrid(){
@@ -297,7 +311,7 @@
     function pickMood(id){
       const m=MOODS.find(x=>x.id===id);
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
-      const ranked=DATA.slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,5);
+      const ranked=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
       h+=ranked.map((p,i)=>{const lt=leadTerp(p);return cardHTML(p,"#"+(i+1)+" match &mdash; "+TLABEL[lt]+"-forward ("+val(p,lt).toFixed(2)+"%).");}).join("");
       document.getElementById("moodResult").innerHTML=h;
@@ -308,7 +322,7 @@
     function cosine(a,b){const ua=unit(a),ub=unit(b);return ua.reduce((s,x,i)=>s+x*ub[i],0);}
     function dedupByName(list){const seen={},out=[];list.forEach(p=>{if(!seen[p.name]){seen[p.name]=1;out.push(p);}});return out;}
     function renderStrainPicker(){
-      const all=REFERENCE.concat(dedupByName(DATA).slice().sort((a,b)=>a.name.localeCompare(b.name)));
+      const all=REFERENCE.concat(dedupByName(FD()).slice().sort((a,b)=>a.name.localeCompare(b.name)));
       document.getElementById("strainPick").innerHTML='<option value="">— choose a strain —</option>'+
         all.map(p=>'<option value="'+(p.ref?'R':'D')+'|'+esc(p.name)+'">'+esc(p.name)+'</option>').join("");
     }
@@ -320,7 +334,7 @@
       const target=pool.find(p=>esc(p.name)===name||p.name===name);
       if(!target){box.innerHTML="";return;}
       const lt=leadTerp(target);
-      const ranked=DATA.filter(p=>p.name!==target.name).map(p=>({p,sim:cosine(target,p)})).sort((a,b)=>b.sim-a.sim).slice(0,5);
+      const ranked=FD().filter(p=>p.name!==target.name).map(p=>({p,sim:cosine(target,p)})).sort((a,b)=>b.sim-a.sim).slice(0,5);
       let h='<div class="sf-explain"><strong>'+esc(target.name)+'</strong> is <strong>'+TLABEL[lt]+'-led</strong> ('+val(target,lt).toFixed(2)+'%). Closest terpene matches in stock:</div>';
       h+=cardHTML(target,"Your reference profile.");
       h+='<h3 style="margin:18px 0 4px;">Closest matches</h3>';
@@ -330,33 +344,58 @@
     }
 
     let sortKey="terps",sortDir=-1;
-    const COLS=[["name","Strain"],["type","Type"],["thc","THC%"],["terps","Terps%"],["myrcene","Myr"],["limonene","Lim"],["caryophyllene","Caryo"],["linalool","Lina"],["humulene","Hum"],["pinene","Pin"],["bisabolol","Bisab"]];
+    const COLS=[["name","Strain"],["dispensary","Store"],["type","Type"],["thc","THC%"],["terps","Terps%"],["myrcene","Myr"],["limonene","Lim"],["caryophyllene","Caryo"],["linalool","Lina"],["humulene","Hum"],["pinene","Pin"],["bisabolol","Bisab"]];
     function cellBg(v){if(v>=0.5)return "background:#bfe9cd;";if(v>=0.25)return "background:#e6f6ec;";return "";}
+    const STRCOL={name:1,type:1,dispensary:1};
     function renderTable(){
       document.querySelector("#terpTable thead").innerHTML="<tr>"+COLS.map(c=>'<th onclick="sortTable(\''+c[0]+'\')">'+c[1]+(sortKey===c[0]?(sortDir<0?" ▾":" ▴"):"")+'</th>').join("")+"</tr>";
-      const rows=DATA.slice().sort((a,b)=>{const av=val(a,sortKey),bv=val(b,sortKey);
-        if(sortKey==="name"||sortKey==="type")return sortDir*String(a[sortKey]).localeCompare(String(b[sortKey]));
+      const rows=FD().slice().sort((a,b)=>{const av=val(a,sortKey),bv=val(b,sortKey);
+        if(STRCOL[sortKey])return sortDir*String(a[sortKey]).localeCompare(String(b[sortKey]));
         return sortDir*(av-bv);});
       document.querySelector("#terpTable tbody").innerHTML=rows.map(p=>"<tr>"+COLS.map(c=>{const k=c[0];
-        if(k==="name")return '<td>'+esc(p.name)+' <span class="sf-note">'+esc(p.size)+'</span></td>';
+        if(k==="name")return '<td>'+esc(p.name)+(p.size?' <span class="sf-note">'+esc(p.size)+'</span>':"")+'</td>';
+        if(k==="dispensary")return '<td><span style="color:'+dmeta(p.dispensary).color+';font-weight:600;">'+esc(dmeta(p.dispensary).label)+'</span></td>';
         if(k==="type")return '<td>'+esc(p.type)+'</td>';
         if(k==="thc"||k==="terps")return '<td>'+val(p,k).toFixed(2)+'</td>';
         const v=val(p,k);return '<td style="'+cellBg(v)+'">'+v.toFixed(2)+'</td>';}).join("")+"</tr>").join("");
     }
-    function sortTable(k){if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=(k==="name"||k==="type")?1:-1;}renderTable();}
+    function sortTable(k){if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=STRCOL[k]?1:-1;}renderTable();}
 
     function renderLegend(){
       document.getElementById("legend").innerHTML=TKEYS.map(k=>
         '<div><span class="sw" style="background:'+COLORS[k]+';"></span><strong>'+TLABEL[k]+'</strong> &mdash; '+TINFO[k]+'</div>').join("");
     }
 
-    function renderAll(){renderMoodGrid();renderStrainPicker();renderTable();renderLegend();pickMood("laugh");}
+    // ---- dispensary filter ----
+    function dispBtnStyle(key,color){const on=activeDisp===key;return "padding:8px 14px;border-radius:999px;border:2px solid "+color+";cursor:pointer;font-weight:700;font-size:0.85rem;background:"+(on?color:"#fff")+";color:"+(on?"#fff":color)+";";}
+    function renderDispBar(){
+      const bar=document.getElementById("dispBar");if(!bar)return;
+      if(!DISPENSARIES.length){bar.innerHTML="";return;}
+      let h='<button onclick="pickDisp(\'all\')" style="'+dispBtnStyle("all","#444")+'">All stores ('+DATA.length+')</button>';
+      h+=DISPENSARIES.map(function(x){return '<button onclick="pickDisp(\''+x.key+'\')" style="'+dispBtnStyle(x.key,x.color||"#777")+'">'+esc(x.label)+' &middot; '+esc(x.location)+' ('+esc(x.count)+')</button>';}).join("");
+      bar.innerHTML=h;
+    }
+    function pickDisp(key){
+      activeDisp=key;renderDispBar();renderStrainPicker();renderTable();
+      document.getElementById("strainResult").innerHTML="";
+      var act=document.querySelector(".mood-chip.active");
+      pickMood(act?act.id.replace("mood-",""):"laugh");
+      try{posthog&&posthog.capture("strainfinder_disp",{disp:key});}catch(e){}
+    }
+
+    function renderAll(){renderDispBar();renderMoodGrid();renderStrainPicker();renderTable();renderLegend();pickMood("laugh");}
     renderAll();
 
     fetch("data/strain-terpenes.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
       if(d&&d.products&&d.products.length){
         DATA=d.products;
-        if(d.updated)document.getElementById("dataStamp").innerHTML="Real lab data &mdash; "+esc(d.count)+" flowers, updated <strong>"+esc(d.updated)+"</strong> ("+esc(d.source||"Cleveland dispensary")+"). Click any column header to sort.";
+        DATA.forEach(function(p){if(!p.dispensary)p.dispensary="terrasana";});
+        DISPENSARIES=d.dispensaries||[];
+        var stamp="Real lab data &mdash; <strong>"+esc(d.count)+"</strong> flowers";
+        if(DISPENSARIES.length)stamp+=" across "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(" + ");
+        if(d.updated)stamp+=", updated <strong>"+esc(d.updated)+"</strong>";
+        stamp+=". Filter by store above; click any column header to sort.";
+        document.getElementById("dataStamp").innerHTML=stamp;
         renderAll();
       }
     }).catch(function(){});
