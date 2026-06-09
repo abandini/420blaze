@@ -111,6 +111,19 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Refersion dashboard conversions + commission paid (weekly). Compare May 26 (T+8) and June 9 (T+22) commission totals against the prior-month baseline.
 **Status:** Active. **Need to add to the publishing checklist: "verify /go/ destinations 200 quarterly"** — this drift happened silently for an unknown duration and was only caught by the PostHog tracking debug.
 
+## EXP-017 — "How to Clean a Grinder" evergreen gear post
+
+**Date:** 2026-06-09
+**Change:** Published `/blog/how-to-clean-a-grinder`. Built via audit-driven workflow — the centerpiece (the alcohol question Bill raised: isopropyl residue vs vodka vs Everclear) was researched with a 5-lane multi-agent web workflow (`grinder-cleaning-alcohol-research`). Verdict: evaporated isopropyl leaves no residue of itself (higher % = LESS residue, it's a water problem); 91%+ rinsed + dried is safe & cheap; 190-proof Everclear is the food-safe pick (+ consumable reclaim); vodka (40%) too watery; denatured alcohol = methanol-poisoned, never. Post covers material-by-material methods (metal/acrylic/wood/electric), the freezer trick, deep-clean steps, kief/screen care, threads/magnet, frequency, flammability safety. Person + HowTo + FAQPage JSON-LD; visible FAQ matches schema (6/6). Custom "Which alcohol?" ranked hero infographic (Pillow).
+
+**Inbound link plan:** homepage Continue Reading lead card; blog-index lead card; blog dropdown nav across 39 files; body link from `/blog/best-dry-herb-vaporizers` More Reading. Body links OUT to hash post, strain finder, vaporizer guide, culture-terpenes/concentrates.
+
+**Affiliate:** new `/go/santa-cruz-shredder` slug (POTV, Refersion) in a gear callout — the care tips map onto exactly that grinder (anodized aluminum, kief screen, magnets, anti-cross-thread).
+
+**Hypothesis:** Continues the evergreen-search pivot. "How to clean a weed grinder", "isopropyl vs everclear grinder", "can you use vodka to clean a grinder", "what alcohol to clean grinder" are steady, high-intent, no-decay queries; the residue/Everclear/food-safe angle is under-served (most guides just say "soak in iso"). Prediction: GSC impressions on grinder-cleaning + alcohol queries by T+30; the alcohol-comparison hook earns the page differentiation vs generic competitors.
+
+**Metric:** GSC impressions + position at T+14/T+30 for grinder-cleaning + alcohol queries; any `/go/santa-cruz-shredder` clicks (D1). Status: Active. Deployed 2026-06-09.
+
 ## EXP-016 — Strain Finder (interactive terpene tool, evergreen)
 
 **Date:** 2026-06-07
