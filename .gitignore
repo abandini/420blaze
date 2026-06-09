@@ -3,3 +3,7 @@ merch-videos/
 .dev.vars
 workers/music-scraper/node_modules/
 workers/music-scraper/tests/snapshots/
+scripts/__pycache__/
+.DS_Store
+docs/.DS_Store
+.playwright-mcp/
