@@ -1,0 +1,17 @@
+{
+ "updated": "2026-06-09",
+ "note": "Curated 420-adjacent Cleveland shows (jam, Dead, psych, funk, reggae, doom, stoner rock). Only events verified on a venue/ticketing calendar. Refresh weekly — regenerate this file and the page picks it up automatically; past events auto-hide.",
+ "events": [
+  { "date": "2026-06-11", "artist": "Satsang", "venue": "Beachland Ballroom, Cleveland", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "", "genre": "Reggae / Folk-Rock", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" },
+  { "date": "2026-06-16", "artist": "Futurebirds + Joelton Mayfield", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Jam / Psych / Alt-Country", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" },
+  { "date": "2026-07-14", "artist": "L'Eclair", "venue": "Mahall's, Lakewood", "time": "Evening", "price": "", "genre": "Psych / Funk", "vibe": 5, "url": "https://www.mahalls20lanes.com/events" },
+  { "date": "2026-11-21", "artist": "Carlos Jones & The P.L.U.S. Band", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Reggae (Cleveland local)", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" }
+ ],
+ "venues": [
+  { "name": "Beachland Ballroom", "url": "https://www.beachlandballroom.com/shows" },
+  { "name": "Grog Shop", "url": "https://grogshop.gs/calendar/" },
+  { "name": "Mahall's", "url": "https://www.mahalls20lanes.com/events" },
+  { "name": "Agora Theatre", "url": "https://agoracleveland.com/events/" },
+  { "name": "Songkick — all Cleveland shows", "url": "https://www.songkick.com/metro-areas/14700-us-cleveland" }
+ ]
+}

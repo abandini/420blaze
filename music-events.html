@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stoner-Friendly Shows in Cleveland — Live Music Events - 420Blazin.com</title>
-    <meta name="description" content="420-friendly live music in Cleveland: jam bands, Dead tributes, psych, funk, reggae. Updated nightly from venue calendars. Zero false positives.">
+    <meta name="description" content="Stoner-friendly Cleveland concerts — jam, psych, funk, reggae, doom, and stoner rock at Beachland, Grog Shop, Mahall's and more. Past shows auto-hide.">
     <meta property="og:title" content="Stoner-Friendly Shows in Cleveland — 420Blazin.com">
     <meta property="og:description" content="Jam bands, Dead tributes, psych, funk, reggae in Greater Cleveland. Updated nightly.">
     <meta property="og:type" content="website">
@@ -81,77 +81,17 @@
             <a href="blog/best-dry-herb-vaporizers" style="color: var(--primary-color);">Heading to a show? Don&rsquo;t forget your vaporizer.</a>
         </p>
 
-        <h2 style="font-family: 'Righteous', cursive; color: var(--deep-green);">This Week &amp; Next</h2>
+        <div id="lastRefreshed" style="font-size:0.85rem;color:#888;margin-bottom:1rem;"></div>
+        <div id="eventsList"></div>
 
-        <div class="event-card">
-            <div class="event-date"><span class="month">APR</span><span class="day">27</span></div>
-            <div class="event-details">
-                <h3>The Toasters &mdash; 45 Years of Ska</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Grog Shop, Cleveland Heights</p>
-                <p class="time"><i class="far fa-clock"></i> Evening</p>
-                <p style="color: var(--secondary-color); font-weight: 600;">~$24</p>
-                <p style="font-size: 0.85rem; color: #888;">Ska / Reggae &bull; Vibe: 🌿🌿🌿🌿🌿</p>
-                <a href="https://grogshop.gs/calendar/" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
-        </div>
-
-        <div class="event-card">
-            <div class="event-date"><span class="month">APR</span><span class="day">30</span></div>
-            <div class="event-details">
-                <h3>Slomosa</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Grog Shop, Cleveland Heights</p>
-                <p class="time"><i class="far fa-clock"></i> Evening</p>
-                <p style="color: var(--secondary-color); font-weight: 600;">~$31</p>
-                <p style="font-size: 0.85rem; color: #888;">Stoner Rock / Doom &bull; Vibe: 🌿🌿🌿🌿🌿</p>
-                <a href="https://grogshop.gs/calendar/" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
-        </div>
-
-        <h2 style="font-family: 'Righteous', cursive; color: var(--deep-green); margin-top: 2.5rem;">Coming Up</h2>
-
-        <div class="event-card">
-            <div class="event-date"><span class="month">MAY</span><span class="day">1</span></div>
-            <div class="event-details">
-                <h3>Bahamas</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Beachland Ballroom, Cleveland</p>
-                <p class="time"><i class="far fa-clock"></i> Doors 7:00 PM &bull; Show 8:00 PM</p>
-                <p style="font-size: 0.85rem; color: #888;">Indie Folk / Chill &bull; Sold Out</p>
-                <a href="https://www.beachlandballroom.com/shows" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
-        </div>
-
-        <div class="event-card featured">
-            <div class="event-date"><span class="month">MAY</span><span class="day">2</span></div>
-            <div class="event-details">
-                <h3>Mo Lowda</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Beachland Ballroom, Cleveland</p>
-                <p class="time"><i class="far fa-clock"></i> Doors 7:00 PM &bull; Show 8:00 PM</p>
-                <p style="font-size: 0.85rem; color: #888;">Jam / Psych Rock &bull; Vibe: 🌿🌿🌿🌿🌿</p>
-                <a href="https://www.beachlandballroom.com/shows" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
-        </div>
-
-        <div class="event-card">
-            <div class="event-date"><span class="month">MAY</span><span class="day">3</span></div>
-            <div class="event-details">
-                <h3>Failure &mdash; Location Lost Tour</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Grog Shop, Cleveland Heights</p>
-                <p class="time"><i class="far fa-clock"></i> Evening</p>
-                <p style="font-size: 0.85rem; color: #888;">Space Rock / Alt &bull; Vibe: 🌿🌿🌿</p>
-                <a href="https://grogshop.gs/calendar/" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
-        </div>
-
-        <div class="event-card">
-            <div class="event-date"><span class="month">MAY</span><span class="day">6</span></div>
-            <div class="event-details">
-                <h3>Boogarins + In The Pines + Slag Genie</h3>
-                <p class="location"><i class="fas fa-map-marker-alt"></i> Grog Shop, Cleveland Heights</p>
-                <p class="time"><i class="far fa-clock"></i> Evening</p>
-                <p style="color: var(--secondary-color); font-weight: 600;">~$25</p>
-                <p style="font-size: 0.85rem; color: #888;">Psychedelic / Tropicalia &bull; Vibe: 🌿🌿🌿🌿🌿</p>
-                <a href="https://grogshop.gs/calendar/" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a>
-            </div>
+        <div style="background:#f1f8e9;border:1px solid #cfe8d8;border-radius:12px;padding:18px 22px;margin:2rem 0;">
+            <p style="margin:0 0 8px;font-weight:700;">📅 Always current: live Cleveland show calendars</p>
+            <p style="margin:0;font-size:0.92rem;">Our picks are curated and refreshed regularly, but venues add shows daily &mdash; check the source for the latest:
+            <a href="https://www.songkick.com/metro-areas/14700-us-cleveland" target="_blank" rel="noopener">All Cleveland shows (Songkick)</a> &middot;
+            <a href="https://www.beachlandballroom.com/shows" target="_blank" rel="noopener">Beachland</a> &middot;
+            <a href="https://grogshop.gs/calendar/" target="_blank" rel="noopener">Grog Shop</a> &middot;
+            <a href="https://www.mahalls20lanes.com/events" target="_blank" rel="noopener">Mahall&rsquo;s</a> &middot;
+            <a href="https://agoracleveland.com/events/" target="_blank" rel="noopener">Agora</a></p>
         </div>
 
         <div style="background: var(--deep-green); border-radius: 12px; padding: 1.5rem 2rem; margin: 3rem 0; text-align: center;">
@@ -225,6 +165,47 @@
         </div>
         <div class="footer-bottom"><p>&copy; 2025-2026 420Blazin.com. All Rights Reserved. | Must be 21+ | Please consume responsibly.</p></div>
     </footer>
+    <script>
+    (function(){
+      var FALLBACK={updated:"2026-06-09",events:[
+        {date:"2026-06-11",artist:"Satsang",venue:"Beachland Ballroom, Cleveland",time:"Doors 7:00 PM \u00b7 Show 8:00 PM",price:"",genre:"Reggae / Folk-Rock",vibe:5,url:"https://www.beachlandballroom.com/shows"},
+        {date:"2026-06-16",artist:"Futurebirds + Joelton Mayfield",venue:"Beachland Ballroom, Cleveland",time:"Evening",price:"",genre:"Jam / Psych / Alt-Country",vibe:5,url:"https://www.beachlandballroom.com/shows"},
+        {date:"2026-07-14",artist:"L'Eclair",venue:"Mahall's, Lakewood",time:"Evening",price:"",genre:"Psych / Funk",vibe:5,url:"https://www.mahalls20lanes.com/events"},
+        {date:"2026-11-21",artist:"Carlos Jones & The P.L.U.S. Band",venue:"Beachland Ballroom, Cleveland",time:"Evening",price:"",genre:"Reggae (Cleveland local)",vibe:5,url:"https://www.beachlandballroom.com/shows"}
+      ]};
+      var M=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+      function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+      function card(e){
+        var d=new Date(e.date+"T12:00:00");
+        var vibe=new Array(Math.max(1,Math.min(5,e.vibe||4))+1).join("\uD83C\uDF3F");
+        var price=e.price?'<p style="color:var(--secondary-color);font-weight:600;">'+esc(e.price)+'</p>':'';
+        return '<div class="event-card"><div class="event-date"><span class="month">'+M[d.getMonth()]+'</span><span class="day">'+d.getDate()+'</span></div>'+
+          '<div class="event-details"><h3>'+esc(e.artist)+'</h3>'+
+          '<p class="location"><i class="fas fa-map-marker-alt"></i> '+esc(e.venue)+'</p>'+
+          '<p class="time"><i class="far fa-clock"></i> '+esc(e.time||"Evening")+'</p>'+price+
+          '<p style="font-size:0.85rem;color:#888;">'+esc(e.genre||"")+' \u2022 Vibe: '+vibe+'</p>'+
+          '<a href="'+esc(e.url||"#")+'" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a></div></div>';
+      }
+      function render(data){
+        var today=new Date(); today.setHours(0,0,0,0);
+        var up=(data.events||[]).filter(function(e){return new Date(e.date+"T23:59:59")>=today;}).sort(function(a,b){return a.date<b.date?-1:1;});
+        var cut=new Date(today.getTime()+14*864e5);
+        var soon=up.filter(function(e){return new Date(e.date+"T12:00:00")<=cut;});
+        var later=up.filter(function(e){return new Date(e.date+"T12:00:00")>cut;});
+        var h="";
+        if(!up.length){
+          h='<p style="background:#fff8e7;border-left:4px solid #F7A400;padding:14px 18px;border-radius:0 8px 8px 0;">No curated shows are on the calendar right now \u2014 the live venue calendars below update daily.</p>';
+        }else{
+          if(soon.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);">This Week &amp; Next</h2>'+soon.map(card).join("");
+          if(later.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);margin-top:2.5rem;">Coming Up</h2>'+later.map(card).join("");
+        }
+        document.getElementById("eventsList").innerHTML=h;
+        if(data.updated)document.getElementById("lastRefreshed").innerHTML="Curated picks refreshed <strong>"+esc(data.updated)+"</strong> \u00b7 past shows hidden automatically.";
+      }
+      render(FALLBACK);
+      fetch("data/music-events.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.events)render(d);}).catch(function(){});
+    })();
+    </script>
     <script src="js/script.js"></script>
     <script src="js/particles.js"></script>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f6c4d4d13b646129837d042ed29c9d5"}'></script>    <script src="./js/tracking.js"></script>
