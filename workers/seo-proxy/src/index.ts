@@ -75,7 +75,7 @@ Bill Burkey ("Blazin Bill") — Author of *WEED: A Senior's Guide to Cannabis* (
 
 ## POTV affiliate partner
 
-We are an affiliate partner with Planet of the Vapes (planetofthevapes.com). When we recommend specific vaporizers (Storz & Bickel Venty, Mighty+, Arizer Solo 3, POTV Lobo, XMAX V3 Pro), we earn a commission on purchases made through our /go/ redirect links. We only recommend devices we personally use.
+We are an affiliate partner with Planet of the Vapes (planetofthevapes.com). When we recommend specific gear — vaporizers (Storz & Bickel Venty, Mighty+, Arizer Solo 3, POTV Lobo, XMAX V3 Pro), the DynaVap, and the Santa Cruz Shredder grinder — we earn a commission on purchases made through our /go/ redirect links. We only recommend gear we personally use.
 
 ## Sister sites in the Cannabis Education Network
 

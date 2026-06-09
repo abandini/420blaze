@@ -190,6 +190,7 @@
 
             <h2 style="margin-top:42px;">What each terpene is associated with</h2>
             <div class="legend" id="legend"></div>
+            <p style="font-size:0.92rem;">New to terpenes? Each name above links to its section in our <a href="culture-terpenes">Complete Terpenes Guide</a> &mdash; aromas, effects, and where else in nature each one shows up.</p>
             <p class="sf-note">Sources for these associations include Leafly, Royal Queen Seeds, and peer-reviewed reviews. Myrcene&rsquo;s sedation reputation and several others are folk/preliminary &mdash; there are few controlled human trials. Treat this as a shopping heuristic, not medicine.</p>
 
             <h2 style="margin-top:42px;">How to use this at the dispensary</h2>
@@ -306,17 +307,18 @@
 
     function renderMoodGrid(){
       document.getElementById("moodGrid").innerHTML=MOODS.map(m=>
-        '<div class="mood-chip" id="mood-'+m.id+'" onclick="pickMood(\''+m.id+'\')"><span class="mi">'+m.mi+'</span><strong>'+m.label+'</strong><span>'+m.sub+'</span></div>').join("");
+        '<div class="mood-chip" id="mood-'+m.id+'" onclick="pickMood(\''+m.id+'\',true)"><span class="mi">'+m.mi+'</span><strong>'+m.label+'</strong><span>'+m.sub+'</span></div>').join("");
     }
     function scoreMood(p,w){let s=0;for(const k in w)s+=w[k]*val(p,k);return s;}
-    function pickMood(id){
+    function pickMood(id,fromUser){
       const m=MOODS.find(x=>x.id===id);
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
       const ranked=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
       h+=ranked.map((p,i)=>{const lt=leadTerp(p);return cardHTML(p,"#"+(i+1)+" match &mdash; "+TLABEL[lt]+"-forward ("+val(p,lt).toFixed(2)+"%).");}).join("");
       document.getElementById("moodResult").innerHTML=h;
-      try{posthog&&posthog.capture("strainfinder_mood",{mood:id,top:ranked[0]&&ranked[0].name});}catch(e){}
+      // capture only deliberate clicks — render-triggered calls (page load, store filter) were inflating the metric
+      if(fromUser){try{posthog&&posthog.capture("strainfinder_mood",{mood:id,top:ranked[0]&&ranked[0].name});}catch(e){}}
     }
 
     function unit(p){const v=TKEYS.map(k=>val(p,k));const n=Math.hypot.apply(null,v)||1;return v.map(x=>x/n);}
@@ -364,7 +366,7 @@
 
     function renderLegend(){
       document.getElementById("legend").innerHTML=TKEYS.map(k=>
-        '<div><span class="sw" style="background:'+COLORS[k]+';"></span><strong>'+TLABEL[k]+'</strong> &mdash; '+TINFO[k]+'</div>').join("");
+        '<div><span class="sw" style="background:'+COLORS[k]+';"></span><strong><a href="culture-terpenes#'+k+'" style="color:inherit;">'+TLABEL[k]+'</a></strong> &mdash; '+TINFO[k]+'</div>').join("");
     }
 
     // ---- dispensary filter ----

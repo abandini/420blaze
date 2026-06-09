@@ -12,7 +12,7 @@ export interface SitemapEntry {
 export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     "loc": "https://420blazin.com/",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "weekly",
     "priority": "1.0"
   },
@@ -24,13 +24,13 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     "loc": "https://420blazin.com/about",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.5"
   },
   {
     "loc": "https://420blazin.com/blog",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
@@ -42,79 +42,79 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     "loc": "https://420blazin.com/cleveland-420",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "weekly",
     "priority": "0.9"
   },
   {
     "loc": "https://420blazin.com/contact",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.5"
   },
   {
     "loc": "https://420blazin.com/culture",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-celebrations",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-concentrates",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-edibles",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-flower",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-glass",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-plants",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-rolling",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/culture-terpenes",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/events",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "daily",
     "priority": "0.9"
   },
   {
     "loc": "https://420blazin.com/festival",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.9"
   },
@@ -126,19 +126,19 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     "loc": "https://420blazin.com/merch",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "weekly",
     "priority": "0.8"
   },
   {
     "loc": "https://420blazin.com/music-events",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "daily",
     "priority": "0.9"
   },
   {
     "loc": "https://420blazin.com/privacy",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "yearly",
     "priority": "0.3"
   },
@@ -150,43 +150,43 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     "loc": "https://420blazin.com/strain-finder",
-    "lastmod": "2026-06-08",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.6"
   },
   {
     "loc": "https://420blazin.com/terms",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "yearly",
     "priority": "0.3"
   },
   {
     "loc": "https://420blazin.com/blog/best-dry-herb-vaporizers",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/cannabis-brownies-without-the-blackout",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/cannabis-vaporizer-guide",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/dosage-effect-drift-commercial-gummies",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/half-baked-sour-diesel-pairing",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
@@ -198,31 +198,31 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     "loc": "https://420blazin.com/blog/how-to-smoke-hash",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/memorial-day-weekend-cannabis-three-strain-plan",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/tasting-notes-001-runtz",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/the-nose-knows",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   },
   {
     "loc": "https://420blazin.com/blog/wake-and-bake-protocol",
-    "lastmod": "2026-06-07",
+    "lastmod": "2026-06-09",
     "changefreq": "monthly",
     "priority": "0.7"
   }
