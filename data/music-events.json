@@ -1,11 +1,19 @@
 {
- "updated": "2026-06-09",
- "note": "Curated 420-adjacent Cleveland shows (jam, Dead, psych, funk, reggae, doom, stoner rock). Only events verified on a venue/ticketing calendar. Refresh weekly — regenerate this file and the page picks it up automatically; past events auto-hide.",
+ "updated": "2026-06-10",
+ "note": "Curated 420-adjacent Cleveland shows (jam, Dead, psych, funk, reggae/ska, doom, stoner rock, conscious hip-hop). Only events verified on a venue/ticketing calendar. Refresh weekly — regenerate this file and the page picks it up automatically; past events auto-hide.",
  "events": [
-  { "date": "2026-06-11", "artist": "Satsang", "venue": "Beachland Ballroom, Cleveland", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "", "genre": "Reggae / Folk-Rock", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" },
-  { "date": "2026-06-16", "artist": "Futurebirds + Joelton Mayfield", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Jam / Psych / Alt-Country", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" },
-  { "date": "2026-07-14", "artist": "L'Eclair", "venue": "Mahall's, Lakewood", "time": "Evening", "price": "", "genre": "Psych / Funk", "vibe": 5, "url": "https://www.mahalls20lanes.com/events" },
-  { "date": "2026-11-21", "artist": "Carlos Jones & The P.L.U.S. Band", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Reggae (Cleveland local)", "vibe": 5, "url": "https://www.beachlandballroom.com/shows" }
+  { "date": "2026-06-16", "artist": "Futurebirds + Joelton Mayfield", "venue": "Beachland Ballroom, Cleveland", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "Sold out", "genre": "Jam / Psych / Alt-Country", "vibe": 5, "url": "https://www.beachlandballroom.com/shows/futurebirds-16-jun" },
+  { "date": "2026-06-17", "artist": "Los Mirlos + Hello! 3D", "venue": "Beachland Ballroom, Cleveland", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "Sold out", "genre": "Peruvian Psychedelic Cumbia", "vibe": 5, "url": "https://www.beachlandballroom.com/shows/los-mirlos-17-jun" },
+  { "date": "2026-06-18", "artist": "Higher Nation + C-Level + Saturdazed", "venue": "Grog Shop, Cleveland Heights", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "~$12", "genre": "Reggae / Hip-Hop / Funk (Cleveland local)", "vibe": 5, "url": "https://grogshop.gs/tm-event/higher-nation-c-level-lake-irie/" },
+  { "date": "2026-06-24", "artist": "Marcus King Band", "venue": "Agora Theatre, Cleveland", "time": "Doors 7:00 PM", "price": "", "genre": "Blues-Rock / Jam / Southern Rock", "vibe": 4, "url": "https://www.agoracleveland.com/events/detail/1363617" },
+  { "date": "2026-06-24", "artist": "Sonido Gallo Negro + Hello! 3D", "venue": "Grog Shop, Cleveland Heights", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "~$20", "genre": "Psychedelic Tropical / Cumbia", "vibe": 5, "url": "https://grogshop.gs/tm-event/sonido-gallo-negro-hello3d/" },
+  { "date": "2026-07-09", "artist": "Fayuca", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Reggae-Rock / Latin Alternative", "vibe": 4, "url": "https://www.beachlandballroom.com/shows/fayuca-09-jul" },
+  { "date": "2026-07-11", "artist": "Conan (UK) + Fistula + Slow Wake", "venue": "Grog Shop, Cleveland Heights", "time": "Doors 7:30 PM · Show 8:30 PM", "price": "~$20", "genre": "Doom / Stoner Metal", "vibe": 5, "url": "https://grogshop.gs/tm-event/conan-fistula-slow-wake/" },
+  { "date": "2026-07-15", "artist": "Jon Anderson & The Band Geeks", "venue": "Agora Theatre, Cleveland", "time": "Doors 6:30 PM", "price": "", "genre": "Prog / Psychedelic Rock (voice of Yes)", "vibe": 3, "url": "https://www.agoracleveland.com/events/detail/1362376" },
+  { "date": "2026-07-30", "artist": "Nektar", "venue": "Beachland Ballroom, Cleveland", "time": "Evening", "price": "", "genre": "Prog / Space Rock", "vibe": 4, "url": "https://www.beachlandballroom.com/shows/nektar-30-jul" },
+  { "date": "2026-08-01", "artist": "Cory Hanson", "venue": "Beachland Tavern, Cleveland", "time": "Doors 7:00 PM · Show 8:00 PM", "price": "", "genre": "Psych Rock (Wand)", "vibe": 5, "url": "https://www.beachlandballroom.com/shows/cory-hanson-01-aug" },
+  { "date": "2026-08-08", "artist": "Triptides", "venue": "Beachland Tavern, Cleveland", "time": "Evening", "price": "", "genre": "Psych / Surf Rock", "vibe": 4, "url": "https://www.beachlandballroom.com/shows/triptides-08-aug" },
+  { "date": "2026-08-09", "artist": "The Expendables", "venue": "Grog Shop, Cleveland Heights", "time": "Doors 6:30 PM · Show 7:30 PM", "price": "~$25", "genre": "Reggae / Ska / Surf-Punk", "vibe": 5, "url": "https://grogshop.gs/tm-event/the-expendables/" }
  ],
  "venues": [
   { "name": "Beachland Ballroom", "url": "https://www.beachlandballroom.com/shows" },
