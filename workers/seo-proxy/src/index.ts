@@ -4,6 +4,7 @@
  */
 
 import { handleAffiliateRedirect } from './affiliate.js';
+import { handleSubscribe } from './subscribe.js';
 import { SITEMAP_XML } from './sitemap-data.js';
 
 interface Env {
@@ -116,6 +117,11 @@ export default {
     }
     if (url.pathname === '/llms.txt' || url.pathname === '/llms-full.txt') {
       return new Response(LLMS, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
+    }
+
+    // Email capture — must be before origin fetch (Pages has no /subscribe route)
+    if (url.pathname === '/subscribe') {
+      return handleSubscribe(request, env.AFFILIATE_DB, ctx);
     }
 
     // Affiliate redirects — must be before origin fetch

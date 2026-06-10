@@ -7,3 +7,5 @@ scripts/__pycache__/
 .DS_Store
 docs/.DS_Store
 .playwright-mcp/
+.wrangler/
+dist/

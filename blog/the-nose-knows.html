@@ -294,6 +294,17 @@
     </article>
     </main>
 
+    <div class="email-capture">
+            <h3>Get the good stuff in your inbox</h3>
+            <p>New strain breakdowns, honest gear guides, and Cleveland cannabis news. No spam, unsubscribe anytime.</p>
+            <form onsubmit="return blazinSubscribe(event,'the-nose-knows')">
+                <input type="email" name="email" placeholder="you@email.com" aria-label="Email address" required>
+                <input class="ec-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <button type="submit">Subscribe</button>
+            </form>
+            <p class="ec-msg" aria-live="polite"></p>
+        </div>
+        <script src="../js/subscribe.js"></script>
     <footer>
         <div class="footer-content">
             <div class="footer-logo"><h2><span class="green">420</span>Blazin<span class="green">.com</span></h2><p>Cannabis culture, calendars, and cookouts from Cleveland.</p></div>
