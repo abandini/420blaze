@@ -45,7 +45,12 @@ already-past shows — the page hides them automatically.
       "time": "Doors 7:00 PM · Show 8:00 PM",  // free text; "" or "Evening" is fine
       "price": "",                          // e.g. "~$25"; "" hides the price line
       "genre": "Reggae / Folk-Rock",        // short genre tag shown on the card
-      "vibe": 5                             // 1–5, editorial 420-fit (renders as 🌿s)
+      "vibe": 5,                            // 1–5, editorial 420-fit (renders as 🌿s)
+      "recurs": "weekly"                    // OPTIONAL — for residencies/open jams. The page
+                                            //   auto-rolls "date" forward to the next matching
+                                            //   weekday, shows a "↻ weekly" badge, and it never
+                                            //   expires. Set "date" to any past/future date on
+                                            //   the right weekday (e.g. a Wednesday for a Wed jam).
     }
   ],
   "venues": [                               // optional — the "live calendars" block

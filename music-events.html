@@ -167,40 +167,46 @@
     </footer>
     <script>
     (function(){
-      var FALLBACK={updated:"2026-06-09",events:[
-        {date:"2026-06-11",artist:"Satsang",venue:"Beachland Ballroom, Cleveland",time:"Doors 7:00 PM \u00b7 Show 8:00 PM",price:"",genre:"Reggae / Folk-Rock",vibe:5,url:"https://www.beachlandballroom.com/shows"},
-        {date:"2026-06-16",artist:"Futurebirds + Joelton Mayfield",venue:"Beachland Ballroom, Cleveland",time:"Evening",price:"",genre:"Jam / Psych / Alt-Country",vibe:5,url:"https://www.beachlandballroom.com/shows"},
-        {date:"2026-07-14",artist:"L'Eclair",venue:"Mahall's, Lakewood",time:"Evening",price:"",genre:"Psych / Funk",vibe:5,url:"https://www.mahalls20lanes.com/events"},
-        {date:"2026-11-21",artist:"Carlos Jones & The P.L.U.S. Band",venue:"Beachland Ballroom, Cleveland",time:"Evening",price:"",genre:"Reggae (Cleveland local)",vibe:5,url:"https://www.beachlandballroom.com/shows"}
+      var FALLBACK={updated:"",events:[
+        {date:"2026-06-10",recurs:"weekly",artist:"Wednesday Night Jam (host band + open jam)",venue:"Backstage Bar, Cleveland (West Park)",time:"Every Wed · Host band 8:00 PM, open jam after",price:"Free",genre:"Open Jam / Blues-Rock",vibe:4,url:"https://www.backstagebarcleveland.com/calendar.php"},
+        {date:"2026-06-10",recurs:"weekly",artist:"Wednesday Open Mic & Jam",venue:"CODA, Tremont (Cleveland)",time:"Every Wed · Doors 7:30 PM",price:"Free",genre:"Open Mic / Jam",vibe:4,url:"https://danteboccuzzi.com/coda/"}
       ]};
       var M=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
       function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-      function card(e){
+      function eff(e){
+        // effective date: recurring events roll forward to the next occurrence on/after today (same weekday)
         var d=new Date(e.date+"T12:00:00");
-        var vibe=new Array(Math.max(1,Math.min(5,e.vibe||4))+1).join("\uD83C\uDF3F");
+        if(e.recurs==="weekly"){var t=new Date();t.setHours(0,0,0,0);while(d<t)d.setDate(d.getDate()+7);}
+        return d;
+      }
+      function card(e,d){
+        var vibe=new Array(Math.max(1,Math.min(5,e.vibe||4))+1).join("🌿");
         var price=e.price?'<p style="color:var(--secondary-color);font-weight:600;">'+esc(e.price)+'</p>':'';
+        var badge=e.recurs?' <span style="font-size:0.72rem;background:#e8f5e9;color:#1a8754;border-radius:999px;padding:2px 8px;font-weight:600;vertical-align:middle;">↻ weekly</span>':'';
         return '<div class="event-card"><div class="event-date"><span class="month">'+M[d.getMonth()]+'</span><span class="day">'+d.getDate()+'</span></div>'+
-          '<div class="event-details"><h3>'+esc(e.artist)+'</h3>'+
+          '<div class="event-details"><h3>'+esc(e.artist)+badge+'</h3>'+
           '<p class="location"><i class="fas fa-map-marker-alt"></i> '+esc(e.venue)+'</p>'+
           '<p class="time"><i class="far fa-clock"></i> '+esc(e.time||"Evening")+'</p>'+price+
-          '<p style="font-size:0.85rem;color:#888;">'+esc(e.genre||"")+' \u2022 Vibe: '+vibe+'</p>'+
+          '<p style="font-size:0.85rem;color:#888;">'+esc(e.genre||"")+' • Vibe: '+vibe+'</p>'+
           '<a href="'+esc(e.url||"#")+'" class="btn-small" target="_blank" rel="noopener noreferrer">Venue Calendar</a></div></div>';
       }
       function render(data){
         var today=new Date(); today.setHours(0,0,0,0);
-        var up=(data.events||[]).filter(function(e){return new Date(e.date+"T23:59:59")>=today;}).sort(function(a,b){return a.date<b.date?-1:1;});
         var cut=new Date(today.getTime()+14*864e5);
-        var soon=up.filter(function(e){return new Date(e.date+"T12:00:00")<=cut;});
-        var later=up.filter(function(e){return new Date(e.date+"T12:00:00")>cut;});
+        var up=(data.events||[]).map(function(e){return {e:e,d:eff(e)};})
+          .filter(function(x){return x.d>=today;})
+          .sort(function(a,b){return a.d-b.d;});
+        var soon=up.filter(function(x){return x.d<=cut;});
+        var later=up.filter(function(x){return x.d>cut;});
         var h="";
         if(!up.length){
-          h='<p style="background:#fff8e7;border-left:4px solid #F7A400;padding:14px 18px;border-radius:0 8px 8px 0;">No curated shows are on the calendar right now \u2014 the live venue calendars below update daily.</p>';
+          h='<p style="background:#fff8e7;border-left:4px solid #F7A400;padding:14px 18px;border-radius:0 8px 8px 0;">No curated shows are on the calendar right now — the live venue calendars below update daily.</p>';
         }else{
-          if(soon.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);">This Week &amp; Next</h2>'+soon.map(card).join("");
-          if(later.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);margin-top:2.5rem;">Coming Up</h2>'+later.map(card).join("");
+          if(soon.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);">This Week &amp; Next</h2>'+soon.map(function(x){return card(x.e,x.d);}).join("");
+          if(later.length)h+='<h2 style="font-family:\'Righteous\',cursive;color:var(--deep-green);margin-top:2.5rem;">Coming Up</h2>'+later.map(function(x){return card(x.e,x.d);}).join("");
         }
         document.getElementById("eventsList").innerHTML=h;
-        if(data.updated)document.getElementById("lastRefreshed").innerHTML="Curated picks refreshed <strong>"+esc(data.updated)+"</strong> \u00b7 past shows hidden automatically.";
+        if(data.updated)document.getElementById("lastRefreshed").innerHTML="Curated picks refreshed <strong>"+esc(data.updated)+"</strong> · past shows hidden automatically.";
       }
       render(FALLBACK);
       fetch("data/music-events.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.events)render(d);}).catch(function(){});
