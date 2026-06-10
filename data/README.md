@@ -3,6 +3,12 @@
 This folder holds JSON the live site reads at runtime. **If you maintain these files,
 follow the contract below or the pages break.**
 
+**Git etiquette (this repo is shared with the dev Claude, who may be committing at the
+same time):** `git pull --rebase` before you commit. If git errors with "index.lock
+exists" or "cannot lock ref", another process is mid-commit — **wait 60 seconds and
+retry**; don't delete lock files yourself. If it still fails after a few minutes,
+stop and tell Bill instead of forcing it.
+
 | File | Who maintains it | How |
 |---|---|---|
 | `strain-terpenes.json` | **GENERATED — do not hand-edit.** | Comes from the `/terrasana/*.xlsx` spreadsheets via `scripts/build-strain-data.py`. To change it, update the xlsx in `/terrasana` and re-run that script. See `terrasana/README.md`. |
