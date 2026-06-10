@@ -105,11 +105,15 @@ vibe by terpene") applied to music. **Cadence: monthly refresh** (first Monday).
 
 ### Workflow
 1. Curate/refresh the tracklists.
-2. Update the actual Spotify playlists (Bill's account — coordinate with Bill for
-   access; he creates the 4 playlists once, then edits are routine).
-3. Write `data/playlists.json` (schema below) — it is the source of truth + what the
-   site reads for embeds.
+2. Update the actual Spotify playlists directly via computer use — Bill keeps his
+   Spotify session open for you. First run: create the 4 playlists (public, named as
+   above, add a one-line description), then copy each playlist ID from Share → Copy
+   link (the bit after `/playlist/`). Monthly runs: swap ~5 tracks per list in place.
+3. Report back by writing `data/playlists.json` (schema below — full tracklists +
+   the spotify_id for each). That file is the source of truth and what the site
+   reads for embeds.
 4. Commit + deploy (same commands as the music-events task).
+5. First run only: tell Bill it's done so Claude (dev) can wire the site embeds.
 
 ### Schema
 ```json
