@@ -22,7 +22,7 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (d && d.ok) {
-          msg.textContent = "You're in. We'll send the good stuff — not spam. 🌿";
+          msg.textContent = "Almost there — check your inbox for a confirmation link. 🌿";
           msg.style.color = '#eafff0';
           form.style.display = 'none';
           try { if (window.posthog) posthog.capture('newsletter_signup', { source: source || 'site' }); } catch (_) {}
