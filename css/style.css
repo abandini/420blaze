@@ -2944,3 +2944,10 @@ footer {
 .related-posts ul{margin:0;padding-left:1.1rem;}
 .related-posts li{margin:7px 0;font-size:1rem;}
 .related-posts a{color:#1a8754;font-weight:600;}
+
+/* a11y: in-content links must not rely on color alone (axe link-in-text-block).
+   Scoped to classless links inside content text so buttons/cards/nav stay clean. */
+main p a:not([class]), main li a:not([class]), main blockquote a:not([class]) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
