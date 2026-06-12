@@ -23,6 +23,16 @@ const ALLOWED_DOMAINS = new Set([
 
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{0,48}[a-z0-9]$/;
 
+// Crawlers, AI bots, and HTTP tools that hit /go/ links directly — heavy now that
+// the slugs appear in llms.txt. Flagged at insert so the affiliate report can
+// filter to genuine human clicks (see scripts/affiliate-report.py).
+const BOT_UA = /bot|crawl|spider|slurp|gpt|claude|perplexity|bytespider|ahrefs|semrush|dotbot|curl|wget|python|java|go-http|headless|facebookexternalhit|embedly|preview|scrapy|axios|node-fetch|okhttp|libwww|monitor|uptime|dataforseo|amazonbot|applebot/i;
+
+export function isBotUserAgent(userAgent: string | null): boolean {
+  if (!userAgent) return true;
+  return BOT_UA.test(userAgent);
+}
+
 export function isAllowedDomain(url: string): boolean {
   try {
     const parsed = new URL(url);
@@ -68,11 +78,12 @@ export async function handleAffiliateRedirect(
 
   const redirectUrl = buildRedirectUrl(link.url, site);
 
+  const isBot = isBotUserAgent(userAgent) ? 1 : 0;
   ctx.waitUntil(
     db.prepare(
-      'INSERT INTO affiliate_clicks (slug, site, referrer, user_agent) VALUES (?, ?, ?, ?)'
+      'INSERT INTO affiliate_clicks (slug, site, referrer, user_agent, is_bot) VALUES (?, ?, ?, ?, ?)'
     )
-      .bind(slug, site, referrer, userAgent)
+      .bind(slug, site, referrer, userAgent, isBot)
       .run()
       .catch(() => {})
   );
