@@ -265,7 +265,10 @@ nav .nav-cta:hover {
         padding: 1rem 0;
         gap: 0;
     }
-    nav ul.open { display: flex; }
+    nav ul.open { display: flex; max-height: calc(100vh - 80px); overflow-y: auto; }
+    /* touch devices can't hover — when the mobile menu is open, show submenu items inline */
+    nav ul.open li .dropdown { display: block; }
+    nav ul li.has-dropdown > a::after { content: ''; }
     nav ul li { margin: 0; }
     nav ul li a { display: block; padding: 0.8rem 1rem; }
     nav ul li .dropdown {
