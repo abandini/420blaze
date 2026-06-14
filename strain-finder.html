@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cannabis Strain Finder by Terpene &amp; Mood | 420Blazin.com</title>
-    <meta name="description" content="Pick a feeling or a strain you love and find its terpene match from real lab data at two dispensaries — Terrasana (Cleveland, OH) and Dacut (Monroe, MI).">
+    <meta name="description" content="Search any strain by name or pick a feeling, and match it to real dispensary lab data by terpene profile. Read the terpenes, not the indica/sativa label.">
     <meta property="og:title" content="Strain Finder: Match Cannabis by Terpene &amp; Mood">
     <meta property="og:description" content="Tell it the vibe you want — sleep, calm, laughs, focus — or the strain you already love, and it finds your terpene match from real dispensary lab data.">
     <meta property="og:type" content="website">
@@ -162,14 +162,14 @@
     <main id="main-content">
         <div class="sf-wrap">
             <h1 style="font-family:'Righteous',sans-serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.12;margin-bottom:6px;">Strain Finder: Match Cannabis by Terpene &amp; Mood</h1>
-            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. Tell it the <strong>feeling you want</strong> or a <strong>strain you already love</strong>, and it finds your match from real lab data at two dispensaries &mdash; <strong>Terrasana</strong> (Cleveland, OH) and <strong>Dacut</strong> (Monroe, MI).</p>
+            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. <strong>Search a strain by name</strong>, tell it the <strong>feeling you want</strong>, or name a <strong>strain you already love</strong>, and it finds your match from <strong>real dispensary lab data</strong>. <span id="introStores">Currently tracking Terrasana (Cleveland, OH) and Dacut (Monroe, MI).</span></p>
 
             <div class="sf-explain">
                 <strong>How this works:</strong> The indica/sativa word on the jar is a poor predictor of how flower actually feels &mdash; a 2022 analysis of 90,000+ samples found labels barely track the chemistry. What <em>does</em> steer the experience is the <strong>terpene profile</strong> plus your dose. This tool ranks real flower by terpene, two ways. <span class="sf-note">Educational only &mdash; not medical advice. Terpene&ndash;effect links are associations, some preliminary; effects vary by person, batch, and dose.</span>
             </div>
 
             <div style="background:#eef4fb;border:1px solid #cfe0f0;border-radius:10px;padding:14px 18px;margin:16px 0 6px;font-size:0.93rem;">
-                <strong>📍 Two stores, two states.</strong> Shopping in <strong>Ohio</strong>? That&rsquo;s <span style="color:#1a8754;font-weight:700;">Terrasana</span> (Cleveland). Near <strong>Monroe, Michigan</strong>? That&rsquo;s <span style="color:#2471a3;font-weight:700;">Dacut</span> &mdash; <strong>Thomas&rsquo;s shop</strong>, the budtender who kicked off this whole terpene rabbit hole (<a href="blog/the-nose-knows">The Nose Knows</a>). Pick a store, or browse both:
+                <strong>📍 Pick your store.</strong> Shopping in <strong>Ohio</strong>? Start with <span style="color:#1a8754;font-weight:700;">Terrasana</span> (Cleveland). Near <strong>Monroe, Michigan</strong>? That&rsquo;s <span style="color:#2471a3;font-weight:700;">Dacut</span> &mdash; <strong>Thomas&rsquo;s shop</strong>, the budtender who kicked off this whole terpene rabbit hole (<a href="blog/the-nose-knows">The Nose Knows</a>). Choose a store below, or browse everything:
             </div>
             <div id="dispBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 4px;"></div>
 
@@ -189,8 +189,12 @@
                 <div id="strainResult"></div>
             </section>
 
-            <h2 style="margin-top:42px;">The full terpene table</h2>
+            <h2 id="browse" style="margin-top:42px;">Search &amp; browse every strain</h2>
             <p class="sf-note" id="dataStamp">Real lab data, sortable. Click any column header to sort.</p>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0;">
+                <input type="search" id="strainSearch" placeholder="🔍 Search a strain by name… e.g. Runtz, Cereal Milk, Wedding Cake" oninput="searchStrains(this.value)" aria-label="Search strains by name or brand" autocomplete="off" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:2px solid #1a8754;border-radius:10px;font-size:1rem;">
+                <span id="searchCount" class="sf-note" aria-live="polite" style="font-weight:600;"></span>
+            </div>
             <div class="sf-tablewrap"><table class="sf-table" id="terpTable"><thead></thead><tbody></tbody></table></div>
 
             <h2 style="margin-top:42px;">What each terpene is associated with</h2>
@@ -370,12 +374,33 @@
     const COLS=[["name","Strain"],["dispensary","Store"],["type","Type"],["thc","THC%"],["terps","Terps%"],["myrcene","Myr"],["limonene","Lim"],["caryophyllene","Caryo"],["linalool","Lina"],["humulene","Hum"],["pinene","Pin"],["bisabolol","Bisab"]];
     function cellBg(v){if(v>=0.5)return "background:#bfe9cd;";if(v>=0.25)return "background:#e6f6ec;";return "";}
     const STRCOL={name:1,type:1,dispensary:1};
+
+    // ---- strain-name search (filters the table by name or brand within the active store) ----
+    let searchQuery="",searchTimer;
+    function searchFilter(list){
+      if(!searchQuery)return list;
+      return list.filter(function(p){
+        return String(p.name||"").toLowerCase().indexOf(searchQuery)>=0
+            || String(p.brand||"").toLowerCase().indexOf(searchQuery)>=0;
+      });
+    }
+    function searchStrains(q){
+      searchQuery=String(q==null?"":q).trim().toLowerCase();
+      renderTable();
+      clearTimeout(searchTimer);
+      if(searchQuery.length>=2){searchTimer=setTimeout(function(){try{posthog&&posthog.capture("strainfinder_search",{q:searchQuery});}catch(e){}},900);}
+    }
+
     function renderTable(){
       document.querySelector("#terpTable thead").innerHTML="<tr>"+COLS.map(c=>'<th onclick="sortTable(\''+c[0]+'\')">'+c[1]+(sortKey===c[0]?(sortDir<0?" ▾":" ▴"):"")+'</th>').join("")+"</tr>";
-      const rows=FD().slice().sort((a,b)=>{const av=val(a,sortKey),bv=val(b,sortKey);
+      const rows=searchFilter(FD()).slice().sort((a,b)=>{const av=val(a,sortKey),bv=val(b,sortKey);
         if(STRCOL[sortKey])return sortDir*String(a[sortKey]).localeCompare(String(b[sortKey]));
         return sortDir*(av-bv);});
-      document.querySelector("#terpTable tbody").innerHTML=rows.map(p=>"<tr>"+COLS.map(c=>{const k=c[0];
+      const cnt=document.getElementById("searchCount");
+      if(cnt)cnt.textContent=searchQuery?(rows.length+(rows.length===1?" match":" matches")):"";
+      const tb=document.querySelector("#terpTable tbody");
+      if(!rows.length){tb.innerHTML='<tr><td colspan="'+COLS.length+'" style="padding:22px;text-align:center;color:#777;">No strains match &ldquo;'+esc(searchQuery)+'&rdquo; in this store. Try fewer letters, or switch to <em>All stores</em> above.</td></tr>';return;}
+      tb.innerHTML=rows.map(p=>"<tr>"+COLS.map(c=>{const k=c[0];
         if(k==="name")return '<td>'+esc(p.name)+(p.size?' <span class="sf-note">'+esc(p.size)+'</span>':"")+'</td>';
         if(k==="dispensary")return '<td><span style="color:'+dmeta(p.dispensary).color+';font-weight:600;">'+esc(dmeta(p.dispensary).label)+'</span></td>';
         if(k==="type")return '<td>'+esc(p.type)+'</td>';
@@ -414,6 +439,12 @@
         DATA=d.products;
         DATA.forEach(function(p){if(!p.dispensary)p.dispensary="terrasana";});
         DISPENSARIES=d.dispensaries||[];
+        var introEl=document.getElementById("introStores");
+        if(introEl&&DISPENSARIES.length){
+          var names=DISPENSARIES.map(function(x){return "<strong>"+esc(x.label)+"</strong> ("+esc(x.location)+")";});
+          var joined=names.length>1?names.slice(0,-1).join(", ")+" and "+names[names.length-1]:names[0];
+          introEl.innerHTML="Currently tracking "+joined+".";
+        }
         var stamp="Real lab data &mdash; <strong>"+esc(d.count)+"</strong> flowers";
         if(DISPENSARIES.length)stamp+=" across "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(" + ");
         if(d.updated)stamp+=", updated <strong>"+esc(d.updated)+"</strong>";
