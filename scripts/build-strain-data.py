@@ -29,6 +29,9 @@ SOURCES = [
     {"key": "dacut", "label": "Dacut", "location": "Monroe, MI", "state": "MI",
      "color": "#2471a3", "url": "https://dacut.com/",
      "file": "dacut_monroe_flower_terpenes.xlsx"},
+    {"key": "rise", "label": "RISE", "location": "Cleveland (Pearl Rd), OH", "state": "OH",
+     "color": "#e67e22", "url": "https://oh.risecannabis.com/dispensaries/ohio/cleveland-pearl-rd/6013/recreational-menu/",
+     "file": "rise_cleveland_pearl_flower_terpenes.xlsx"},
 ]
 
 # header label (lowercased) -> output field
