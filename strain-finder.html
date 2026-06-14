@@ -333,7 +333,17 @@
       document.getElementById("moodGrid").innerHTML=MOODS.map(m=>
         '<div class="mood-chip" id="mood-'+m.id+'" onclick="pickMood(\''+m.id+'\',true)"><span class="mi">'+m.mi+'</span><strong>'+m.label+'</strong><span>'+m.sub+'</span></div>').join("");
     }
-    function scoreMood(p,w){let s=0;for(const k in w)s+=w[k]*val(p,k);return s;}
+    // Dominance-weighted match: each terpene contributes by its AMOUNT and its SHARE
+    // of the strain's profile (weight x amount^2 / total terps). This ranks strains where
+    // the desired terpene(s) are both abundant AND dominant above merely terpene-rich
+    // strains that happen to have the wrong lead terpene. v^2 also damps trace terpenes.
+    function moodTotal(p){let t=0;TKEYS.forEach(k=>t+=val(p,k));return t;}
+    function scoreMood(p,w){
+      const T=moodTotal(p);
+      if(T<=0)return -1e9;                 // no scored-terpene data → unrankable for effect
+      let s=0;for(const k in w){const x=val(p,k);s+=w[k]*x*x/T;}
+      return s;
+    }
     function pickMood(id,fromUser){
       const m=MOODS.find(x=>x.id===id);
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
