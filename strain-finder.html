@@ -173,15 +173,14 @@
     <main id="main-content">
         <div class="sf-wrap">
             <h1 style="font-family:'Righteous',sans-serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.12;margin-bottom:6px;">Strain Finder: Match Cannabis by Terpene &amp; Mood</h1>
-            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. <strong>Search a strain by name</strong>, tell it the <strong>feeling you want</strong>, or name a <strong>strain you already love</strong>, and it finds your match from <strong>real dispensary lab data</strong>. Tap the <span style="color:#f2b104;">☆</span> to <strong>save strains you love</strong> &mdash; if one rotates off the menu, we&rsquo;ll find its closest terpene match in stock. <span id="introStores">Currently tracking Terrasana (Cleveland, OH) and Dacut (Monroe, MI).</span></p>
+            <p style="color:#555;margin-bottom:14px;">Pick a feeling, search by name, or match a strain you love &mdash; find it by <strong>terpene profile</strong> in real dispensary lab data, and <span style="color:#f2b104;">☆</span> save favorites so you never lose one to a menu rotation. <span id="introStores" class="sf-note">Currently tracking Terrasana (Cleveland, OH) and Dacut (Monroe, MI).</span></p>
 
-            <div class="sf-explain">
-                <strong>How this works:</strong> The indica/sativa word on the jar is a poor predictor of how flower actually feels &mdash; a 2022 analysis of 90,000+ samples found labels barely track the chemistry. What <em>does</em> steer the experience is the <strong>terpene profile</strong> plus your dose. This tool ranks real flower by terpene, two ways. <span class="sf-note">Educational only &mdash; not medical advice. Terpene&ndash;effect links are associations, some preliminary; effects vary by person, batch, and dose.</span>
-            </div>
+            <details style="margin:0 0 12px;">
+                <summary style="cursor:pointer;font-weight:600;color:#1a8754;font-size:0.95rem;">Why terpenes, not the indica/sativa label?</summary>
+                <div class="sf-explain" style="margin-top:10px;">The indica/sativa word on the jar is a poor predictor of how flower actually feels &mdash; a 2022 analysis of 90,000+ samples found labels barely track the chemistry. What <em>does</em> steer the experience is the <strong>terpene profile</strong> plus your dose. This tool ranks real flower by terpene three ways: pick a feeling, match a strain you love, or save favorites and we&rsquo;ll find a replacement if one leaves the menu. <span class="sf-note">Educational only &mdash; not medical advice. Terpene&ndash;effect links are associations, some preliminary; effects vary by person, batch, and dose.</span></div>
+            </details>
 
-            <div style="background:#eef4fb;border:1px solid #cfe0f0;border-radius:10px;padding:14px 18px;margin:16px 0 6px;font-size:0.93rem;">
-                <strong>📍 Pick your store.</strong> Shopping in <strong>Ohio</strong>? Start with <span style="color:#1a8754;font-weight:700;">Terrasana</span> (Cleveland). Near <strong>Monroe, Michigan</strong>? That&rsquo;s <span style="color:#2471a3;font-weight:700;">Dacut</span> &mdash; <strong>Thomas&rsquo;s shop</strong>, the budtender who kicked off this whole terpene rabbit hole (<a href="blog/the-nose-knows">The Nose Knows</a>). Choose a store below, or browse everything:
-            </div>
+            <p class="sf-note" style="margin:4px 0 6px;">📍 Filter by store, or browse all &mdash; <a href="blog/the-nose-knows">Dacut is Thomas&rsquo;s shop</a>, where this terpene rabbit hole started.</p>
             <div id="dispBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 4px;"></div>
 
             <div class="sf-tabs" role="tablist">
@@ -311,7 +310,8 @@
       {id:"laugh",mi:"😂",label:"Laugh & Social",sub:"giggly & happy",recipe:"Limonene-led, caryophyllene/linalool cushion, low pinene",w:{limonene:3,caryophyllene:1,linalool:0.5,pinene:-1,myrcene:-1},say:"Limonene drives the euphoric, social lift; a touch of caryophyllene/linalool keeps it from getting anxious. Runtz country."},
       {id:"focus",mi:"🎯",label:"Focus",sub:"clear-headed",recipe:"Pinene-forward, some limonene, low myrcene",w:{pinene:2.8,limonene:1,myrcene:-2,linalool:-0.5},say:"Pinene is the alertness terpene; we avoid myrcene so you don't get heavy."},
       {id:"energy",mi:"⚡",label:"Energy / Uplift",sub:"daytime go",recipe:"Limonene + pinene, low myrcene",w:{limonene:2,pinene:1.6,caryophyllene:0.3,myrcene:-2},say:"Bright citrus limonene plus alert pinene, minus the sedating myrcene."},
-      {id:"relief",mi:"🌡️",label:"Body Relief",sub:"ease & comfort",recipe:"Caryophyllene + myrcene + humulene",w:{caryophyllene:3,myrcene:1.5,humulene:1,linalool:1},say:"Caryophyllene (CB2) with myrcene and humulene is the profile most associated with physical ease. Not a medical claim."}
+      {id:"heavybody",mi:"🛋️",label:"Heavy Body",sub:"couch-lock & melt",recipe:"Myrcene-led, with caryophyllene &amp; humulene, low pinene",w:{myrcene:3,caryophyllene:1.5,humulene:1.5,linalool:1,pinene:-1},say:"Myrcene is the heavy-body sedation terpene &mdash; at high levels it&rsquo;s full couch-lock. Caryophyllene and humulene add the physical-ease layer. (This is the Apples-and-Bananas lane.)"},
+      {id:"tension",mi:"🌡️",label:"Tension &amp; Inflammation",sub:"ease without the anchor",recipe:"Caryophyllene-led (CB2), humulene &amp; linalool, low myrcene",w:{caryophyllene:3.5,humulene:1.5,linalool:1,myrcene:0.5,pinene:-1},say:"Caryophyllene acts on CB2 receptors &mdash; the anti-inflammatory, tension-release route &mdash; with humulene and a little linalool. Low myrcene keeps it from being purely sedating. (This is the Purple Chem lane.) Not a medical claim."}
     ];
 
     let DATA=FALLBACK.slice();
