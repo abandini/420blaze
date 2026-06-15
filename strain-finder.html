@@ -109,6 +109,17 @@
       .legend div{font-size:0.85rem;}
       .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle;}
       .sf-note{font-size:0.8rem;color:#777;}
+      .fav-star{background:none;border:none;cursor:pointer;font-size:1.05rem;color:#c9c9c9;padding:0 3px;line-height:1;vertical-align:middle;transition:color .12s,transform .12s;}
+      .fav-star:hover{color:#f2b104;transform:scale(1.2);}
+      .fav-star.on{color:#f2b104;}
+      .res-head{display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap;}
+      .res-head .fav-star{font-size:1.35rem;margin-top:1px;}
+      .fav-status{font-weight:700;border-radius:8px;padding:9px 13px;margin:4px 0 8px;font-size:0.95rem;}
+      .fav-status.in{background:#e8f5e9;color:#1a6b44;}
+      .fav-status.gone{background:#fff3e0;color:#b9770e;}
+      .fav-block{border-top:2px solid #eee;padding-top:18px;margin-top:18px;}
+      .fav-block:first-child{border-top:none;padding-top:0;margin-top:0;}
+      .fav-simhead{margin:16px 0 4px;font-size:1.02rem;color:#14663f;}
     </style>
 </head>
 <body>
@@ -162,7 +173,7 @@
     <main id="main-content">
         <div class="sf-wrap">
             <h1 style="font-family:'Righteous',sans-serif;font-size:clamp(1.9rem,4vw,2.7rem);line-height:1.12;margin-bottom:6px;">Strain Finder: Match Cannabis by Terpene &amp; Mood</h1>
-            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. <strong>Search a strain by name</strong>, tell it the <strong>feeling you want</strong>, or name a <strong>strain you already love</strong>, and it finds your match from <strong>real dispensary lab data</strong>. <span id="introStores">Currently tracking Terrasana (Cleveland, OH) and Dacut (Monroe, MI).</span></p>
+            <p style="color:#555;margin-bottom:18px;">Read the terpenes, not the indica/sativa label. <strong>Search a strain by name</strong>, tell it the <strong>feeling you want</strong>, or name a <strong>strain you already love</strong>, and it finds your match from <strong>real dispensary lab data</strong>. Tap the <span style="color:#f2b104;">☆</span> to <strong>save strains you love</strong> &mdash; if one rotates off the menu, we&rsquo;ll find its closest terpene match in stock. <span id="introStores">Currently tracking Terrasana (Cleveland, OH) and Dacut (Monroe, MI).</span></p>
 
             <div class="sf-explain">
                 <strong>How this works:</strong> The indica/sativa word on the jar is a poor predictor of how flower actually feels &mdash; a 2022 analysis of 90,000+ samples found labels barely track the chemistry. What <em>does</em> steer the experience is the <strong>terpene profile</strong> plus your dose. This tool ranks real flower by terpene, two ways. <span class="sf-note">Educational only &mdash; not medical advice. Terpene&ndash;effect links are associations, some preliminary; effects vary by person, batch, and dose.</span>
@@ -176,6 +187,7 @@
             <div class="sf-tabs" role="tablist">
                 <button class="sf-tab active" id="tab-mood" onclick="showTab('mood')">😌 Pick a feeling</button>
                 <button class="sf-tab" id="tab-strain" onclick="showTab('strain')">🌿 Match a strain I love</button>
+                <button class="sf-tab" id="tab-saved" onclick="showTab('saved')">⭐ My saved strains</button>
             </div>
 
             <section class="sf-panel active" id="panel-mood">
@@ -187,6 +199,11 @@
                 <label for="strainPick" style="font-weight:600;display:block;margin-bottom:8px;">Pick a strain you&rsquo;ve enjoyed &mdash; we&rsquo;ll find the closest terpene matches in stock:</label>
                 <select class="sf-select" id="strainPick" onchange="matchStrain(this.value)"></select>
                 <div id="strainResult"></div>
+            </section>
+
+            <section class="sf-panel" id="panel-saved">
+                <p style="color:#555;margin:0 0 8px;">Tap the <span style="color:#f2b104;">☆</span> on any strain to save it here. If a saved strain ever rotates off the menu, we&rsquo;ll find you the closest terpene matches in stock &mdash; so you never lose a favorite again. <span class="sf-note">Saved on this device only.</span></p>
+                <div id="favResult"></div>
             </section>
 
             <h2 id="browse" style="margin-top:42px;">Search &amp; browse every strain</h2>
@@ -273,7 +290,8 @@
     // embedded fallback data (overridden by live /data/strain-terpenes.json when available)
     const FALLBACK = [{"name":"White 4516","size":"14.15g","brand":"AYR Wellness | KYND","type":"Sativa","thc":24.61,"terps":3.23,"myrcene":0.1,"limonene":1.23,"caryophyllene":0.88,"linalool":0.29,"humulene":0.36,"apinene":0.11,"bpinene":0.18,"bisabolol":0.07,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Muul Fuel","size":"2.83g","brand":"Wondergrove | Belushi's Farm","type":"Indica","thc":20.9,"terps":2.88,"myrcene":1.16,"limonene":0.74,"caryophyllene":0.48,"linalool":0.0,"humulene":0.22,"apinene":0.06,"bpinene":0.11,"bisabolol":0.07,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.03},{"name":"Purple Chem","size":"2.83g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":25.8,"terps":2.84,"myrcene":0.66,"limonene":0.59,"caryophyllene":0.8,"linalool":0.21,"humulene":0.24,"apinene":0.05,"bpinene":0.09,"bisabolol":0.16,"caryophylleneoxide":0.02,"eucalyptol":0.0,"nerolidol":0.02},{"name":"Brownie Scout (Mixed Buds)","size":"14g","brand":"RYTHM","type":"Indica","thc":24.0,"terps":2.72,"myrcene":0.37,"limonene":1.41,"caryophyllene":0.36,"linalool":0.08,"humulene":0.14,"apinene":0.1,"bpinene":0.19,"bisabolol":0.07,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Modified Grapes","size":"3.5g","brand":"Verano | The Essence","type":"Hybrid","thc":26.5,"terps":2.72,"myrcene":0.72,"limonene":0.78,"caryophyllene":0.55,"linalool":0.05,"humulene":0.21,"apinene":0.15,"bpinene":0.15,"bisabolol":0.09,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.01},{"name":"Root Beer Cream Cake","size":"3.5g","brand":"Verano | The Essence","type":"Indica","thc":23.3,"terps":2.64,"myrcene":0.69,"limonene":0.47,"caryophyllene":0.78,"linalool":0.27,"humulene":0.23,"apinene":0.05,"bpinene":0.08,"bisabolol":0.06,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Pave","size":"2.83g","brand":"Neighborgoods","type":"Hybrid","thc":28.07,"terps":2.57,"myrcene":0.04,"limonene":1.28,"caryophyllene":0.27,"linalool":0.54,"humulene":0.06,"apinene":0.13,"bpinene":0.2,"bisabolol":0.05,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Carmella","size":"2.83g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":25.3,"terps":2.55,"myrcene":1.36,"limonene":0.23,"caryophyllene":0.37,"linalool":0.37,"humulene":0.11,"apinene":0.02,"bpinene":0.05,"bisabolol":0.03,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Gush Mints","size":"2.83g","brand":"Neighborgoods","type":"Indica","thc":29.86,"terps":2.54,"myrcene":0.02,"limonene":0.61,"caryophyllene":1.07,"linalool":0.25,"humulene":0.35,"apinene":0.06,"bpinene":0.09,"bisabolol":0.09,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Red Rock Rtz","size":"2.83g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":26.4,"terps":2.53,"myrcene":0.38,"limonene":0.8,"caryophyllene":0.5,"linalool":0.4,"humulene":0.15,"apinene":0.07,"bpinene":0.12,"bisabolol":0.04,"caryophylleneoxide":0.02,"eucalyptol":0.0,"nerolidol":0.05},{"name":"Hash Burger","size":"2.83g","brand":"Wondergrove | Belushi's Farm","type":"Indica","thc":24.9,"terps":2.39,"myrcene":1.5,"limonene":0.22,"caryophyllene":0.16,"linalool":0.01,"humulene":0.06,"apinene":0.27,"bpinene":0.14,"bisabolol":0.02,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.01},{"name":"Bananaconda (Mixed Buds)","size":"14g","brand":"RYTHM","type":"Hybrid","thc":25.78,"terps":2.31,"myrcene":0.09,"limonene":1.18,"caryophyllene":0.17,"linalool":0.37,"humulene":0.05,"apinene":0.22,"bpinene":0.22,"bisabolol":0.01,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Sour Papaya","size":"2.83g","brand":"Firelands Scientific","type":"Hybrid","thc":23.7,"terps":2.31,"myrcene":0.94,"limonene":0.39,"caryophyllene":0.26,"linalool":0.41,"humulene":0.08,"apinene":0.03,"bpinene":0.07,"bisabolol":0.07,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.05},{"name":"Cherry Maui Wowie (Mixed Buds)","size":"14g","brand":"RYTHM","type":"Sativa","thc":22.56,"terps":2.27,"myrcene":1.48,"limonene":0.33,"caryophyllene":0.17,"linalool":0.12,"humulene":0.05,"apinene":0.03,"bpinene":0.05,"bisabolol":0.03,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"LPC Reserve","size":"2.83g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":26.77,"terps":2.24,"myrcene":0.47,"limonene":0.82,"caryophyllene":0.33,"linalool":0.18,"humulene":0.11,"apinene":0.12,"bpinene":0.14,"bisabolol":0.06,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"FL Sunrise","size":"3.5g","brand":"CERTIFIED","type":"Sativa","thc":20.7,"terps":2.19,"myrcene":0.87,"limonene":0.3,"caryophyllene":0.38,"linalool":0.05,"humulene":0.11,"apinene":0.17,"bpinene":0.11,"bisabolol":0.17,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.02},{"name":"Mandarin Diesel (Smalls)","size":"5.66g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":21.8,"terps":2.11,"myrcene":0.26,"limonene":0.72,"caryophyllene":0.58,"linalool":0.1,"humulene":0.17,"apinene":0.11,"bpinene":0.11,"bisabolol":0.02,"caryophylleneoxide":0.01,"eucalyptol":0.01,"nerolidol":0.02},{"name":"Funk Mountain","size":"5.66g","brand":"Verano | The Essence","type":"Sativa","thc":23.87,"terps":2.1,"myrcene":0.31,"limonene":0.61,"caryophyllene":0.55,"linalool":0.15,"humulene":0.18,"apinene":0.05,"bpinene":0.1,"bisabolol":0.14,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Chilie Verde","size":"2.83g","brand":"Neighborgoods","type":"Indica","thc":25.1,"terps":2.09,"myrcene":1.17,"limonene":0.17,"caryophyllene":0.35,"linalool":0.14,"humulene":0.14,"apinene":0.0,"bpinene":0.03,"bisabolol":0.09,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Chilie Verde","size":"14.15g","brand":"Neighborgoods","type":"Indica","thc":20.89,"terps":2.08,"myrcene":1.16,"limonene":0.16,"caryophyllene":0.37,"linalool":0.13,"humulene":0.16,"apinene":0.0,"bpinene":0.0,"bisabolol":0.1,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Black Amber","size":"2.83g","brand":"The Goods","type":"Hybrid","thc":27.29,"terps":2.08,"myrcene":0.23,"limonene":0.73,"caryophyllene":0.4,"linalool":0.27,"humulene":0.2,"apinene":0.07,"bpinene":0.11,"bisabolol":0.07,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Egg Roll","size":"2.83g","brand":"Neighborgoods","type":"Indica","thc":20.22,"terps":2.05,"myrcene":0.05,"limonene":0.55,"caryophyllene":0.7,"linalool":0.36,"humulene":0.26,"apinene":0.04,"bpinene":0.07,"bisabolol":0.02,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Dayton's Delight Select","size":"3.5g","brand":"CERTIFIED","type":"Hybrid","thc":26.8,"terps":2.01,"myrcene":0.14,"limonene":0.56,"caryophyllene":0.64,"linalool":0.18,"humulene":0.19,"apinene":0.06,"bpinene":0.1,"bisabolol":0.1,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.03},{"name":"Blue Zushi","size":"2.83g","brand":"Neighborgoods","type":"Hybrid","thc":27.41,"terps":1.99,"myrcene":0.28,"limonene":0.57,"caryophyllene":0.4,"linalool":0.47,"humulene":0.12,"apinene":0.05,"bpinene":0.1,"bisabolol":0.0,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Egg Roll","size":"14.15g","brand":"Neighborgoods","type":"Indica","thc":20.39,"terps":1.9,"myrcene":0.05,"limonene":0.62,"caryophyllene":0.66,"linalool":0.26,"humulene":0.16,"apinene":0.05,"bpinene":0.07,"bisabolol":0.01,"caryophylleneoxide":0.02,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Black Maple","size":"2.83g","brand":"Firelands Scientific","type":"Indica","thc":25.6,"terps":1.88,"myrcene":0.36,"limonene":0.72,"caryophyllene":0.16,"linalool":0.25,"humulene":0.06,"apinene":0.13,"bpinene":0.13,"bisabolol":0.05,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.02},{"name":"Strawberry Guava","size":"2.83g","brand":"Verano | The Essence","type":"Indica","thc":22.21,"terps":1.88,"myrcene":1.0,"limonene":0.4,"caryophyllene":0.34,"linalool":0.0,"humulene":0.09,"apinene":0.04,"bpinene":0.0,"bisabolol":0.01,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Rtz Royale","size":"2.83g","brand":"AYR Wellness | KYND","type":"Hybrid","thc":26.7,"terps":1.87,"myrcene":0.41,"limonene":0.56,"caryophyllene":0.17,"linalool":0.46,"humulene":0.05,"apinene":0.06,"bpinene":0.1,"bisabolol":0.01,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.04},{"name":"Grape J #7","size":"2.83g","brand":"Neighborgoods","type":"Hybrid","thc":25.05,"terps":1.87,"myrcene":0.2,"limonene":0.46,"caryophyllene":0.57,"linalool":0.28,"humulene":0.18,"apinene":0.0,"bpinene":0.07,"bisabolol":0.09,"caryophylleneoxide":0.02,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Rainbow Z","size":"2.83g","brand":"Neighborgoods","type":"Hybrid","thc":25.98,"terps":1.85,"myrcene":0.27,"limonene":0.5,"caryophyllene":0.35,"linalool":0.45,"humulene":0.12,"apinene":0.05,"bpinene":0.09,"bisabolol":0.02,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Grapes and Cream","size":"2.83g","brand":"Neighborgoods","type":"Hybrid","thc":26.77,"terps":1.73,"myrcene":0.02,"limonene":0.81,"caryophyllene":0.43,"linalool":0.09,"humulene":0.14,"apinene":0.06,"bpinene":0.1,"bisabolol":0.05,"caryophylleneoxide":0.03,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Disco Diesel","size":"5.66g","brand":"Verano | The Essence","type":"Sativa","thc":22.31,"terps":1.73,"myrcene":0.37,"limonene":0.47,"caryophyllene":0.42,"linalool":0.2,"humulene":0.12,"apinene":0.04,"bpinene":0.06,"bisabolol":0.04,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Devil Driver","size":"2.83g","brand":"Neighborgoods","type":"Sativa","thc":20.1,"terps":1.66,"myrcene":1.04,"limonene":0.16,"caryophyllene":0.15,"linalool":0.18,"humulene":0.05,"apinene":0.01,"bpinene":0.02,"bisabolol":0.05,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Cap J","size":"2.83g","brand":"The Goods","type":"Hybrid","thc":28.53,"terps":1.66,"myrcene":0.05,"limonene":0.45,"caryophyllene":0.46,"linalool":0.3,"humulene":0.13,"apinene":0.04,"bpinene":0.1,"bisabolol":0.11,"caryophylleneoxide":0.02,"eucalyptol":0.0,"nerolidol":0.0},{"name":"LA Kush Cake","size":"3.5g","brand":"Good Green","type":"Indica","thc":22.83,"terps":1.57,"myrcene":0.24,"limonene":0.45,"caryophyllene":0.44,"linalool":0.18,"humulene":0.13,"apinene":0.04,"bpinene":0.08,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Cereal Milk","size":"14.15g","brand":"Good Green","type":"Hybrid","thc":20.14,"terps":1.54,"myrcene":0.08,"limonene":0.62,"caryophyllene":0.32,"linalool":0.1,"humulene":0.12,"apinene":0.14,"bpinene":0.12,"bisabolol":0.04,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Hypnotik","size":"2.83g","brand":"Jushi | Hijinks","type":"Hybrid","thc":26.95,"terps":1.53,"myrcene":0.54,"limonene":0.44,"caryophyllene":0.17,"linalool":0.21,"humulene":0.05,"apinene":0.04,"bpinene":0.07,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Green Diesel","size":"2.83g","brand":"Jushi | Flower Foundry","type":"Hybrid","thc":27.98,"terps":1.52,"myrcene":0.61,"limonene":0.42,"caryophyllene":0.11,"linalool":0.19,"humulene":0.04,"apinene":0.05,"bpinene":0.09,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Jacks Delight","size":"3.5g","brand":"RYTHM","type":"Sativa","thc":21.86,"terps":1.52,"myrcene":0.44,"limonene":0.14,"caryophyllene":0.43,"linalool":0.06,"humulene":0.18,"apinene":0.08,"bpinene":0.13,"bisabolol":0.05,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"G-13","size":"2.83g","brand":"Jushi | Hijinks","type":"Hybrid","thc":26.03,"terps":1.51,"myrcene":0.51,"limonene":0.42,"caryophyllene":0.23,"linalool":0.11,"humulene":0.11,"apinene":0.04,"bpinene":0.07,"bisabolol":0.01,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Strawnana Smalls","size":"14.15g","brand":"Standard Farms","type":"Indica","thc":21.0,"terps":1.43,"myrcene":0.38,"limonene":0.17,"caryophyllene":0.52,"linalool":0.1,"humulene":0.19,"apinene":0.02,"bpinene":0.03,"bisabolol":0.01,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Wedding Cake","size":"2.83g","brand":"Wondergrove","type":"Hybrid","thc":26.4,"terps":1.37,"myrcene":0.39,"limonene":0.27,"caryophyllene":0.28,"linalool":0.12,"humulene":0.08,"apinene":0.06,"bpinene":0.13,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.01,"nerolidol":0.02},{"name":"Cheddar Cheeze","size":"2.83g","brand":"Jushi | Flower Foundry","type":"Indica","thc":25.77,"terps":1.32,"myrcene":0.58,"limonene":0.32,"caryophyllene":0.11,"linalool":0.16,"humulene":0.04,"apinene":0.03,"bpinene":0.06,"bisabolol":0.01,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Red Bird","size":"5.66g","brand":"Verano | The Essence","type":"Indica","thc":22.06,"terps":1.25,"myrcene":0.1,"limonene":0.41,"caryophyllene":0.28,"linalool":0.17,"humulene":0.09,"apinene":0.04,"bpinene":0.07,"bisabolol":0.08,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"Wedding Cake","size":"14.15g","brand":"Wondergrove","type":"Hybrid","thc":23.1,"terps":1.25,"myrcene":0.3,"limonene":0.21,"caryophyllene":0.22,"linalool":0.09,"humulene":0.06,"apinene":0.12,"bpinene":0.22,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.01,"nerolidol":0.01},{"name":"Cheddar Cheeze","size":"3.5g","brand":"RYTHM","type":"Indica","thc":27.43,"terps":1.18,"myrcene":0.3,"limonene":0.46,"caryophyllene":0.05,"linalool":0.21,"humulene":0.02,"apinene":0.05,"bpinene":0.08,"bisabolol":0.0,"caryophylleneoxide":0.01,"eucalyptol":0.0,"nerolidol":0.0},{"name":"B Lotus","size":"14.15g","brand":"Neighborgoods","type":"Sativa","thc":20.32,"terps":1.09,"myrcene":0.01,"limonene":0.53,"caryophyllene":0.11,"linalool":0.14,"humulene":0.02,"apinene":0.12,"bpinene":0.14,"bisabolol":0.02,"caryophylleneoxide":0.0,"eucalyptol":0.0,"nerolidol":0.0}];
     const REFERENCE = [
-      {name:"Trop Cherry ★ (your fave, often out of stock)",size:"—",brand:"CannaMed",type:"Sativa",thc:17.7,terps:0.71,myrcene:0,limonene:0.245,caryophyllene:0.256,linalool:0.207,humulene:0,apinene:0,bpinene:0,bisabolol:0,ref:true}
+      {name:"Trop Cherry ★ (your fave, often out of stock)",size:"—",brand:"CannaMed",type:"Sativa",thc:17.7,terps:0.71,myrcene:0,limonene:0.245,caryophyllene:0.256,linalool:0.207,humulene:0,apinene:0,bpinene:0,bisabolol:0,ref:true},
+      {name:"Purple Chem ★ (rotated off Terrasana's menu)",size:"—",brand:"AYR Wellness | KYND",type:"Hybrid",thc:25.8,terps:2.84,myrcene:0.66,limonene:0.59,caryophyllene:0.8,linalool:0.21,humulene:0.24,apinene:0.05,bpinene:0.09,bisabolol:0.16,ref:true}
     ];
     const TKEYS=["myrcene","limonene","caryophyllene","linalool","humulene","pinene","bisabolol"];
     const COLORS={myrcene:"#7c5cd6",limonene:"#f2b104",caryophyllene:"#d9534f",linalool:"#9b59b6",humulene:"#95a5a6",pinene:"#27ae60",bisabolol:"#16a085"};
@@ -307,10 +325,11 @@
     function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
     function showTab(t){
-      document.getElementById("panel-mood").classList.toggle("active",t==="mood");
-      document.getElementById("panel-strain").classList.toggle("active",t==="strain");
-      document.getElementById("tab-mood").classList.toggle("active",t==="mood");
-      document.getElementById("tab-strain").classList.toggle("active",t==="strain");
+      ["mood","strain","saved"].forEach(function(x){
+        document.getElementById("panel-"+x).classList.toggle("active",t===x);
+        document.getElementById("tab-"+x).classList.toggle("active",t===x);
+      });
+      if(t==="saved")renderFavorites();
       try{posthog&&posthog.capture("strainfinder_tab",{tab:t});}catch(e){}
     }
 
@@ -326,7 +345,51 @@
       const badge='<span style="display:inline-block;font-size:0.68rem;font-weight:700;color:#fff;background:'+dm.color+';border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:middle;">'+esc(dm.label)+' &middot; '+esc(dm.loc)+'</span>';
       const sz=p.size?(" &middot; "+esc(p.size)):"";
       const meta=esc(p.type)+" &middot; "+esc(p.brand)+sz+" &middot; THC "+val(p,"thc").toFixed(2)+"% &middot; terps "+val(p,"terps").toFixed(2)+"%";
-      return '<div class="res-card"><div class="res-head"><h3>'+esc(p.name)+badge+'</h3><span class="res-meta">'+meta+'</span></div>'+barsHTML(p)+(why?'<div class="why">'+why+'</div>':"")+'</div>';
+      return '<div class="res-card"><div class="res-head">'+favStar(p)+'<h3>'+esc(p.name)+badge+'</h3><span class="res-meta">'+meta+'</span></div>'+barsHTML(p)+(why?'<div class="why">'+why+'</div>':"")+'</div>';
+    }
+    // ---- save / favorite strains (localStorage) ----
+    function loadFavs(){try{return JSON.parse(localStorage.getItem("sf_favs")||"[]");}catch(e){return [];}}
+    function saveFavs(a){try{localStorage.setItem("sf_favs",JSON.stringify(a));}catch(e){}}
+    var FAVS=loadFavs();
+    function isFav(p){return FAVS.some(function(f){return f.name===p.name&&f.dispensary===p.dispensary;});}
+    function favStar(p){var on=isFav(p);return '<button class="fav-star'+(on?" on":"")+'" data-fav="'+esc(p.name)+'" data-disp="'+esc(p.dispensary||"")+'" title="'+(on?"Saved (click to remove)":"Save this strain")+'" aria-label="Save strain">'+(on?"★":"☆")+'</button>';}
+    function snapshot(p){var o={name:p.name,dispensary:p.dispensary,type:p.type,brand:p.brand,size:p.size,thc:p.thc,terps:p.terps};["myrcene","limonene","caryophyllene","linalool","humulene","apinene","bpinene","bisabolol"].forEach(function(k){o[k]=p[k]||0;});o.savedAt=new Date().toISOString().slice(0,10);return o;}
+    function chemotype(p){return TLABEL[leadTerp(p)]+"-dominant";}
+    function similarStrains(target,n){
+      return DATA.filter(function(p){return !(p.name===target.name&&p.dispensary===target.dispensary);})
+        .map(function(p){var sim=cosine(target,p);var typeB=(p.type&&target.type&&p.type===target.type)?0.04:0;var thcProx=1-Math.min(1,Math.abs(val(p,"thc")-(val(target,"thc")||0))/15);return {p:p,sim:sim,score:sim+typeB+0.03*thcProx};})
+        .sort(function(a,b){return b.score-a.score;}).slice(0,n);
+    }
+    function toggleFav(name,disp){
+      var i=FAVS.findIndex(function(f){return f.name===name&&f.dispensary===disp;});var added=false;
+      if(i>=0){FAVS.splice(i,1);}else{var src=DATA.find(function(p){return p.name===name&&p.dispensary===disp;});if(!src)return;FAVS.push(snapshot(src));added=true;}
+      saveFavs(FAVS);
+      document.querySelectorAll('.fav-star[data-fav]').forEach(function(b){if(b.getAttribute("data-fav")===name&&b.getAttribute("data-disp")===(disp||"")){b.classList.toggle("on",added);b.innerHTML=added?"★":"☆";}});
+      renderFavorites();updateFavCount();
+      try{posthog&&posthog.capture("strainfinder_save",{strain:name,saved:added});}catch(e){}
+    }
+    function updateFavCount(){var t=document.getElementById("tab-saved");if(t)t.innerHTML="⭐ My saved strains"+(FAVS.length?" ("+FAVS.length+")":"");}
+    function renderFavorites(){
+      var box=document.getElementById("favResult");if(!box)return;updateFavCount();
+      if(!FAVS.length){box.innerHTML='<div class="sf-explain">No saved strains yet. Browse below or use the finders above, then tap the <span style="color:#f2b104;">☆</span> on any strain. We&rsquo;ll keep its terpene fingerprint &mdash; so if it leaves the menu, you can still find its closest match in stock.</div>';return;}
+      var h="";
+      FAVS.forEach(function(f){
+        var live=DATA.find(function(p){return p.name===f.name&&p.dispensary===f.dispensary;});
+        h+='<div class="fav-block">';
+        if(live){
+          h+='<div class="fav-status in">✅ In stock now at '+esc(dmeta(live.dispensary).label)+' &middot; '+esc(chemotype(live))+'</div>'+cardHTML(live,"");
+        }else{
+          h+='<div class="fav-status gone">⚠️ '+esc(f.name)+' is no longer on the '+esc(dmeta(f.dispensary).label)+' menu</div>';
+          h+=cardHTML(f,"Your saved profile &mdash; "+esc(chemotype(f))+".");
+          var sims=similarStrains(f,4);
+          if(sims.length){
+            h+='<h4 class="fav-simhead">Closest terpene matches in stock now</h4>';
+            h+=sims.map(function(o){return cardHTML(o.p,Math.round(o.sim*100)+"% terpene match &middot; "+esc(chemotype(o.p))+(o.p.type===f.type?" &middot; same type":"")+".");}).join("");
+          }
+        }
+        h+='</div>';
+      });
+      box.innerHTML=h;
     }
 
     function renderMoodGrid(){
@@ -411,7 +474,7 @@
       const tb=document.querySelector("#terpTable tbody");
       if(!rows.length){tb.innerHTML='<tr><td colspan="'+COLS.length+'" style="padding:22px;text-align:center;color:#777;">No strains match &ldquo;'+esc(searchQuery)+'&rdquo; in this store. Try fewer letters, or switch to <em>All stores</em> above.</td></tr>';return;}
       tb.innerHTML=rows.map(p=>"<tr>"+COLS.map(c=>{const k=c[0];
-        if(k==="name")return '<td>'+esc(p.name)+(p.size?' <span class="sf-note">'+esc(p.size)+'</span>':"")+'</td>';
+        if(k==="name")return '<td>'+favStar(p)+' '+esc(p.name)+(p.size?' <span class="sf-note">'+esc(p.size)+'</span>':"")+'</td>';
         if(k==="dispensary")return '<td><span style="color:'+dmeta(p.dispensary).color+';font-weight:600;">'+esc(dmeta(p.dispensary).label)+'</span></td>';
         if(k==="type")return '<td>'+esc(p.type)+'</td>';
         if(k==="thc"||k==="terps")return '<td>'+val(p,k).toFixed(2)+'</td>';
@@ -441,7 +504,9 @@
       try{posthog&&posthog.capture("strainfinder_disp",{disp:key});}catch(e){}
     }
 
-    function renderAll(){renderDispBar();renderMoodGrid();renderStrainPicker();renderTable();renderLegend();pickMood("laugh");}
+    function renderAll(){renderDispBar();renderMoodGrid();renderStrainPicker();renderTable();renderLegend();updateFavCount();pickMood("laugh");}
+    // one delegated handler for all ☆ buttons (avoids inline-onclick escaping issues with names like "Chem 'n Cookies")
+    document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".fav-star");if(!b)return;e.preventDefault();e.stopPropagation();toggleFav(b.getAttribute("data-fav"),b.getAttribute("data-disp"));});
     renderAll();
 
     fetch("data/strain-terpenes.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(d=>{
