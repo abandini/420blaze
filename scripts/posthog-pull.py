@@ -1,227 +1,94 @@
 #!/usr/bin/env python3
-"""
-PostHog Pull — discovery + funnel measurement against the cannabis network's
-existing PostHog tracking (project key already embedded in every page).
+"""PostHog analytics for 420blazin — direct HogQL API, no MCP dependency.
 
-Two modes:
-    --discover  : Lists all event names + counts for last 7 days. Run this
-                  ONCE first to see what events actually fire on the sites.
-    (default)   : Pulls the predefined funnel: pageview → continue_reading_click
-                  → outbound_click. Once we know what events actually exist
-                  from --discover, this report becomes meaningful.
+Why this exists: the PostHog MCP server (remote SSE) flaps in and out. This pulls
+the same data straight from PostHog's Query API with the personal key in .dev.vars,
+so analytics never depends on the MCP being connected.
 
-CREDENTIALS REQUIRED (Bill must add to .dev.vars):
-    POSTHOG_PERSONAL_API_KEY=<personal API key from PostHog Settings>
-
-To get this key:
-    1. Log into PostHog (us.posthog.com)
-    2. Settings (gear icon) → Personal API Keys
-    3. Create token with "Query Read" scope
-    4. Paste into 420blaze/.dev.vars
-
-Until that key is added, this script writes a "credentials needed" report.
+CRITICAL: the PostHog project (270453) is SHARED with dyngus.day, worldcupfutbol.com,
+theleveling.org, and others. EVERY query here filters `properties.$host LIKE '%420blazin%'`
+so we only ever see 420blazin.com production traffic. Never remove that filter.
 
 Usage:
-    python3 posthog-pull.py --discover    # Run once first
-    python3 posthog-pull.py               # Then weekly
+    python3 scripts/posthog-pull.py            # month-to-date (default)
+    python3 scripts/posthog-pull.py --days 7   # rolling N-day window
+    python3 scripts/posthog-pull.py --discover # list every event firing (host-filtered)
 """
-
-import argparse
-import datetime as dt
-import json
-import sys
-import urllib.request
+import argparse, datetime as dt, json, sys, urllib.request, urllib.error
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-DEV_VARS = REPO_ROOT / ".dev.vars"
-POSTHOG_HOST = "https://us.posthog.com"
-POSTHOG_PROJECT_KEY = "phc_yMcK3cIJ6O3gtN18IpBVi5UQKIE1CQyPmdav8t9dgPS"  # public, in HTML
+REPO = Path(__file__).resolve().parents[1]
+HOST_FILTER = "properties.$host LIKE '%420blazin%'"   # production only; isolates from shared project
 
 
-def read_dev_vars() -> dict:
-    if not DEV_VARS.exists():
-        return {}
-    out = {}
-    for line in DEV_VARS.read_text().splitlines():
-        if "=" not in line or line.strip().startswith("#"):
-            continue
-        k, v = line.split("=", 1)
-        out[k.strip()] = v.strip().strip('"').strip("'")
-    return out
+def api_key() -> str:
+    for line in (REPO / ".dev.vars").read_text().splitlines():
+        if line.startswith("POSTHOG_PERSONAL_API_KEY="):
+            return line.split("=", 1)[1].strip().strip('"').strip("'")
+    sys.exit("POSTHOG_PERSONAL_API_KEY not in .dev.vars")
 
 
-def hogql_query(api_key: str, query: str) -> dict:
-    """Execute HogQL query via PostHog API."""
-    body = json.dumps({"query": {"kind": "HogQLQuery", "query": query}}).encode()
+def hq(key: str, sql: str):
+    body = json.dumps({"query": {"kind": "HogQLQuery", "query": sql}}).encode()
     req = urllib.request.Request(
-        f"{POSTHOG_HOST}/api/projects/@current/query/",
-        data=body,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-    )
-    r = urllib.request.urlopen(req, timeout=30)
-    return json.loads(r.read())
+        "https://us.posthog.com/api/projects/@current/query/", data=body,
+        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json",
+                 "User-Agent": "420blazin-analytics/1.0"})
+    try:
+        return json.loads(urllib.request.urlopen(req, timeout=30).read()).get("results", [])
+    except urllib.error.HTTPError as e:
+        sys.exit(f"PostHog API {e.code}: {e.read().decode()[:300]}")
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--discover", action="store_true", help="List event names and counts")
-    args = parser.parse_args()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--days", type=int, help="rolling N-day window instead of month-to-date")
+    ap.add_argument("--discover", action="store_true", help="list all events (host-filtered)")
+    args = ap.parse_args()
+    key = api_key()
 
-    today = dt.date.today().isoformat()
-    out_dir = REPO_ROOT / "docs" / "measurements"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out = out_dir / f"posthog-{today}.md"
-
-    creds = read_dev_vars()
-    api_key = creds.get("POSTHOG_PERSONAL_API_KEY")
-
-    if not api_key:
-        out.write_text(
-            f"# PostHog Snapshot — {today}\n\n"
-            "**Status:** Personal API key not configured.\n\n"
-            "**To enable funnel measurement against existing PostHog tracking:**\n"
-            "1. Log into PostHog (us.posthog.com)\n"
-            "2. Settings → Personal API Keys → Create token\n"
-            "3. Scope: 'Query Read'\n"
-            "4. Add to /Users/billburkey/CascadeProjects/420blaze/.dev.vars:\n"
-            "   ```\n"
-            "   POSTHOG_PERSONAL_API_KEY=<the key>\n"
-            "   ```\n"
-            "5. Run `python3 scripts/posthog-pull.py --discover` first to see "
-            "which events actually fire on the network. Then run weekly "
-            "without --discover for the funnel report.\n\n"
-            f"**Note:** PostHog project key (`{POSTHOG_PROJECT_KEY[:20]}...`) is already "
-            "embedded in every page on all 3 sites — events ARE being captured. "
-            "The personal API key is only needed to *query* the captured data.\n"
-        )
-        print(f"Stub written (credentials missing): {out}")
-        sys.exit(0)
+    if args.days:
+        since = (dt.date.today() - dt.timedelta(days=args.days)).isoformat()
+        label = f"last {args.days} days"
+    else:
+        since = dt.date.today().replace(day=1).isoformat()
+        label = f"month-to-date (since {since})"
+    W = f"{HOST_FILTER} AND timestamp >= toDateTime('{since} 00:00:00')"
 
     if args.discover:
-        # List all event names from the last 7 days
-        q = """
-            SELECT event, count() AS n
-            FROM events
-            WHERE timestamp >= now() - INTERVAL 7 DAY
-            GROUP BY event
-            ORDER BY n DESC
-            LIMIT 100
-        """
-        try:
-            data = hogql_query(api_key, q)
-            results = data.get("results", [])
-        except urllib.error.HTTPError as e:
-            print(f"API error: {e.code}: {e.read().decode()[:200]}", file=sys.stderr)
-            sys.exit(1)
-
-        lines = [
-            f"# PostHog Discovery — {today}",
-            "",
-            f"All event names captured in the last 7 days, sorted by frequency.",
-            "",
-            "| Event | Count |",
-            "|---|---:|",
-        ]
-        for row in results:
-            event, count = row[0], row[1]
-            lines.append(f"| `{event}` | {count} |")
-        out.write_text("\n".join(lines) + "\n")
-        print(f"Discovery: {out}")
-        print(f"Events found: {len(results)}")
+        rows = hq(key, f"SELECT event, count() n, uniq(distinct_id) ppl FROM events WHERE {W} GROUP BY event ORDER BY n DESC LIMIT 100")
+        print(f"\n420blazin events — {label}:")
+        for ev, n, ppl in rows:
+            print(f"  {n:>5} ({ppl} ppl)  {ev}")
         return
 
-    # Standard funnel report — uses CUSTOM event names from js/tracking.js
-    funnel_query = """
-        SELECT
-            countIf(event = '$pageview') AS pageviews,
-            countIf(event = 'continue_reading_click') AS continue_reading_clicks,
-            countIf(event = 'potv_outbound_click') AS potv_outbound_clicks,
-            countIf(event = 'amazon_buy_click') AS amazon_book_clicks,
-            countIf(event = 'cross_site_click_seniorsguide') AS cross_site_seniorsguide,
-            countIf(event = 'cross_site_click_365weed') AS cross_site_365weed,
-            countIf(event = 'merch_shop_click') AS merch_clicks,
-            countIf(event = 'festival_nav_cta_click') AS festival_cta_clicks
-        FROM events
-        WHERE timestamp >= now() - INTERVAL 7 DAY
-    """
-    try:
-        data = hogql_query(api_key, funnel_query)
-        results = data.get("results", [[0, 0, 0, 0, 0, 0, 0, 0]])[0]
-    except urllib.error.HTTPError as e:
-        print(f"API error: {e.code}: {e.read().decode()[:200]}", file=sys.stderr)
-        sys.exit(1)
+    pv = hq(key, f"SELECT count() pv, uniq(distinct_id) uv FROM events WHERE event='$pageview' AND {W}")[0]
+    pages = hq(key, f"SELECT properties.$pathname p, count() pv, uniq(distinct_id) uv FROM events WHERE event='$pageview' AND {W} GROUP BY p ORDER BY pv DESC LIMIT 12")
+    evs = hq(key, f"SELECT event, count() n, uniq(distinct_id) ppl FROM events WHERE {W} AND event NOT IN ('$pageview','$pageleave','$web_vitals','$autocapture') GROUP BY event ORDER BY n DESC LIMIT 20")
 
-    pv, cr, potv, amzn, x_sr, x_365, merch, fest = results
-    def rate(n): return f"{(n/pv*100):.2f}%" if pv else "0.00%"
+    print(f"\n=== 420blazin.com — {label} ===")
+    print(f"  Pageviews: {pv[0]}   Unique visitors: {pv[1]}")
+    print(f"\n  Top pages:")
+    for p, v, u in pages:
+        print(f"    {v:>4} pv / {u:>3} uv   {p}")
+    print(f"\n  Events (engagement / conversions):")
+    if evs:
+        for ev, n, ppl in evs:
+            print(f"    {n:>4} ({ppl} ppl)  {ev}")
+    else:
+        print("    (none)")
 
-    # Top POTV slugs (by property)
-    slug_query = """
-        SELECT properties.slug AS slug, count() AS clicks
-        FROM events
-        WHERE event = 'potv_outbound_click'
-            AND timestamp >= now() - INTERVAL 7 DAY
-            AND properties.slug IS NOT NULL
-        GROUP BY slug
-        ORDER BY clicks DESC
-        LIMIT 10
-    """
-    slug_rows = []
-    try:
-        slug_data = hogql_query(api_key, slug_query)
-        slug_rows = slug_data.get("results", [])
-    except Exception:
-        pass
-
-    # Top source pages for POTV clicks
-    page_query = """
-        SELECT properties.page AS page, count() AS clicks
-        FROM events
-        WHERE event = 'potv_outbound_click'
-            AND timestamp >= now() - INTERVAL 7 DAY
-            AND properties.page IS NOT NULL
-        GROUP BY page
-        ORDER BY clicks DESC
-        LIMIT 10
-    """
-    page_rows = []
-    try:
-        page_data = hogql_query(api_key, page_query)
-        page_rows = page_data.get("results", [])
-    except Exception:
-        pass
-
-    lines = [
-        f"# PostHog Funnel — {today}",
-        "",
-        f"**Window:** Last 7 days",
-        "",
-        f"## Funnel",
-        "",
-        f"| Stage | Count | Rate |",
-        f"|---|---:|---:|",
-        f"| Pageviews | {pv} | 100% |",
-        f"| Continue Reading clicks | {cr} | {rate(cr)} |",
-        f"| POTV /go/ clicks | {potv} | {rate(potv)} |",
-        f"| Amazon book clicks | {amzn} | {rate(amzn)} |",
-        f"| Cross-site → Senior's Guide | {x_sr} | {rate(x_sr)} |",
-        f"| Cross-site → 365 Days of Weed | {x_365} | {rate(x_365)} |",
-        f"| Merch shop clicks | {merch} | {rate(merch)} |",
-        f"| Festival CTA clicks | {fest} | {rate(fest)} |",
-    ]
-    if slug_rows:
-        lines += ["", "## Top POTV slugs (last 7d)", "", "| Slug | Clicks |", "|---|---:|"]
-        for r in slug_rows:
-            lines.append(f"| `{r[0]}` | {r[1]} |")
-    if page_rows:
-        lines += ["", "## Top source pages for POTV clicks", "", "| Page | Clicks |", "|---|---:|"]
-        for r in page_rows:
-            lines.append(f"| `{r[0]}` | {r[1]} |")
-    out.write_text("\n".join(lines) + "\n")
-    print(f"Funnel: {out}")
+    out = REPO / "docs" / "measurements" / f"posthog-{dt.date.today().isoformat()}.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    L = [f"# PostHog Snapshot — {dt.date.today().isoformat()}", "",
+         f"**420blazin.com only** ({label}). Project is shared; filtered to `$host LIKE '%420blazin%'`.", "",
+         f"- **Pageviews:** {pv[0]}", f"- **Unique visitors:** {pv[1]}", "",
+         "## Top pages", "", "| Page | PV | UV |", "|---|---:|---:|"]
+    L += [f"| {p} | {v} | {u} |" for p, v, u in pages]
+    L += ["", "## Events", "", "| Event | Count | People |", "|---|---:|---:|"]
+    L += [f"| {ev} | {n} | {ppl} |" for ev, n, ppl in evs]
+    out.write_text("\n".join(L) + "\n")
+    print(f"\n  snapshot -> {out}")
 
 
 if __name__ == "__main__":
