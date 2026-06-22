@@ -359,7 +359,8 @@
       const dm=dmeta(p.dispensary);
       const badge='<span style="display:inline-block;font-size:0.68rem;font-weight:700;color:#fff;background:'+dm.color+';border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:middle;">'+esc(dm.label)+' &middot; '+esc(dm.loc)+'</span>';
       const sz=p.size?(" &middot; "+esc(p.size)):"";
-      const meta=esc(p.type)+" &middot; "+esc(p.brand)+sz+" &middot; THC "+val(p,"thc").toFixed(2)+"% &middot; terps "+val(p,"terps").toFixed(2)+"%";
+      const thcv=val(p,"thc"),thcStr=thcv>0?thcv.toFixed(2)+"%":"n/a";
+      const meta=esc(p.type)+" &middot; "+esc(p.brand)+sz+" &middot; THC "+thcStr+" &middot; terps "+val(p,"terps").toFixed(2)+"%";
       return '<div class="res-card"><div class="res-head">'+favStar(p)+'<h3>'+esc(p.name)+badge+'</h3><span class="res-meta">'+meta+'</span></div>'+barsHTML(p)+(why?'<div class="why">'+why+'</div>':"")+'</div>';
     }
     // ---- save / favorite strains (localStorage) ----
@@ -425,7 +426,7 @@
     // THC = the "volume knob": terpenes pick the kind of effect, THC the intensity.
     var MOODSORT="match", CURMOOD=null;
     function setMoodSort(s){MOODSORT=s;if(CURMOOD)pickMood(CURMOOD,false);}
-    function thcTag(t){return t>=25?"<span style='color:#c0392b;'>🔊 strong</span>":t>=20?"<span style='color:#e67e22;'>🔉 medium</span>":"<span style='color:#1a8754;'>🔈 gentle</span>";}
+    function thcTag(t){return t<=0?"<span style='color:#999;'>THC n/a</span>":t>=25?"<span style='color:#c0392b;'>🔊 strong</span>":t>=20?"<span style='color:#e67e22;'>🔉 medium</span>":"<span style='color:#1a8754;'>🔈 gentle</span>";}
     function moodSortBar(){
       const o=(k,lbl,sub)=>'<button type="button" class="sortknob'+(MOODSORT===k?" on":"")+'" onclick="setMoodSort(\''+k+'\')">'+lbl+'<span>'+sub+'</span></button>';
       return '<div class="sortbar"><span class="sortbar-lbl">🔊 Intensity</span>'+
@@ -438,8 +439,10 @@
       // terpene-appropriate pool first (the "kind of effect"), then dial intensity within it
       const pool=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,12);
       let shown=pool.slice();
-      if(MOODSORT==="thc-hi") shown.sort((a,b)=>val(b,"thc")-val(a,"thc"));
-      else if(MOODSORT==="thc-lo") shown.sort((a,b)=>val(a,"thc")-val(b,"thc"));
+      // missing THC (a few stores leave it blank) sorts to the bottom either way — never fakes "gentlest"
+      const tv=p=>{const t=val(p,"thc");return t>0?t:null;};
+      if(MOODSORT==="thc-hi") shown.sort((a,b)=>(tv(b)??-1)-(tv(a)??-1));
+      else if(MOODSORT==="thc-lo") shown.sort((a,b)=>(tv(a)??9e9)-(tv(b)??9e9));
       shown=shown.slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
       h+=moodSortBar();

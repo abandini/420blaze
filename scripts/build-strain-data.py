@@ -50,6 +50,27 @@ SOURCES = [
     {"key": "pure", "label": "PURE", "location": "Monroe, MI", "state": "MI",
      "color": "#27ae60", "url": "https://dutchie.com/stores/pure-dixie-monroe-rec/products/flower",
      "file": "pure_monroe_flower_terpenes.xlsx"},
+    {"key": "klutch", "label": "Klutch", "location": "Cleveland, OH", "state": "OH",
+     "color": "#9b59b6", "url": "https://dutchie.com/stores/klutch-cannabis-cleveland/products/flower",
+     "file": "klutch_cleveland_flower_terpenes.xlsx"},
+    {"key": "botanist_solon", "label": "The Botanist", "location": "Solon, OH", "state": "OH",
+     "color": "#2ecc71", "url": "https://shopbotanist.com/stores/solon-menu/products/flower",
+     "file": "botanist_solon_flower_terpenes.xlsx"},
+    {"key": "landing", "label": "The Landing", "location": "Cleveland, OH", "state": "OH",
+     "color": "#e74c3c", "url": "https://cleveland-menu.thelandingdispensaries.com/stores/cleveland-ohio/products/flower",
+     "file": "landing_cleveland_flower_terpenes.xlsx"},
+    {"key": "amplify", "label": "Amplify", "location": "Cleveland Heights, OH", "state": "OH",
+     "color": "#f39c12", "url": "https://amplifydispensary.com/stores/amplify-coventry/products/flower",
+     "file": "amplify_cleveland_hts_flower_terpenes.xlsx"},
+    {"key": "forest_lakewood", "label": "The Forest", "location": "Lakewood, OH", "state": "OH",
+     "color": "#1abc9c", "url": "https://theforestdispensary.com/stores/the-forest-lakewood/products/flower",
+     "file": "forest_lakewood_flower_terpenes.xlsx"},
+    {"key": "roam", "label": "ROAM", "location": "Seven Hills, OH", "state": "OH",
+     "color": "#e67e22", "url": "https://roamdispensary.com/adult-use/",
+     "file": "roam_seven_hills_flower_terpenes.xlsx"},
+    {"key": "ayr_woodmere", "label": "AYR", "location": "Woodmere, OH", "state": "OH",
+     "color": "#16a085", "url": "https://ayrdispensaries.com/ohio/woodmere/shop/",
+     "file": "ayr_woodmere_flower_terpenes.xlsx"},
 ]
 
 # Sources sharing a merge_key collapse into one dispensary, deduping strains that
@@ -141,6 +162,12 @@ def main():
                 v = r[i] if i < len(r) else None
                 rec[field] = num(v) if field in NUM_FIELDS else (v if v is not None else "")
             rec.setdefault("size", "")
+            # backfill a missing "Total Terps %" from the individual terpene columns
+            # (some labs, e.g. Firelands at The Landing, leave the total blank but list the parts)
+            if not rec.get("terps"):
+                rec["terps"] = round(sum(rec.get(k, 0) or 0 for k in
+                    ("myrcene", "limonene", "caryophyllene", "linalool", "humulene",
+                     "apinene", "bpinene", "bisabolol", "caryophylleneoxide", "eucalyptol", "nerolidol")), 3)
             if mg is not None:  # dedup across the merged menus by name+size
                 dk = (str(rec.get("name", "")).strip().lower(), str(rec.get("size", "")).strip().lower())
                 if dk in mg["seen"]:
