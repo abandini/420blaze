@@ -414,7 +414,19 @@
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
       const ranked=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
-      h+=ranked.map((p,i)=>{const lt=leadTerp(p);return cardHTML(p,"#"+(i+1)+" match &mdash; "+TLABEL[lt]+"-forward ("+val(p,lt).toFixed(2)+"%).");}).join("");
+      // the mood's primary wanted terpene (biggest +weight) and primary avoided one (biggest -weight)
+      const wk=Object.keys(m.w);
+      const tgt=wk.filter(k=>m.w[k]>0&&TLABEL[k]).sort((a,b)=>m.w[b]-m.w[a])[0];
+      const avd=wk.filter(k=>m.w[k]<0&&TLABEL[k]).sort((a,b)=>m.w[a]-m.w[b])[0];
+      h+=ranked.map((p,i)=>{
+        const tv=tgt?val(p,tgt):val(p,leadTerp(p)), tn=tgt?TLABEL[tgt]:TLABEL[leadTerp(p)];
+        let why="#"+(i+1)+" match &mdash; <strong>"+tn+" "+tv.toFixed(2)+"%</strong>";
+        if(avd){
+          const av=val(p,avd);
+          why+=" &middot; "+TLABEL[avd]+" "+av.toFixed(2)+"% "+(av<=0.05?"<span style='color:#1a8754;'>(clean ✓)</span>":tv>av?"<span style='color:#1a8754;'>("+(tv/av).toFixed(1)+":1 in its favor)</span>":"<span style='color:#c0392b;'>("+(av/tv).toFixed(1)+":1 against)</span>");
+        }
+        return cardHTML(p,why+".");
+      }).join("");
       document.getElementById("moodResult").innerHTML=h;
       // capture only deliberate clicks — render-triggered calls (page load, store filter) were inflating the metric
       if(fromUser){try{posthog&&posthog.capture("strainfinder_mood",{mood:id,top:ranked[0]&&ranked[0].name});}catch(e){}}
