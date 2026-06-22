@@ -38,6 +38,18 @@ SOURCES = [
     {"key": "story_rec", "label": "Story (Rec)", "location": "Cleveland (Brookpark), OH", "state": "OH",
      "color": "#c0392b", "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&menu_type=RECREATIONAL&categories=FLOWER",
      "merge_key": "story", "file": "story_cleveland_rec_flower_terpenes.xlsx"},
+    {"key": "urb", "label": "URB", "location": "Monroe, MI", "state": "MI",
+     "color": "#16a085", "url": "https://dutchie.com/stores/urb-cannabis-monroe/products/flower",
+     "file": "urb_cannabis_monroe_flower_terpenes.xlsx"},
+    {"key": "joyology", "label": "Joyology", "location": "Monroe, MI", "state": "MI",
+     "color": "#d35400", "url": "https://dutchie.com/stores/grams-club-monroe-rec/products/flower",
+     "file": "joyology_monroe_flower_terpenes.xlsx"},
+    {"key": "puff", "label": "PUFF", "location": "Monroe, MI", "state": "MI",
+     "color": "#2980b9", "url": "https://dutchie.com/stores/puff-monroe-rec/products/flower",
+     "file": "puff_monroe_flower_terpenes.xlsx"},
+    {"key": "pure", "label": "PURE", "location": "Monroe, MI", "state": "MI",
+     "color": "#27ae60", "url": "https://dutchie.com/stores/pure-dixie-monroe-rec/products/flower",
+     "file": "pure_monroe_flower_terpenes.xlsx"},
 ]
 
 # Sources sharing a merge_key collapse into one dispensary, deduping strains that
@@ -60,6 +72,13 @@ COLMAP = {
 }
 NUM_FIELDS = {"thc", "terps", "myrcene", "limonene", "caryophyllene", "linalool", "humulene",
               "apinene", "bpinene", "bisabolol", "caryophylleneoxide", "eucalyptol", "nerolidol"}
+
+# Not flower: moonrocks and infused prepacks are nug coated in concentrate + kief, so their
+# THC (40-62%) dwarfs any real flower and would top the THC "intensity" sort with a number no
+# bud can hit. Their terpenes are fine, but the category isn't what this flower tool ranks.
+# Pattern is deliberately narrow so strain NAMES that merely contain a word (Hash Burger,
+# Hash Queen, Diamond Bar) stay in.
+EXCLUDE_NAME = re.compile(r"infused|moon ?rocks?", re.I)
 
 def num(x):
     if x is None or x == "—" or x == "":
@@ -94,6 +113,7 @@ def main():
 
     products, dispensaries, dates = [], [], []
     merge_groups = {}  # merge_key -> {"dates": [...], "seen": set()} for cross-menu dedup
+    excluded = 0       # infused / moonrock rows skipped (not flower)
     for src in SOURCES:
         path = SRC_DIR / src["file"]
         if not path.exists():
@@ -112,6 +132,9 @@ def main():
         n = 0
         for r in rows[1:]:
             if not r or idx.get("name") is None or not r[idx["name"]]:
+                continue
+            if EXCLUDE_NAME.search(str(r[idx["name"]])):  # moonrocks / infused — not flower
+                excluded += 1
                 continue
             rec = {"dispensary": disp_key}
             for field, i in idx.items():
@@ -148,7 +171,7 @@ def main():
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=1))
-    print(f"wrote {OUT}  ({len(products)} products across {len(dispensaries)} dispensaries)")
+    print(f"wrote {OUT}  ({len(products)} products across {len(dispensaries)} dispensaries; {excluded} infused/moonrock rows excluded)")
 
 if __name__ == "__main__":
     main()
