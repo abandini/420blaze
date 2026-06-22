@@ -88,6 +88,12 @@
       .mood-chip span{font-size:0.8rem;color:#666;}
       .sf-select{width:100%;max-width:480px;padding:12px 14px;border-radius:10px;border:2px solid #ccc;font-size:1rem;}
       .sf-explain{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-left:4px solid #1a8754;border-radius:8px;padding:16px 18px;margin:18px 0;font-size:0.96rem;}
+      .sortbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+      .sortbar-lbl{font-size:0.85rem;font-weight:700;color:#444;margin-right:2px;}
+      .sortknob{padding:7px 12px;border-radius:999px;border:2px solid #e0e0e0;background:#fafafa;cursor:pointer;font-size:0.85rem;line-height:1.2;text-align:left;transition:border-color .12s,background .12s;}
+      .sortknob span{display:block;font-size:0.72rem;color:#888;font-weight:400;}
+      .sortknob:hover{border-color:#1a8754;}
+      .sortknob.on{border-color:#1a8754;background:#e8f5e9;font-weight:700;}
       .res-card{border:1px solid #e0e0e0;border-radius:12px;padding:16px 18px;margin:12px 0;background:#fff;}
       .res-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;}
       .res-head h3{margin:0;font-size:1.12rem;}
@@ -409,27 +415,44 @@
       let s=0;for(const k in w){const x=val(p,k);s+=w[k]*x*x/T;}
       return s;
     }
+    // THC = the "volume knob": terpenes pick the kind of effect, THC the intensity.
+    var MOODSORT="match", CURMOOD=null;
+    function setMoodSort(s){MOODSORT=s;if(CURMOOD)pickMood(CURMOOD,false);}
+    function thcTag(t){return t>=25?"<span style='color:#c0392b;'>🔊 strong</span>":t>=20?"<span style='color:#e67e22;'>🔉 medium</span>":"<span style='color:#1a8754;'>🔈 gentle</span>";}
+    function moodSortBar(){
+      const o=(k,lbl,sub)=>'<button type="button" class="sortknob'+(MOODSORT===k?" on":"")+'" onclick="setMoodSort(\''+k+'\')">'+lbl+'<span>'+sub+'</span></button>';
+      return '<div class="sortbar"><span class="sortbar-lbl">🔊 Intensity</span>'+
+        o("match","Best match","terpene fit")+o("thc-hi","Strongest","THC high → low")+o("thc-lo","Gentlest","THC low → high")+'</div>';
+    }
     function pickMood(id,fromUser){
       const m=MOODS.find(x=>x.id===id);
+      CURMOOD=id;
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
-      const ranked=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,5);
+      // terpene-appropriate pool first (the "kind of effect"), then dial intensity within it
+      const pool=FD().slice().sort((a,b)=>scoreMood(b,m.w)-scoreMood(a,m.w)).slice(0,12);
+      let shown=pool.slice();
+      if(MOODSORT==="thc-hi") shown.sort((a,b)=>val(b,"thc")-val(a,"thc"));
+      else if(MOODSORT==="thc-lo") shown.sort((a,b)=>val(a,"thc")-val(b,"thc"));
+      shown=shown.slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
+      h+=moodSortBar();
       // the mood's primary wanted terpene (biggest +weight) and primary avoided one (biggest -weight)
       const wk=Object.keys(m.w);
       const tgt=wk.filter(k=>m.w[k]>0&&TLABEL[k]).sort((a,b)=>m.w[b]-m.w[a])[0];
       const avd=wk.filter(k=>m.w[k]<0&&TLABEL[k]).sort((a,b)=>m.w[a]-m.w[b])[0];
-      h+=ranked.map((p,i)=>{
+      h+=shown.map((p,i)=>{
         const tv=tgt?val(p,tgt):val(p,leadTerp(p)), tn=tgt?TLABEL[tgt]:TLABEL[leadTerp(p)];
-        let why="#"+(i+1)+" match &mdash; <strong>"+tn+" "+tv.toFixed(2)+"%</strong>";
+        let why=(MOODSORT==="match"?"#"+(i+1)+" match &mdash; ":"")+"<strong>"+tn+" "+tv.toFixed(2)+"%</strong>";
         if(avd){
           const av=val(p,avd);
           why+=" &middot; "+TLABEL[avd]+" "+av.toFixed(2)+"% "+(av<=0.05?"<span style='color:#1a8754;'>(clean ✓)</span>":tv>av?"<span style='color:#1a8754;'>("+(tv/av).toFixed(1)+":1 in its favor)</span>":"<span style='color:#c0392b;'>("+(av/tv).toFixed(1)+":1 against)</span>");
         }
+        why+=" &middot; "+thcTag(val(p,"thc"));
         return cardHTML(p,why+".");
       }).join("");
       document.getElementById("moodResult").innerHTML=h;
-      // capture only deliberate clicks — render-triggered calls (page load, store filter) were inflating the metric
-      if(fromUser){try{posthog&&posthog.capture("strainfinder_mood",{mood:id,top:ranked[0]&&ranked[0].name});}catch(e){}}
+      // capture only deliberate clicks — render-triggered calls (page load, store filter, sort re-render) were inflating the metric
+      if(fromUser){try{posthog&&posthog.capture("strainfinder_mood",{mood:id,sort:MOODSORT,top:shown[0]&&shown[0].name});}catch(e){}}
     }
 
     function unit(p){const v=TKEYS.map(k=>val(p,k));const n=Math.hypot.apply(null,v)||1;return v.map(x=>x/n);}
