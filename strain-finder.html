@@ -195,8 +195,9 @@
             </section>
 
             <section class="sf-panel" id="panel-strain">
-                <label for="strainPick" style="font-weight:600;display:block;margin-bottom:8px;">Pick a strain you&rsquo;ve enjoyed &mdash; we&rsquo;ll find the closest terpene matches in stock:</label>
-                <select class="sf-select" id="strainPick" onchange="matchStrain(this.value)"></select>
+                <label for="strainPick" style="font-weight:600;display:block;margin-bottom:8px;">Type a strain you&rsquo;ve enjoyed &mdash; we&rsquo;ll find its closest terpene matches in stock:</label>
+                <input class="sf-select" id="strainPick" list="strainNames" placeholder="🔎 Start typing a strain name… e.g. Gush Mints, Apples and Bananas, Runtz" autocomplete="off" oninput="matchStrain(this.value)">
+                <datalist id="strainNames"></datalist>
                 <div id="strainResult"></div>
             </section>
 
@@ -421,20 +422,34 @@
     function unit(p){const v=TKEYS.map(k=>val(p,k));const n=Math.hypot.apply(null,v)||1;return v.map(x=>x/n);}
     function cosine(a,b){const ua=unit(a),ub=unit(b);return ua.reduce((s,x,i)=>s+x*ub[i],0);}
     function dedupByName(list){const seen={},out=[];list.forEach(p=>{if(!seen[p.name]){seen[p.name]=1;out.push(p);}});return out;}
+    // strip size suffix ("Gush Mints | 2.83g") and ★ decorations so a bare name matches
+    function strainBase(n){return String(n==null?"":n).replace(/\s*[\|\[(★].*$/,"").trim();}
     function renderStrainPicker(){
-      const all=REFERENCE.concat(dedupByName(FD()).slice().sort((a,b)=>a.name.localeCompare(b.name)));
-      document.getElementById("strainPick").innerHTML='<option value="">— choose a strain —</option>'+
-        all.map(p=>'<option value="'+(p.ref?'R':'D')+'|'+esc(p.name)+'">'+esc(p.name)+'</option>').join("");
+      // unique base strain names for the type-ahead datalist (REFERENCE ★ strains + current in-stock)
+      const seen={},names=[];
+      REFERENCE.concat(dedupByName(FD())).forEach(function(p){
+        const b=strainBase(p.name),k=b.toLowerCase();
+        if(b&&!seen[k]){seen[k]=1;names.push(b);}
+      });
+      names.sort((a,b)=>a.localeCompare(b));
+      document.getElementById("strainNames").innerHTML=names.map(n=>'<option value="'+esc(n)+'"></option>').join("");
     }
-    function matchStrain(v){
+    function matchStrain(name){
       const box=document.getElementById("strainResult");
-      if(!v){box.innerHTML="";return;}
-      const sep=v.indexOf("|"),src=v.slice(0,sep),name=v.slice(sep+1);
-      const pool=src==="R"?REFERENCE:DATA;
-      const target=pool.find(p=>esc(p.name)===name||p.name===name);
-      if(!target){box.innerHTML="";return;}
+      const base=strainBase(name).toLowerCase();
+      if(!base){box.innerHTML="";return;}
+      const eq=p=>strainBase(p.name).toLowerCase()===base;
+      const target=REFERENCE.find(eq)||FD().find(eq)||DATA.find(eq);
+      if(!target){
+        // no exact match: explain only once it's a real attempt with no partial hits (stay quiet mid-type)
+        const partial=base.length>=3 && (DATA.some(p=>strainBase(p.name).toLowerCase().indexOf(base)>=0)||REFERENCE.some(p=>strainBase(p.name).toLowerCase().indexOf(base)>=0));
+        box.innerHTML=(base.length>=3 && !partial)
+          ? '<div class="sf-explain">No strain named &ldquo;'+esc(String(name).trim())+'&rdquo; is in stock right now &mdash; it may have rotated off the menu. Browse the full table below, or tap the <span style="color:#f2b104;">☆</span> on strains you love so we can find a replacement next time.</div>'
+          : '';
+        return;
+      }
       const lt=leadTerp(target);
-      const ranked=FD().filter(p=>p.name!==target.name).map(p=>({p,sim:cosine(target,p)})).sort((a,b)=>b.sim-a.sim).slice(0,5);
+      const ranked=FD().filter(p=>strainBase(p.name).toLowerCase()!==base).map(p=>({p,sim:cosine(target,p)})).sort((a,b)=>b.sim-a.sim).slice(0,5);
       let h='<div class="sf-explain"><strong>'+esc(target.name)+'</strong> is <strong>'+TLABEL[lt]+'-led</strong> ('+val(target,lt).toFixed(2)+'%). Closest terpene matches in stock:</div>';
       h+=cardHTML(target,"Your reference profile.");
       h+='<h3 style="margin:18px 0 4px;">Closest matches</h3>';
