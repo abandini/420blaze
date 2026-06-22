@@ -32,6 +32,12 @@ SOURCES = [
     {"key": "rise", "label": "RISE", "location": "Cleveland (Pearl Rd), OH", "state": "OH",
      "color": "#e67e22", "url": "https://oh.risecannabis.com/dispensaries/ohio/cleveland-pearl-rd/6013/recreational-menu/",
      "file": "rise_cleveland_pearl_flower_terpenes.xlsx"},
+    {"key": "story_med", "label": "Story (Med)", "location": "Cleveland (Brookpark), OH", "state": "OH",
+     "color": "#8e44ad", "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&menu_type=MEDICAL&categories=FLOWER",
+     "file": "story_cleveland_med_flower_terpenes.xlsx"},
+    {"key": "story_rec", "label": "Story (Rec)", "location": "Cleveland (Brookpark), OH", "state": "OH",
+     "color": "#c0392b", "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&menu_type=RECREATIONAL&categories=FLOWER",
+     "file": "story_cleveland_rec_flower_terpenes.xlsx"},
 ]
 
 # header label (lowercased) -> output field
