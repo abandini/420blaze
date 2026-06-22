@@ -34,11 +34,20 @@ SOURCES = [
      "file": "rise_cleveland_pearl_flower_terpenes.xlsx"},
     {"key": "story_med", "label": "Story (Med)", "location": "Cleveland (Brookpark), OH", "state": "OH",
      "color": "#8e44ad", "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&menu_type=MEDICAL&categories=FLOWER",
-     "file": "story_cleveland_med_flower_terpenes.xlsx"},
+     "merge_key": "story", "file": "story_cleveland_med_flower_terpenes.xlsx"},
     {"key": "story_rec", "label": "Story (Rec)", "location": "Cleveland (Brookpark), OH", "state": "OH",
      "color": "#c0392b", "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&menu_type=RECREATIONAL&categories=FLOWER",
-     "file": "story_cleveland_rec_flower_terpenes.xlsx"},
+     "merge_key": "story", "file": "story_cleveland_rec_flower_terpenes.xlsx"},
 ]
+
+# Sources sharing a merge_key collapse into one dispensary, deduping strains that
+# appear on more than one of their menus (Story's Med and Rec menus are ~99% identical
+# — same flower, same shelf — so two chips and duplicate result cards add only noise).
+MERGE_META = {
+    "story": {"key": "story", "label": "Story", "location": "Cleveland (Brookpark), OH", "state": "OH",
+              "color": "#8e44ad",
+              "url": "https://storycannabis.com/categories/flower/?retailer_id=9bd46ef6-4494-4986-b54b-42c191f26db2&categories=FLOWER"},
+}
 
 # header label (lowercased) -> output field
 COLMAP = {
@@ -84,6 +93,7 @@ def main():
         sys.exit("openpyxl required:  pip install openpyxl")
 
     products, dispensaries, dates = [], [], []
+    merge_groups = {}  # merge_key -> {"dates": [...], "seen": set()} for cross-menu dedup
     for src in SOURCES:
         path = SRC_DIR / src["file"]
         if not path.exists():
@@ -96,19 +106,39 @@ def main():
         idx = {COLMAP[h]: i for i, h in enumerate(header) if h in COLMAP}
         updated = pull_date(wb)
         dates.append(updated)
+        mk = src.get("merge_key")
+        disp_key = mk or src["key"]
+        mg = merge_groups.setdefault(mk, {"dates": [], "seen": set()}) if mk else None
         n = 0
         for r in rows[1:]:
             if not r or idx.get("name") is None or not r[idx["name"]]:
                 continue
-            rec = {"dispensary": src["key"]}
+            rec = {"dispensary": disp_key}
             for field, i in idx.items():
                 v = r[i] if i < len(r) else None
                 rec[field] = num(v) if field in NUM_FIELDS else (v if v is not None else "")
             rec.setdefault("size", "")
+            if mg is not None:  # dedup across the merged menus by name+size
+                dk = (str(rec.get("name", "")).strip().lower(), str(rec.get("size", "")).strip().lower())
+                if dk in mg["seen"]:
+                    continue
+                mg["seen"].add(dk)
             products.append(rec)
             n += 1
-        dispensaries.append({k: src[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": n, "updated": updated})
-        print(f"  {src['key']}: {n} products (updated {updated or 'unknown'})")
+        if mk:
+            mg["dates"].append(updated)
+            print(f"  {src['key']}: {n} new products into '{mk}' (updated {updated or 'unknown'})")
+        else:
+            dispensaries.append({k: src[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": n, "updated": updated})
+            print(f"  {src['key']}: {n} products (updated {updated or 'unknown'})")
+
+    # emit one dispensary entry per merge group (after the standalone ones, preserving bar order)
+    for mk, mg in merge_groups.items():
+        meta = MERGE_META[mk]
+        cnt = sum(1 for p in products if p["dispensary"] == mk)
+        upd = max([d for d in mg["dates"] if d] or [""])
+        dispensaries.append({k: meta[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": cnt, "updated": upd})
+        print(f"  -> merged '{mk}': {cnt} unique products (updated {upd or 'unknown'})")
 
     payload = {
         "updated": max([d for d in dates if d] or [""]),
