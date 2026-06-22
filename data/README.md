@@ -11,9 +11,78 @@ stop and tell Bill instead of forcing it.
 
 | File | Who maintains it | How |
 |---|---|---|
-| `strain-terpenes.json` | **GENERATED — do not hand-edit.** | Comes from the `/terrasana/*.xlsx` spreadsheets via `scripts/build-strain-data.py`. To change it, update the xlsx in `/terrasana` and re-run that script. See `terrasana/README.md`. |
+| `strain-terpenes.json` | **GENERATED — do not hand-edit.** | Comes from the `/terrasana/*.xlsx` spreadsheets via `scripts/build-strain-data.py`. To change it, update the xlsx in `/terrasana` and re-run that script. See the dispensary-feed contract below + `terrasana/README.md`. |
 | `music-events.json` | **claude-cowork — weekly task** (see below) | Hand-curated JSON of upcoming 420-adjacent Cleveland shows. This is the one you refresh. |
 | `playlists.json` | **claude-cowork — monthly task** (see below) | Terpene-mood Spotify playlists: tracklist source-of-truth + the Spotify playlist IDs for site embeds. |
+
+---
+
+## DISPENSARY FLOWER FEED: `/terrasana/*.xlsx` → `strain-terpenes.json`
+
+Powers https://420blazin.com/strain-finder (15 stores and growing). Each dispensary is
+one xlsx of its **flower menu's lab data**; `scripts/build-strain-data.py` merges them.
+The page's mood ranking, terpene match, and **THC "intensity" sort** all trust this data,
+so the rules below protect those features. **The build script enforces some of this as a
+backstop, but fix it at the source — a clean scrape beats a regex catching it later.**
+
+### 1. FLOWER ONLY — exclude non-flower and adulterated-THC products
+A dispensary's "Flower" menu often mixes in infused sub-types. Drop a row if it is **not
+plain whole/ground bud with its own lab panel**:
+- **Infused flower / moonrocks / infused prepacks** — bud coated in concentrate + kief.
+  Their THC (40–62%) is real but no normal flower can hit it, so it would top every
+  "Strongest" sort and wreck the comparison. Exclude anything whose **name or sub-category**
+  says `infused`, `moonrock` / `moon rock(s)`, or an infused `prepack`.
+- **Other product forms** that slip into a flower list: concentrates (rosin, live resin,
+  badder/budder, shatter, wax, diamonds, sauce), **vapes/carts/disposables**, **pre-rolls**,
+  edibles/gummies, RSO, tinctures.
+- **Best single instruction:** pull only the menu's plain **`Flower`** sub-category; skip
+  `Infused Flower`, `Pre-Roll`, `Concentrate`, `Vaporizer`, etc. Dutchie-based menus tag
+  these explicitly, so it's a one-filter fix.
+
+> ⚠️ **Do NOT substring-match a word inside a STRAIN NAME.** *Hash Burger*, *Hash Queen*,
+> and *Diamond Bar* are real flower strains. Filter by the **product type/sub-category**,
+> not by "name contains 'hash'/'diamond'/'rosin'". The build backstop only excludes the
+> precise tokens `infused` / `moonrock` for this reason.
+
+### 2. Blank cells — don't let them read as zero
+- **Total Terps % blank** but the individual terpene columns are filled (e.g. Firelands at
+  The Landing): leave it — the build **backfills the total from the parts**. Just make sure
+  the individual terpene columns came through.
+- **THC % blank** (e.g. The Forest left 8 rows empty): this is a **scrape gap, not a 0%
+  flower**. The page now shows `THC n/a` and keeps those rows out of the intensity sort —
+  but THC is a headline number, so **re-check the THC column parsing and re-pull** rather
+  than shipping blanks. If a menu genuinely doesn't publish THC, note it so we expect it.
+- A row with **no terpene data at all** (all individual terps blank) shouldn't be in a
+  *terpene* feed — drop it.
+
+### 3. Columns (mapped BY HEADER NAME, so order/extra columns are fine)
+`Product`, `Size` (optional), `Brand`, `Type`, `THC %`, `Total Terps %`, `Beta Myrcene`,
+`Limonene`, `Beta Caryophyllene`, `Linalool`, `Humulene`, `Alpha Pinene`, `Beta Pinene`,
+`Bisabolol`, `Caryophyllene Oxide`, `Eucalyptol`, `Nerolidol`. Put the menu **pull date**
+in a `Notes` sheet (a line like `pulled 2026-06-22`) so each store stamps its freshness.
+
+### 4. Adding a new store / rebuild + deploy
+1. Drop the xlsx in `/terrasana` (name it `<key>_<location>_flower_terpenes.xlsx`).
+2. Add a `SOURCES` entry in `scripts/build-strain-data.py` (key, label, **state** — drives
+   the OH/MI bar grouping — location, color, url, file). Two menus of one store (e.g. Story
+   Med + Rec) share a `merge_key` so they collapse into one deduped chip.
+3. Rebuild + sanity-check, then deploy:
+```bash
+cd /Users/billburkey/CascadeProjects/420blaze
+python3 scripts/build-strain-data.py          # prints per-store counts + rows excluded
+# quick gate: no impossible flower, no blank-zero leaks
+python3 -c "import json; d=json.load(open('data/strain-terpenes.json')); \
+p=d['products']; hi=[x for x in p if (x.get('thc',0) or 0)>35]; \
+zt=[x for x in p if (x.get('terps',0) or 0)==0]; \
+print(d['count'],'products /',len(d['dispensaries']),'stores'); \
+print('THC>35% (should be 0):',[(x['thc'],x['name']) for x in hi]); \
+print('terps==0 (should be 0):',len(zt))"
+npx wrangler pages deploy . --project-name=420blaze --branch=main --commit-dirty=true
+git add scripts/build-strain-data.py data/strain-terpenes.json && \
+  git commit -m "data: refresh/add dispensary flower terpenes" && git push
+```
+The `/terrasana/*.xlsx` files are untracked source-of-truth (gitignored); commit the
+generated `data/strain-terpenes.json`, not the spreadsheets.
 
 ---
 
