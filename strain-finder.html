@@ -385,14 +385,14 @@
         var live=DATA.find(function(p){return p.name===f.name&&p.dispensary===f.dispensary;});
         h+='<div class="fav-block">';
         if(live){
-          h+='<div class="fav-status in">✅ In stock now at '+esc(dmeta(live.dispensary).label)+' &middot; '+esc(chemotype(live))+'</div>'+cardHTML(live,"");
+          h+='<div class="fav-status in">✅ In stock now at '+esc(dmeta(live.dispensary).label)+' &middot; '+esc(chemotype(live))+'</div>'+cardHTML(live,thcTag(val(live,"thc")));
         }else{
           h+='<div class="fav-status gone">⚠️ '+esc(f.name)+' is no longer on the '+esc(dmeta(f.dispensary).label)+' menu</div>';
-          h+=cardHTML(f,"Your saved profile &mdash; "+esc(chemotype(f))+".");
+          h+=cardHTML(f,"Your saved profile &mdash; "+esc(chemotype(f))+". &middot; "+thcTag(val(f,"thc")));
           var sims=similarStrains(f,4);
           if(sims.length){
             h+='<h4 class="fav-simhead">Closest terpene matches in stock now</h4>';
-            h+=sims.map(function(o){return cardHTML(o.p,Math.round(o.sim*100)+"% terpene match &middot; "+esc(chemotype(o.p))+(o.p.type===f.type?" &middot; same type":"")+".");}).join("");
+            h+=sims.map(function(o){return cardHTML(o.p,Math.round(o.sim*100)+"% terpene match &middot; "+esc(chemotype(o.p))+(o.p.type===f.type?" &middot; same type":"")+" &middot; "+thcTag(val(o.p,"thc"))+".");}).join("");
           }
         }
         h+='</div>';
@@ -487,9 +487,9 @@
       const lt=leadTerp(target);
       const ranked=FD().filter(p=>strainBase(p.name).toLowerCase()!==base).map(p=>({p,sim:cosine(target,p)})).sort((a,b)=>b.sim-a.sim).slice(0,5);
       let h='<div class="sf-explain"><strong>'+esc(target.name)+'</strong> is <strong>'+TLABEL[lt]+'-led</strong> ('+val(target,lt).toFixed(2)+'%). Closest terpene matches in stock:</div>';
-      h+=cardHTML(target,"Your reference profile.");
+      h+=cardHTML(target,"Your reference profile. &middot; "+thcTag(val(target,"thc")));
       h+='<h3 style="margin:18px 0 4px;">Closest matches</h3>';
-      h+=ranked.map(o=>cardHTML(o.p,Math.round(o.sim*100)+"% terpene-profile match.")).join("");
+      h+=ranked.map(o=>cardHTML(o.p,Math.round(o.sim*100)+"% terpene-profile match. &middot; "+thcTag(val(o.p,"thc")))).join("");
       box.innerHTML=h;
       try{posthog&&posthog.capture("strainfinder_match",{target:target.name,top:ranked[0]&&ranked[0].p.name});}catch(e){}
     }
