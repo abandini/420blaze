@@ -328,7 +328,14 @@
     let activeDisp="all";           // current dispensary filter
     const DISPMETA={terrasana:{label:"Terrasana",loc:"Cleveland, OH",color:"#1a8754"},dacut:{label:"Dacut",loc:"Monroe, MI",color:"#2471a3"}};
     function dmeta(k){return DISPMETA[k]||{label:k||"",loc:"",color:"#777"};}
-    function FD(){return activeDisp==="all"?DATA:DATA.filter(function(p){return p.dispensary===activeDisp;});}
+    function FD(){
+      if(activeDisp==="all")return DATA;
+      if(activeDisp.indexOf("state:")===0){
+        var st=activeDisp.slice(6),keys=DISPENSARIES.filter(function(d){return d.state===st;}).map(function(d){return d.key;});
+        return DATA.filter(function(p){return keys.indexOf(p.dispensary)>=0;});
+      }
+      return DATA.filter(function(p){return p.dispensary===activeDisp;});
+    }
     const val=(p,k)=> k==="pinene" ? (p.apinene||0)+(p.bpinene||0) : (p[k]||0);
     function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
@@ -540,12 +547,23 @@
 
     // ---- dispensary filter ----
     function dispBtnStyle(key,color){const on=activeDisp===key;return "padding:8px 14px;border-radius:999px;border:2px solid "+color+";cursor:pointer;font-weight:700;font-size:0.85rem;background:"+(on?color:"#fff")+";color:"+(on?"#fff":color)+";";}
+    const STATENAME={OH:"Ohio",MI:"Michigan",MA:"Massachusetts",IL:"Illinois",NY:"New York",PA:"Pennsylvania"};
     function renderDispBar(){
       const bar=document.getElementById("dispBar");if(!bar)return;
       if(!DISPENSARIES.length){bar.innerHTML="";return;}
+      // group stores by state (first-seen order) so the bar scales as more markets are added
+      const order=[],groups={};
+      DISPENSARIES.forEach(function(x){var s=x.state||"Other";if(!groups[s]){groups[s]=[];order.push(s);}groups[s].push(x);});
       let h='<button onclick="pickDisp(\'all\')" style="'+dispBtnStyle("all","#444")+'">All stores ('+DATA.length+')</button>';
-      h+=DISPENSARIES.map(function(x){return '<button onclick="pickDisp(\''+x.key+'\')" style="'+dispBtnStyle(x.key,x.color||"#777")+'">'+esc(x.label)+' &middot; '+esc(x.location)+' ('+esc(x.count)+')</button>';}).join("");
-      bar.innerHTML=h;
+      h+=order.map(function(s){
+        var skey="state:"+s,son=activeDisp===skey,nm=STATENAME[s]||s;
+        var cnt=groups[s].reduce(function(a,x){return a+(x.count||0);},0);
+        // the state label itself is a filter — tap to see every store in that state
+        var head='<button onclick="pickDisp(\''+skey+'\')" title="Show all '+esc(nm)+' stores" style="padding:7px 13px;border-radius:999px;border:2px dashed #999;cursor:pointer;font-weight:800;font-size:0.78rem;letter-spacing:.05em;text-transform:uppercase;background:'+(son?"#444":"#f4f4f4")+';color:'+(son?"#fff":"#555")+';">'+esc(nm)+' ('+cnt+')</button>';
+        var chips=groups[s].map(function(x){return '<button onclick="pickDisp(\''+x.key+'\')" title="'+esc(x.location)+'" style="'+dispBtnStyle(x.key,x.color||"#777")+'">'+esc(x.label)+' ('+esc(x.count)+')</button>';}).join("");
+        return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+head+chips+'</div>';
+      }).join("");
+      bar.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">'+h+'</div>';
     }
     function pickDisp(key){
       activeDisp=key;renderDispBar();renderStrainPicker();renderTable();
