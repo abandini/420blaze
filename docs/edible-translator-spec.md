@@ -136,3 +136,44 @@ folds it into the Strain Finder.
 *(Optional secondary task if you have time: a quick keyword-demand check on "edible that feels like
 [strain]", "live rosin gummies", "full spectrum edibles", "terpene edibles" — but the menu inventory
 above is the priority.)*
+
+---
+
+## PILOT FINDINGS (Terrasana + URB, 409 edibles) → spec adjustment
+
+cowork pulled 2 stores and surfaced the key reality. Verified dev-side with
+`scripts/edible-match-report.py` (joins edible strains to the flower DB, with a
+brand-collision guard):
+
+| store | edibles | tier-A | published COA | **genuine cultivar joins** |
+|---|---:|---:|---:|---:|
+| Terrasana | 83 | 34 | 2 | **3** |
+| URB | 326 | 99 | 0 | **1** |
+| **total** | **409** | **133** | **2** | **4** |
+
+**The headline: tier-A count massively overstates the matchable catalog.** Of 133 tier-A
+products, only **6 are actually terpene-profileable** (2 with a published COA + 4 whose name is a
+real cultivar that joins the flower DB). The rest of tier-A use **flavor names** ("Watermelon Smash,"
+"Cherry Lime Sunshine") that can't inherit a profile. ~2/3 of every menu is **distillate** (57% / 69%).
+
+**The KPI is the cultivar-match rate, not the A/B/C counts** (as cowork flagged). Raw tier-A is
+vanity; `matched ÷ named` is the real matchable-catalog size.
+
+### The ONE high-leverage data improvement (please add)
+For **flavor-named, terp-true** products (the big tier-A bucket we currently can't profile), try to
+capture the **`Source Cultivar`** — the actual strain the extract was made from — which brands often
+publish on the **product detail page or COA** even when the menu tile shows only a flavor. Example:
+a "Cherry Lime Sunshine" live-resin gummy whose COA says it's made from *Blue Dream* becomes fully
+matchable. **Add a `Source Cultivar` column.** This is the single change that could grow the
+profileable catalog from ~6 to many times that. If it's not published, leave it blank (don't guess).
+
+### What the tool becomes (so the data stays right)
+Given the thin matchable set, the Translator is being reframed into a 3-pillar **Edible Decoder**:
+1. **Distillate-wall transparency** — "X of N edibles here are terpene-dead distillate; here are the
+   real full-spectrum ones." (Uses `Extract Type` / `Fidelity` — fully data-backed today.)
+2. **Terpene-class match** for the profileable few (COA + cultivar-join + any `Source Cultivar`).
+3. **Dose + cardiac-safe lane** — mg, `Ratio`, `Cardiac Lane`, CBN/CBG. (Fully data-backed; serves
+   the low/no-THC audience.) Per-piece THC mg is nice-to-have but **package mg is the reliable field**
+   — keep capturing it; leave per-piece blank if the menu doesn't give a trustworthy count.
+
+Continue the remaining 13 stores with the columns as-is **plus `Source Cultivar`**.
