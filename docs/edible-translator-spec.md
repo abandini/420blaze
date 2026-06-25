@@ -65,10 +65,10 @@ syringes**, mints, and **beverages** (all ingestible).
 | `Strain` | **CRITICAL** — cultivar name **exactly as listed** (e.g., "Blue Dream", "GMO"); blank if none named |
 | `THC mg` | per piece |
 | `THC mg pkg` | per package |
-| `CBD mg` | per piece (0 if none) |
+| `CBD mg` | **REQUIRED when listed** — per piece. The cardiac lane depends on this; don't leave it 0 on ratio products. A "2:1 CBD:THC, 10mg THC" gummy is CBD ≈ 20mg. |
 | `CBD mg pkg` | per package |
-| `Other cannabinoids` | CBN/CBG mg if listed (e.g., "CBN 5mg") |
-| `Ratio` | if a ratio product: "1:1", "2:1", "20:1" (CBD:THC); blank for THC-only |
+| `Other cannabinoids` | CBN/CBG **and any non-CBD ratio** here (e.g., "CBN 5mg", "1:1 THC:CBN") — keep it OUT of `Ratio` |
+| `Ratio` | **CBD:THC ONLY**, CBD first (e.g., "2:1" = 2 CBD : 1 THC, CBD-heavy). Blank for THC-only or non-CBD (CBN) ratios. Do **not** put THC:CBN here. |
 | `Fast-acting` | "yes" if labeled nano / fast-acting / sublingual; else blank |
 | `Terps published` | "yes"/"no" — does the listing/COA give a terpene breakdown? |
 | terpene columns | **only if** a COA is published — same headers as the flower sheet (Beta Myrcene, Limonene, Beta Caryophyllene, Linalool, Humulene, Alpha Pinene, Beta Pinene, Bisabolol). Leave blank otherwise. |
@@ -176,4 +176,13 @@ Given the thin matchable set, the Translator is being reframed into a 3-pillar *
    the low/no-THC audience.) Per-piece THC mg is nice-to-have but **package mg is the reliable field**
    — keep capturing it; leave per-piece blank if the menu doesn't give a trustworthy count.
 
-Continue the remaining 13 stores with the columns as-is **plus `Source Cultivar`**.
+### Field fixes from the 10-store build (cardiac lane)
+Two columns came back unusable when the Decoder was built — please correct going forward and on backfill:
+1. **`CBD mg` was 0 on all 1,410 rows.** Capture CBD mg (piece + package) wherever listed — it's the
+   core number for the heart-smart lane. A "2:1 CBD:THC, 10mg THC" product is CBD ≈ 20mg, not 0.
+2. **`Ratio` mixed CBD:THC with THC:CBN** (both stored as bare "1:1"), so high-CBD and CBN products
+   are indistinguishable. **`Ratio` = CBD:THC ONLY** (CBD first). Put THC:CBN and other non-CBD ratios
+   in `Other cannabinoids` instead. Blank `Ratio` for THC-only products.
+
+Continue: the remaining 5 stores (dacut, rise, story, joyology, puff) and the `Source Cultivar`
+backfill on Terrasana / URB / Landing / Pure — with the `CBD mg` + `Ratio` conventions above.
