@@ -1,0 +1,138 @@
+# Edible Translator — Research & Data Spec (for claude-cowork)
+
+**Goal:** answer the question *"which edible actually feels like my favorite flower?"* — and surface a
+**heart-smart low/no-THC lane** — by reusing 420blazin's existing terpene-matching engine (the one
+behind the 15-store, 1,342-flower Strain Finder).
+
+This document is a **data-gathering brief.** Your job is to build an **edibles feed** parallel to the
+flower terpene feed, from the same 15 dispensaries we already cover (OH + MI). The dev side (Claude)
+will turn that feed into the Translator. Read `data/README.md` first — same git etiquette, same
+`/terrasana` drop folder, same Notes-sheet pull-date convention as the flower feed.
+
+---
+
+## The one insight that drives everything you collect
+
+**Most edibles physically cannot be matched to a flower, and that's the whole point of this research.**
+
+- Mainstream gummies are made from **THC distillate, which is stripped of terpenes** — so the strain
+  name on the package is marketing, not chemistry. ([Leafly](https://www.leafly.com/news/strains-products/can-edibles-really-be-strain-specific-or-is-that-just-hype))
+- Only **cold-process, full-spectrum** edibles retain a flower-like terpene profile: **live rosin,
+  live resin, RSO / FECO.** ([Leafly](https://www.leafly.com/news/strains-products/can-edibles-really-be-strain-specific-or-is-that-just-hype))
+
+So the two highest-value things you capture per product are **(1) the extract type** and **(2) the
+strain/cultivar name.** Everything else is supporting detail.
+
+## How the data gets used (so the columns make sense)
+
+An edible earns a terpene profile one of three ways, in priority order:
+
+1. **Named cultivar → join to our flower DB.** If a live-resin gummy says "Blue Dream" and we already
+   have Blue Dream's terpene profile in `data/strain-terpenes.json`, the edible *inherits* that
+   profile for free. **This is the magic — it's why the strain name is gold.**
+2. **Product publishes its own terpene COA** → use those numbers directly (rare, but capture when present).
+3. **Distillate / no terpenes** → tag "terpene-dead." Still listed (for dosing + CBD), but excluded
+   from flower-matching.
+
+Plus a parallel pass: tag each product's **CBD:THC ratio** and **THC-free** status so the Translator
+can offer the cardiac-cautious / sober-curious lane.
+
+---
+
+## The job
+
+Scrape the **EDIBLES category** from each of these 15 dispensaries, **one xlsx per store**, dropped in
+`/terrasana` named `<key>_<location>_edibles.xlsx` (mirror the flower file names; keys below).
+
+| key | store | state |
+|---|---|---|
+| terrasana, rise, klutch, botanist_solon, landing, amplify, forest_lakewood, roam, ayr_woodmere, story | OH (10) | OH |
+| dacut, urb, joyology, puff, pure | Monroe-area (5) | MI |
+
+**Include:** gummies, chews, fruit bites, chocolates, capsules/tablets, **tinctures**, **RSO/FECO
+syringes**, mints, and **beverages** (all ingestible).
+**Exclude:** flower, pre-rolls, vapes/carts, dab concentrates, and **topicals** (not ingested).
+
+## Columns (one row per product / SKU)
+
+| Column | Notes |
+|---|---|
+| `Product` | Full name **verbatim** (don't clean it up — the strain often hides here) |
+| `Brand` | e.g., Kiva, Wyld, Cresco, Klutch |
+| `Product Line` | e.g., "Lost Farm", "Camino", "RSO" — blank if none |
+| `Form` | gummy / chew / chocolate / tincture / capsule / RSO syringe / beverage / mint |
+| `Extract Type` | **CRITICAL** — use the taxonomy below |
+| `Strain` | **CRITICAL** — cultivar name **exactly as listed** (e.g., "Blue Dream", "GMO"); blank if none named |
+| `THC mg` | per piece |
+| `THC mg pkg` | per package |
+| `CBD mg` | per piece (0 if none) |
+| `CBD mg pkg` | per package |
+| `Other cannabinoids` | CBN/CBG mg if listed (e.g., "CBN 5mg") |
+| `Ratio` | if a ratio product: "1:1", "2:1", "20:1" (CBD:THC); blank for THC-only |
+| `Fast-acting` | "yes" if labeled nano / fast-acting / sublingual; else blank |
+| `Terps published` | "yes"/"no" — does the listing/COA give a terpene breakdown? |
+| terpene columns | **only if** a COA is published — same headers as the flower sheet (Beta Myrcene, Limonene, Beta Caryophyllene, Linalool, Humulene, Alpha Pinene, Beta Pinene, Bisabolol). Leave blank otherwise. |
+| `Price` | listed price |
+| `Size` | count + mg, e.g., "20pc · 5mg ea (100mg)" |
+| `Fidelity` | tier A/B/C — see below (your classification) |
+
+Plus a **`Notes` sheet** with the menu **pull date** (`pulled 2026-06-25`), same as flower files.
+
+## `Extract Type` taxonomy — classify EVERY row
+
+| value | retains terpenes? | how to recognize it |
+|---|---|---|
+| `live_rosin` | ✅ yes | "live rosin", "solventless" in name/line |
+| `live_resin` | ✅ yes | "live resin", "fresh frozen" |
+| `rso` / `feco` | ✅ yes (full-spectrum) | "RSO", "FECO", "full extract" |
+| `full_spectrum` | ✅ likely | "full spectrum" / "whole plant" stated, type unclear |
+| `distillate` | ❌ no | "distillate", or **unstated** (default for a plain gummy) |
+| `unknown` | ? | genuinely can't tell from the listing |
+
+> **Rule of thumb:** if the listing doesn't say it's live rosin / live resin / RSO / full-spectrum,
+> assume `distillate`. Brands that bother to use solventless extract almost always advertise it.
+
+## `Fidelity` tier — your one-letter call per product
+
+- **A** = retains terpenes **AND** names a strain → fully matchable (the stars of the Translator)
+- **B** = retains terpenes but **no** strain named → matchable only if it publishes a terpene COA
+- **C** = distillate / terpene-dead → dosing + CBD info only, not flower-matchable
+
+## Cardiac-safe lane — flag these (a separate, valuable bucket)
+
+Capture so the Translator can offer a low/no-THC option:
+- **THC-free / terpene-only** products (CBD or terpene-forward, ~0mg THC)
+- **High-CBD ratio** (≥ 1:1 CBD:THC)
+- **Microdose** (≤ 2.5–5 mg THC per piece)
+
+## What's OK to leave blank (don't fabricate)
+
+- **Terpene columns will be blank for almost every edible — that is EXPECTED.** We fill them by
+  strain-join, not by guessing. Never invent terpene numbers.
+- `Strain` blank when none is named — fine.
+- If you can't determine `Extract Type`, use `unknown` (don't guess `live_rosin`).
+
+## Two things that are findings in themselves (note them in the Notes sheet)
+
+1. **The A/B/C ratio per store** — e.g., "Story: 4 tier-A, 2 tier-B, 38 tier-C." How few terpene-true
+   edibles exist *is* the story; it sizes the gap we'd be filling.
+2. **Any store/brand doing terpene transparency or flower-to-edible matching already** — if you spot a
+   competitor doing this, flag it (the closest known is **Lost Farm by Kiva**, live-resin chews, sold
+   in both OH & MI — confirm if it's on any of our 15 menus).
+
+---
+
+## Deliverable summary
+
+- 15 files: `<key>_<location>_edibles.xlsx` in `/terrasana`, each with a `Notes` pull date.
+- Columns + `Extract Type` taxonomy + `Fidelity` tier exactly as above.
+- A one-paragraph rollup (in the first store's Notes sheet or a `_SUMMARY.txt`): total edibles,
+  tier-A/B/C counts per state, and any matching competitors spotted.
+
+Once these land, dev side builds: the **strain-join** (edible cultivar → flower terpene profile),
+the **Translator UI** (pick a flower → matching tier-A/B edibles + a "🫀 low/no-THC" column), and
+folds it into the Strain Finder.
+
+*(Optional secondary task if you have time: a quick keyword-demand check on "edible that feels like
+[strain]", "live rosin gummies", "full spectrum edibles", "terpene edibles" — but the menu inventory
+above is the priority.)*
