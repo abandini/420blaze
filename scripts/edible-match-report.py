@@ -75,21 +75,31 @@ def main():
         ws = wb[wb.sheetnames[0]]
         rows = list(ws.iter_rows(values_only=True))
         H = {h: i for i, h in enumerate(rows[0])}
-        A = coa = named = matched = 0
+        A = coa = named = matched = via_source = 0
         hits = []
+        has_src = "Source Cultivar" in H
         for r in rows[1:]:
             fid = str(r[H.get("Fidelity")] or "").strip().upper()
             strain = r[H.get("Strain")]
+            src = r[H["Source Cultivar"]] if has_src else None
             if str(r[H.get("Terps published")] or "").lower() == "yes":
                 coa += 1
             if fid == "A":
                 A += 1
-            if fid in ("A", "B") and strain:
+            if fid in ("A", "B") and (strain or src):
                 named += 1
-                m = match(strain, cultivars, brands)
+                # prefer the explicit Source Cultivar, fall back to the Strain field
+                m = (match(src, cultivars, brands) if src else None)
+                if m:
+                    via_source += 1
+                    matched_field = str(src)
+                else:
+                    m = match(strain, cultivars, brands) if strain else None
+                    matched_field = str(strain or "")
                 if m:
                     matched += 1
-                    hits.append((str(strain)[:34], m))
+                    tag = "src" if via_source and m == match(src, cultivars, brands) else "name"
+                    hits.append((f"[{tag}] " + matched_field[:32], m))
         tot = len(rows) - 1
         # profileable = published COA  OR  genuine cultivar join
         prof = coa + matched
