@@ -73,6 +73,17 @@
   .empty{padding:18px;border:1px dashed #ccc;border-radius:10px;color:var(--mut);text-align:center;}
   .note{font-size:0.78rem;color:#6b6b6b;}
   .proto{background:#fffbe6;border:1px solid #f5e6a0;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:#8a6d00;margin:10px 0;}
+  .frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:9px 0;}
+  .flabel{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--mut);margin-right:2px;}
+  .storebar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;padding:11px;background:#fff;border:1px solid var(--line);border-radius:12px;}
+  .storechip{display:inline-flex;align-items:center;gap:6px;}
+  .storechip .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;}
+  .storechip b{font-weight:800;opacity:0.65;font-size:0.74rem;}
+  .stgroup{font-size:0.68rem;font-weight:800;letter-spacing:0.06em;color:var(--gd);background:#eef6ef;border-radius:6px;padding:4px 9px;text-transform:uppercase;}
+  .storehdr{display:flex;align-items:center;gap:9px;margin:18px 0 4px;padding-bottom:6px;border-bottom:2px solid var(--line);}
+  .storehdr .swatch{width:14px;height:14px;border-radius:4px;flex:none;}
+  .storehdr .sname{font-family:Righteous,cursive;font-size:1.05rem;}
+  .storehdr .sloc{font-size:0.77rem;color:var(--mut);}
 </style>
 </head>
 <body>
@@ -105,7 +116,7 @@
   </div>
 
   <div class="panel" id="panel-real">
-    <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced. By default we hide distillate — toggle it on to see the whole wall.</div>
+    <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced — <strong>sort by store</strong> (grouped by state) or by strength. By default we hide distillate; toggle it on to see the whole wall.</div>
     <div class="filters" id="realFilters"></div>
     <div id="realResult"></div>
   </div>
@@ -223,22 +234,63 @@ function matchStrain(name){
   box.innerHTML=h;
 }
 
-let realFilter={extract:"real",state:"all"}, realShow=12;
+let realFilter={extract:"real",state:"all",store:"all",sort:"group"}, realShow=12;
+function storeLabel(k){return (STORES[k]||{}).label||k;}
+function realBase(){
+  let list=EDIBLES.slice();
+  if(realFilter.extract==="real")list=list.filter(p=>["live_rosin","live_resin","rso","feco","full_spectrum"].includes(p.extractType));
+  return list;
+}
+function storeChips(){
+  const base=realBase(), byState={};
+  base.forEach(p=>{const st=p.state||"?";byState[st]=byState[st]||{};byState[st][p.dispensary]=(byState[st][p.dispensary]||0)+1;});
+  let h='<div class="storebar"><span class="chip storechip '+(realFilter.store==="all"?"on":"")+'" onclick="realFilter.store=\'all\';realShow=12;renderReal()">🏬 All stores</span>';
+  Object.keys(byState).sort().forEach(st=>{
+    if(realFilter.state!=="all"&&st!==realFilter.state)return;
+    h+='<span class="stgroup">'+esc(st)+'</span>';
+    Object.keys(byState[st]).sort((a,b)=>storeLabel(a).localeCompare(storeLabel(b))).forEach(k=>{
+      const s=STORES[k]||{}, on=realFilter.store===k;
+      h+='<span class="chip storechip'+(on?" on":"")+'"'+(on?"":' style="border-color:'+(s.color||"#ccc")+'"')+' onclick="realFilter.store=\''+esc(k)+'\';realFilter.state=\''+esc(st)+'\';realShow=12;renderReal()"><i class="dot" style="background:'+(s.color||"#777")+'"></i>'+esc(s.label||k)+' <b>'+byState[st][k]+'</b></span>';
+    });
+  });
+  return h+'</div>';
+}
 function renderRealFilters(){
   const ex=[["real","✅ Full-spectrum only"],["all","Show distillate too"]];
-  const states=["all"].concat([...new Set(EDIBLES.map(p=>p.state).filter(Boolean))]);
-  let h=ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("");
-  h+=' &nbsp; '+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realShow=12;renderReal()">'+(s==="all"?"All states":esc(s))+'</span>').join("");
+  const sorts=[["group","🏬 By store"],["strong","🔊 Strongest"],["gentle","🔈 Gentlest"]];
+  const states=["all"].concat([...new Set(EDIBLES.map(p=>p.state).filter(Boolean))].sort());
+  let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  h+='<div class="frow"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  h+='<div class="frow"><span class="flabel">State</span>'+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realFilter.store=\'all\';realShow=12;renderReal()">'+(s==="all"?"All":esc(s))+'</span>').join("")+'</div>';
+  h+=storeChips();
   document.getElementById("realFilters").innerHTML=h;
+}
+function storeHeader(p){
+  const s=STORES[p.dispensary]||{};
+  const sub=[s.location,p.state].filter(Boolean).join(" · ");
+  return '<div class="storehdr"><span class="swatch" style="background:'+(s.color||"#777")+'"></span><span class="sname">'+esc(s.label||p.dispensary)+'</span>'+(sub?'<span class="sloc">'+esc(sub)+'</span>':"")+'</div>';
 }
 function renderReal(){
   renderRealFilters();
-  let list=EDIBLES.slice();
-  if(realFilter.extract==="real")list=list.filter(p=>["live_rosin","live_resin","rso","feco","full_spectrum"].includes(p.extractType));
+  let list=realBase();
   if(realFilter.state!=="all")list=list.filter(p=>p.state===realFilter.state);
-  list.sort((a,b)=>(b.profile!=="none")-(a.profile!=="none") || (b.thcMgPkg-a.thcMgPkg));
-  document.getElementById("realResult").innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+' shown'+(realFilter.extract==="real"?" (distillate hidden)":"")+'.</div>';
-  listInto("realResult",list,realShow,"realShow+=12;renderReal()","None match these filters.");
+  if(realFilter.store!=="all")list=list.filter(p=>p.dispensary===realFilter.store);
+  const prof=p=>(p.profile&&p.profile!=="none")?1:0, pkg=p=>p.thcMgPkg||0, pc=p=>p.thcMg||p.thcMgPkg||0;
+  if(realFilter.sort==="strong")list.sort((a,b)=>pkg(b)-pkg(a)||(b.thcMg||0)-(a.thcMg||0));
+  else if(realFilter.sort==="gentle")list.sort((a,b)=>(pc(a)||1e9)-(pc(b)||1e9));
+  else list.sort((a,b)=>String(a.state).localeCompare(String(b.state))||storeLabel(a.dispensary).localeCompare(storeLabel(b.dispensary))||prof(b)-prof(a)||pkg(b)-pkg(a));
+  const el=document.getElementById("realResult");
+  const tag=realFilter.sort==="group"?" · grouped by store":realFilter.sort==="strong"?" · strongest first":" · gentlest first";
+  el.innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+' shown'+(realFilter.extract==="real"?" (distillate hidden)":"")+tag+'.</div>';
+  if(!list.length){el.insertAdjacentHTML("beforeend",'<div class="empty">None match these filters.</div>');return;}
+  const shown=list.slice(0,realShow);
+  let html="", lastStore=null;
+  shown.forEach(p=>{
+    if(realFilter.sort==="group"&&p.dispensary!==lastStore){lastStore=p.dispensary;html+=storeHeader(p);}
+    html+=cardHTML(p,"",true);
+  });
+  el.insertAdjacentHTML("beforeend",html);
+  if(list.length>realShow){const left=list.length-realShow;el.insertAdjacentHTML("beforeend",'<button class="moreBtn" onclick="realShow+=12;renderReal()">Show '+Math.min(12,left)+' more · '+left+' left</button>');}
 }
 
 function showTab(t){
