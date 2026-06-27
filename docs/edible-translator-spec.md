@@ -186,3 +186,15 @@ Two columns came back unusable when the Decoder was built — please correct goi
 
 Continue: the remaining 5 stores (dacut, rise, story, joyology, puff) and the `Source Cultivar`
 backfill on Terrasana / URB / Landing / Pure — with the `CBD mg` + `Ratio` conventions above.
+
+### Field fix from the Heart-Smart page build (THC-free lane)
+The standalone **Heart-Smart & Low-Dose** page (`/heart-smart`) needs to surface genuinely
+**terpene-only / THC-free** products — but across all 14 stores, **zero** rows can be affirmatively
+identified as such. The page deliberately **does not infer** "THC-free" from a blank `THC mg` cell
+(absence of a number is not absence of THC — wrong call on a cardiac page), so that lane is currently
+empty by design. To populate it honestly, capture **positive** evidence when a product is truly
+THC-free:
+- A **CBD-only / THC-free** product should carry a `Ratio` like **`20:0`** (CBD:THC, THC side = 0),
+  **or** an explicit token in `Cardiac Lane` such as `thc-free` / `terpene-only`.
+- Don't tag a 1:1 / 2:1 / 3:1 product as THC-free — those contain THC and belong in the High-CBD lane.
+This is the one field that unlocks the THC-free lane; leave it blank if there's no positive label.

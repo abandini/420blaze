@@ -15,11 +15,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--g:#1a8754;--ink:#1a1a1a;--mut:#666;--line:#e3e3e3;}
+  :root{--g:#1a8754;--gd:#0c6b3d;--ink:#1a1a1a;--mut:#666;--line:#e3e3e3;}
   *{box-sizing:border-box;}
   body{font-family:Inter,system-ui,sans-serif;color:var(--ink);margin:0;background:#f7f8f5;line-height:1.5;}
   .wrap{max-width:880px;margin:0 auto;padding:20px 18px 80px;}
-  a{color:var(--g);}
+  a{color:var(--gd);}
   .topnav{font-size:0.85rem;margin-bottom:14px;}
   .topnav a{text-decoration:none;font-weight:600;margin-right:14px;}
   h1{font-family:Righteous,cursive;font-size:2.1rem;line-height:1.1;margin:.2em 0 .1em;}
@@ -27,10 +27,20 @@
   .wall{background:linear-gradient(135deg,#fff3e0,#ffebee);border:1px solid #f3c9c0;border-radius:14px;padding:16px 18px;margin:18px 0;}
   .wall .big{font-size:2.4rem;font-weight:800;color:#c0392b;font-family:Righteous;line-height:1;}
   .wall b{color:#c0392b;}
-  .sf-explain{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-left:4px solid var(--g);border-radius:8px;padding:14px 16px;margin:16px 0;font-size:0.94rem;}
+  .sf-explain{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:8px;padding:14px 16px;margin:16px 0;font-size:0.94rem;}
+  details.sf-explain{padding:0;}
+  details.sf-explain summary{font-weight:700;cursor:pointer;color:var(--gd);padding:13px 16px;list-style:none;}
+  details.sf-explain summary::-webkit-details-marker{display:none;}
+  details.sf-explain summary::after{content:" ▾";font-size:0.8em;}
+  details.sf-explain[open] summary::after{content:" ▴";}
+  details.sf-explain .body{padding:0 16px 14px;}
+  .moreBtn{display:block;width:100%;padding:11px;margin:12px 0;border:2px solid var(--g);background:#fff;color:var(--gd);border-radius:10px;font-weight:700;cursor:pointer;font-size:0.9rem;}
+  .moreBtn:hover{background:#e8f5e9;}
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 6px;}
   .tab{padding:11px 14px;border-radius:12px 12px 0 0;border:2px solid var(--line);border-bottom:none;background:#fafafa;cursor:pointer;font-weight:700;font-size:0.9rem;}
-  .tab.active{border-color:var(--g);background:#e8f5e9;color:var(--g);}
+  .tab.active{border-color:var(--g);background:#e8f5e9;color:var(--gd);}
+  .tab-link{text-decoration:none;color:var(--ink);display:inline-block;}
+  .tab-link:hover{border-color:var(--g);color:var(--gd);background:#eef6ef;}
   .panel{display:none;}.panel.active{display:block;}
   .mood-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0;}
   .mood-chip{padding:13px 12px;border-radius:13px;border:2px solid #e0e0e0;background:#fff;cursor:pointer;text-align:center;transition:transform .12s,border-color .12s;}
@@ -48,7 +58,7 @@
   .card .meta{font-size:0.82rem;color:var(--mut);}
   .badges{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px;}
   .bdg{font-size:0.7rem;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap;}
-  .bdg.real{background:#e8f5e9;color:#1a8754;border:1px solid #b6e0c2;}
+  .bdg.real{background:#e8f5e9;color:#0c6b3d;border:1px solid #b6e0c2;}
   .bdg.dist{background:#f1f1f1;color:#888;border:1px solid #ddd;}
   .bdg.heart{background:#fdecea;color:#c0392b;border:1px solid #f5c6cb;}
   .bdg.store{color:#fff;}
@@ -59,9 +69,9 @@
   .bar-fill{display:block;height:100%;}
   .prov{font-size:0.78rem;color:var(--mut);margin-top:4px;}
   .prov b{color:var(--ink);}
-  .why{font-size:0.84rem;color:var(--g);font-weight:600;margin-top:6px;}
+  .why{font-size:0.84rem;color:var(--gd);font-weight:600;margin-top:6px;}
   .empty{padding:18px;border:1px dashed #ccc;border-radius:10px;color:var(--mut);text-align:center;}
-  .note{font-size:0.78rem;color:#999;}
+  .note{font-size:0.78rem;color:#6b6b6b;}
   .proto{background:#fffbe6;border:1px solid #f5e6a0;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:#8a6d00;margin:10px 0;}
 </style>
 </head>
@@ -78,12 +88,12 @@
     <div>of edibles on these menus are <b>terpene-dead distillate</b> — stripped of the terpenes that give a strain its character, then sold under flavor names and indica/sativa labels that are <b>just marketing</b>. <span id="wallNums"></span></div>
   </div>
 
-  <div class="sf-explain"><strong>Why this tool exists:</strong> distillate edibles can&rsquo;t carry a strain&rsquo;s terpene profile (the terpenes are cooked off in processing). Only <strong>cold-process, full-spectrum</strong> products — live rosin, live resin, RSO — keep a flower-like profile. This Decoder finds those, matches them to a strain or feeling you like, and lets you dial the dose in <strong>mg</strong> (the only thing that &ldquo;tracks&rdquo; in an edible — THC% doesn&rsquo;t translate). <a href="/strain-finder">Strain Finder &rarr;</a></div>
+  <details class="sf-explain"><summary>Why this tool exists &amp; how the matching works</summary><div class="body">Distillate edibles can&rsquo;t carry a strain&rsquo;s terpene profile (the terpenes are cooked off in processing). Only <strong>cold-process, full-spectrum</strong> products — live rosin, live resin, RSO — keep a flower-like profile. This Decoder finds those, matches them to a strain or feeling you like, and lets you dial the dose in <strong>mg</strong> (the only thing that &ldquo;tracks&rdquo; in an edible — THC% doesn&rsquo;t translate). <a href="/strain-finder">Strain Finder &rarr;</a></div></details>
 
   <div class="tabs">
     <div class="tab active" id="tab-match" onclick="showTab('match')">🎯 Match a vibe or strain</div>
     <div class="tab" id="tab-real" onclick="showTab('real')">🔍 Skip the distillate</div>
-    <div class="tab" id="tab-heart" onclick="showTab('heart')">🫀 Heart-smart &amp; low-dose</div>
+    <a class="tab tab-link" href="/heart-smart">🫀 Heart-smart &amp; low-dose ↗</a>
   </div>
 
   <div class="panel active" id="panel-match">
@@ -98,12 +108,6 @@
     <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced. By default we hide distillate — toggle it on to see the whole wall.</div>
     <div class="filters" id="realFilters"></div>
     <div id="realResult"></div>
-  </div>
-
-  <div class="panel" id="panel-heart">
-    <div class="sf-explain" style="margin-top:14px;"><strong>For the cardiac-cautious and the sober-curious.</strong> THC&rsquo;s effect on the heart is systemic — switching from smoke to edible removes the lung harm, not the THC. These are the lowest-exposure lanes: THC-free / terpene-only, high-CBD ratios, and microdoses. <strong>Talk to your cardiologist before any THC.</strong> Not medical advice.</div>
-    <div class="filters" id="heartFilters"></div>
-    <div id="heartResult"></div>
   </div>
 
   <p class="note" id="footnote" style="margin-top:30px;"></p>
@@ -163,15 +167,26 @@ function provLine(p){
   if(p.profile==="inherited")return '<div class="prov">Terpenes <b>inherited</b> from its source cultivar <b>'+esc(p.matchedCultivar)+'</b> · lead <b>'+(p.leadTerp?TLABEL[p.leadTerp]:"—")+'</b></div>';
   return '<div class="prov">⚗️ Distillate — no terpene profile (flavor name only).</div>';
 }
-function cardHTML(p,why){
+function cardHTML(p,why,compact){
   const s=STORES[p.dispensary]||{};
   const meta=esc(p.form)+(p.brand?" · "+esc(p.brand):"")+(p.price?" · $"+esc(p.price):"")+(s.location?" · "+esc(s.location):"");
   let h='<div class="card"><h3>'+esc(p.name)+'</h3><div class="meta">'+meta+'</div>';
   h+='<div class="badges">'+storeBadge(p)+extractBadge(p)+doseStr(p)+heartBadges(p)+'</div>';
-  if(p.profile&&p.profile!=="none")h+=barsHTML(p);
+  // full terpene bars only in the Match tab; list views stay compact (lead terpene shown in the prov line)
+  if(p.profile&&p.profile!=="none"&&!compact)h+=barsHTML(p);
   h+=provLine(p);
   if(why)h+='<div class="why">'+esc(why)+'</div>';
   return h+'</div>';
+}
+// paginated list renderer for the "real" + "heart" tabs (12 at a time)
+function listInto(elId,list,showN,moreCall,emptyMsg){
+  const el=document.getElementById(elId);
+  if(!list.length){el.insertAdjacentHTML("beforeend",'<div class="empty">'+emptyMsg+'</div>');return;}
+  el.insertAdjacentHTML("beforeend",list.slice(0,showN).map(p=>cardHTML(p,"",true)).join(""));
+  if(list.length>showN){
+    const left=list.length-showN;
+    el.insertAdjacentHTML("beforeend",'<button class="moreBtn" onclick="'+moreCall+'">Show '+Math.min(12,left)+' more · '+left+' left</button>');
+  }
 }
 
 function renderMoods(){
@@ -191,12 +206,15 @@ function renderFlowerList(){
   const names=Object.keys(FLOWER).map(k=>FLOWER[k].name).sort((a,b)=>a.localeCompare(b));
   document.getElementById("flowerNames").innerHTML=names.map(n=>'<option value="'+esc(n)+'">').join("");
 }
+// normalize a strain name to a lookup key: drop size suffix AND store prefixes (e.g. "DELI - Blue Dream")
+function flowerKey(n){return String(n==null?"":n).replace(/\s*[\|\[(].*$/,"").replace(/^\s*(deli|select|premium)\s*-\s*/i,"").trim().toLowerCase();}
 function matchStrain(name){
   const box=document.getElementById("matchResult");
-  const key=String(name||"").trim().toLowerCase();
+  const key=flowerKey(name);
   if(!key){box.innerHTML="";return;}
-  const t=FLOWER[key];
-  if(!t){if(key.length>=3)box.innerHTML='<div class="empty">Type a strain name (we&rsquo;ll match its terpenes to profiled edibles).</div>';return;}
+  let t=FLOWER[key];
+  if(!t&&key.length>=4){const hit=Object.keys(FLOWER).find(k=>k.includes(key)||key.includes(k));if(hit)t=FLOWER[hit];}
+  if(!t){if(key.length>=3)box.innerHTML='<div class="empty">No exact match for &ldquo;'+esc(String(name).trim())+'&rdquo; &mdash; try a mood chip above, or a simpler name (e.g. Blue Dream, GMO, Runtz).</div>';return;}
   MOODS.forEach(x=>document.getElementById("m-"+x.id).classList.remove("active"));
   const ranked=profiled().map(p=>({p,sim:cosine(t,p)})).sort((a,b)=>b.sim-a.sim).slice(0,6);
   let h='<div class="sf-explain"><strong>'+esc(t.name)+'</strong> is <strong>'+(leadTerp(t)?TLABEL[leadTerp(t)]+"-led":"")+'</strong>. Closest terpene-profiled edibles in stock:</div>';
@@ -205,12 +223,12 @@ function matchStrain(name){
   box.innerHTML=h;
 }
 
-let realFilter={extract:"real",state:"all"};
+let realFilter={extract:"real",state:"all"}, realShow=12;
 function renderRealFilters(){
   const ex=[["real","✅ Full-spectrum only"],["all","Show distillate too"]];
   const states=["all"].concat([...new Set(EDIBLES.map(p=>p.state).filter(Boolean))]);
-  let h=ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';renderReal()">'+a[1]+'</span>').join("");
-  h+=' &nbsp; '+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';renderReal()">'+(s==="all"?"All states":esc(s))+'</span>').join("");
+  let h=ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("");
+  h+=' &nbsp; '+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realShow=12;renderReal()">'+(s==="all"?"All states":esc(s))+'</span>').join("");
   document.getElementById("realFilters").innerHTML=h;
 }
 function renderReal(){
@@ -219,31 +237,13 @@ function renderReal(){
   if(realFilter.extract==="real")list=list.filter(p=>["live_rosin","live_resin","rso","feco","full_spectrum"].includes(p.extractType));
   if(realFilter.state!=="all")list=list.filter(p=>p.state===realFilter.state);
   list.sort((a,b)=>(b.profile!=="none")-(a.profile!=="none") || (b.thcMgPkg-a.thcMgPkg));
-  const head='<div class="note" style="margin:6px 0 10px;">'+list.length+' shown'+(realFilter.extract==="real"?" (distillate hidden)":"")+'.</div>';
-  document.getElementById("realResult").innerHTML=head+(list.length?list.slice(0,60).map(p=>cardHTML(p,"")).join(""):'<div class="empty">None match these filters.</div>');
-}
-
-let heartFilter="all";
-function renderHeartFilters(){
-  const opts=[["all","All low-exposure"],["thcfree","THC-free / terpene-only"],["ratio","High-CBD ratio"],["micro","Microdose ≤5mg"]];
-  document.getElementById("heartFilters").innerHTML=opts.map(a=>'<span class="chip '+(heartFilter===a[0]?"on":"")+'" onclick="heartFilter=\''+a[0]+'\';renderHeart()">'+a[1]+'</span>').join("");
-}
-function renderHeart(){
-  renderHeartFilters();
-  let list=EDIBLES.filter(p=>{
-    const thc=p.thcMg||p.thcMgPkg;
-    if(heartFilter==="thcfree")return thc<=0 || (p.cardiac||"").toLowerCase().includes("free");
-    if(heartFilter==="ratio")return cbdForward(p);
-    if(heartFilter==="micro")return p.thcMg>0&&p.thcMg<=5;
-    return (p.cardiac||"").length || cbdForward(p) || (p.thcMg>0&&p.thcMg<=5);
-  });
-  list.sort((a,b)=>(a.thcMg||99)-(b.thcMg||99));
-  document.getElementById("heartResult").innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+' products.</div>'+(list.length?list.slice(0,60).map(p=>cardHTML(p,"")).join(""):'<div class="empty">None match.</div>');
+  document.getElementById("realResult").innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+' shown'+(realFilter.extract==="real"?" (distillate hidden)":"")+'.</div>';
+  listInto("realResult",list,realShow,"realShow+=12;renderReal()","None match these filters.");
 }
 
 function showTab(t){
-  ["match","real","heart"].forEach(x=>{document.getElementById("panel-"+x).classList.toggle("active",t===x);document.getElementById("tab-"+x).classList.toggle("active",t===x);});
-  if(t==="real")renderReal();if(t==="heart")renderHeart();
+  ["match","real"].forEach(x=>{document.getElementById("panel-"+x).classList.toggle("active",t===x);document.getElementById("tab-"+x).classList.toggle("active",t===x);});
+  if(t==="real")renderReal();
   try{posthog&&posthog.capture("edible_tab",{tab:t});}catch(e){}
 }
 
@@ -254,7 +254,7 @@ Promise.all([
   const ed=res[0], fl=res[1];
   EDIBLES=ed.products||[]; STATS=ed.stats||{};
   (ed.stores||[]).forEach(s=>STORES[s.key]={label:s.label,color:s.color||"#777",location:s.location,state:s.state});
-  (fl.products||[]).forEach(p=>{const k=String(p.name).replace(/\s*[\|\[(].*$/,"").trim().toLowerCase();if(k&&!FLOWER[k])FLOWER[k]=p;});
+  (fl.products||[]).forEach(p=>{const k=flowerKey(p.name);if(k&&!FLOWER[k])FLOWER[k]=p;});
   // Bill's off-menu favorites — not in the live flower feed, so add them by hand so "type Pave" works
   [{name:"Pave",limonene:1.28,caryophyllene:0.27,linalool:0.54,myrcene:0.04,humulene:0.06,apinene:0.13,bpinene:0.2,bisabolol:0.05},
    {name:"Purple Chem",myrcene:0.66,limonene:0.59,caryophyllene:0.8,linalool:0.21,humulene:0.24,apinene:0.05,bpinene:0.09,bisabolol:0.16},
