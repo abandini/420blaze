@@ -116,7 +116,7 @@
   </div>
 
   <div class="panel" id="panel-real">
-    <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced — <strong>sort by store</strong> (grouped by state) or by strength. By default we hide distillate; toggle it on to see the whole wall.</div>
+    <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced. <strong>Find by effect</strong>, sort by store or strength, and narrow to your state or shop. By default we hide distillate; toggle it on to see the whole wall.</div>
     <div class="filters" id="realFilters"></div>
     <div id="realResult"></div>
   </div>
@@ -234,7 +234,7 @@ function matchStrain(name){
   box.innerHTML=h;
 }
 
-let realFilter={extract:"real",state:"all",store:"all",sort:"group"}, realShow=12;
+let realFilter={extract:"real",state:"all",store:"all",sort:"group",mood:"all"}, realShow=12;
 function storeLabel(k){return (STORES[k]||{}).label||k;}
 function realBase(){
   let list=EDIBLES.slice();
@@ -262,6 +262,8 @@ function renderRealFilters(){
   let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
   h+='<div class="frow"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
   h+='<div class="frow"><span class="flabel">State</span>'+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realFilter.store=\'all\';realShow=12;renderReal()">'+(s==="all"?"All":esc(s))+'</span>').join("")+'</div>';
+  const moods=[["all","✨ Any"]].concat(MOODS.map(m=>[m.id,m.mi+" "+m.label]));
+  h+='<div class="frow"><span class="flabel">Effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="realFilter.mood=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
   h+=storeChips();
   document.getElementById("realFilters").innerHTML=h;
 }
@@ -276,18 +278,27 @@ function renderReal(){
   if(realFilter.state!=="all")list=list.filter(p=>p.state===realFilter.state);
   if(realFilter.store!=="all")list=list.filter(p=>p.dispensary===realFilter.store);
   const prof=p=>(p.profile&&p.profile!=="none")?1:0, pkg=p=>p.thcMgPkg||0, pc=p=>p.thcMg||p.thcMgPkg||0;
-  if(realFilter.sort==="strong")list.sort((a,b)=>pkg(b)-pkg(a)||(b.thcMg||0)-(a.thcMg||0));
+  const mood=realFilter.mood!=="all"?MOODS.find(m=>m.id===realFilter.mood):null;
+  let why=()=>"";
+  if(mood){
+    // effect-finding only works on products that carry a terpene profile
+    list=list.filter(p=>p.profile&&p.profile!=="none").map(p=>({p,s:scoreMood(p,mood.w)})).sort((a,b)=>b.s-a.s).map(o=>o.p);
+    why=p=>mood.label+" fit"+(leadTerp(p)?" — "+TLABEL[leadTerp(p)]+"-led":"");
+  } else if(realFilter.sort==="strong")list.sort((a,b)=>pkg(b)-pkg(a)||(b.thcMg||0)-(a.thcMg||0));
   else if(realFilter.sort==="gentle")list.sort((a,b)=>(pc(a)||1e9)-(pc(b)||1e9));
   else list.sort((a,b)=>String(a.state).localeCompare(String(b.state))||storeLabel(a.dispensary).localeCompare(storeLabel(b.dispensary))||prof(b)-prof(a)||pkg(b)-pkg(a));
+  const grouped=!mood&&realFilter.sort==="group";
   const el=document.getElementById("realResult");
-  const tag=realFilter.sort==="group"?" · grouped by store":realFilter.sort==="strong"?" · strongest first":" · gentlest first";
-  el.innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+' shown'+(realFilter.extract==="real"?" (distillate hidden)":"")+tag+'.</div>';
-  if(!list.length){el.insertAdjacentHTML("beforeend",'<div class="empty">None match these filters.</div>');return;}
+  const tag=mood?(" · best "+mood.label+" match first"):realFilter.sort==="group"?" · grouped by store":realFilter.sort==="strong"?" · strongest first":" · gentlest first";
+  const noun=mood?" terpene-profiled":(realFilter.extract==="real"?" full-spectrum":"");
+  el.innerHTML='<div class="note" style="margin:6px 0 10px;">'+list.length+noun+(list.length===1?" product":" products")+(realFilter.extract==="real"&&!mood?" (distillate hidden)":"")+tag+'.</div>';
+  if(mood)el.insertAdjacentHTML("beforeend",'<div class="note" style="margin:-4px 0 10px;">Only edibles that carry a terpene profile can be ranked by effect — distillate has none.</div>');
+  if(!list.length){el.insertAdjacentHTML("beforeend",'<div class="empty">'+(mood?"None of the terpene-profiled edibles fit "+esc(mood.label)+" under these filters — try the &ldquo;Any&rdquo; effect, a different store, or check back as more profiles land.":"None match these filters.")+'</div>');return;}
   const shown=list.slice(0,realShow);
   let html="", lastStore=null;
   shown.forEach(p=>{
-    if(realFilter.sort==="group"&&p.dispensary!==lastStore){lastStore=p.dispensary;html+=storeHeader(p);}
-    html+=cardHTML(p,"",true);
+    if(grouped&&p.dispensary!==lastStore){lastStore=p.dispensary;html+=storeHeader(p);}
+    html+=cardHTML(p,why(p),!mood);
   });
   el.insertAdjacentHTML("beforeend",html);
   if(list.length>realShow){const left=list.length-realShow;el.insertAdjacentHTML("beforeend",'<button class="moreBtn" onclick="realShow+=12;renderReal()">Show '+Math.min(12,left)+' more · '+left+' left</button>');}
