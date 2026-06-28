@@ -75,6 +75,7 @@
   .proto{background:#fffbe6;border:1px solid #f5e6a0;border-radius:8px;padding:8px 12px;font-size:0.8rem;color:#8a6d00;margin:10px 0;}
   .frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:9px 0;}
   .flabel{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--mut);margin-right:2px;}
+  .frow.dim .chip{opacity:.4;}
   .storebar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;padding:11px;background:#fff;border:1px solid var(--line);border-radius:12px;}
   .storechip{display:inline-flex;align-items:center;gap:6px;}
   .storechip .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;}
@@ -148,7 +149,7 @@ function cbdForward(p){ // Ratio is CBD:THC per the data spec; CBD-forward = CBD
   if(!m)return false; const cbd=parseFloat(m[1]),thc=parseFloat(m[2]);
   return cbd>0&&cbd>=thc;
 }
-function barsHTML(p){const max=1.0;let h='<div class="bars">';TKEYS.forEach(k=>{const v=val(p,k);if(v<=0||v>25)return;h+='<div class="bar-row"><span>'+TLABEL[k]+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.min(100,v/max*100)+'%;background:'+COLORS[k]+';"></span></span><span>'+v.toFixed(2)+'%</span></div>';});return h+'</div>';}
+function barsHTML(p){const max=3.0;/* ~typical top-terpene %, so bars differentiate instead of saturating at 1% */let h='<div class="bars">';TKEYS.forEach(k=>{const v=val(p,k);if(v<=0||v>25)return;h+='<div class="bar-row"><span>'+TLABEL[k]+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.min(100,v/max*100)+'%;background:'+COLORS[k]+';"></span></span><span>'+v.toFixed(2)+'%</span></div>';});return h+'</div>';}
 
 let EDIBLES=[], STORES={}, FLOWER={}, STATS={};
 const profiled=()=>EDIBLES.filter(p=>p.profile&&p.profile!=="none");
@@ -262,7 +263,8 @@ function renderRealFilters(){
   const sorts=[["group","🏬 By store"],["strong","🔊 Strongest"],["gentle","🔈 Gentlest"]];
   const states=["all"].concat([...new Set(EDIBLES.map(p=>p.state).filter(Boolean))].sort());
   let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
-  h+='<div class="frow"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  const sortPaused=realFilter.mood!=="all";
+  h+='<div class="frow'+(sortPaused?" dim":"")+'"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(!sortPaused&&realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.mood=\'all\';realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+(sortPaused?'<span class="note" style="margin-left:6px;align-self:center;">↳ ordered by effect</span>':"")+'</div>';
   h+='<div class="frow"><span class="flabel">State</span>'+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realFilter.store=\'all\';realShow=12;renderReal()">'+(s==="all"?"All":esc(s))+'</span>').join("")+'</div>';
   const moods=[["all","✨ Any"]].concat(MOODS.map(m=>[m.id,m.mi+" "+m.label]));
   h+='<div class="frow"><span class="flabel">Effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="realFilter.mood=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';

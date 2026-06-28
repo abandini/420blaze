@@ -27,6 +27,10 @@ SITEMAPS = [
 ]
 
 NEW_PAGES = [
+    # Edible Decoder initiative (launched June 2026)
+    ("sc-domain:420blazin.com", "https://420blazin.com/edibles"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/heart-smart"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/doctor-said-stop-smoking-keep-terpenes"),
     ("sc-domain:420blazin.com", "https://420blazin.com/green-wednesday-2026"),
     ("sc-domain:420blazin.com", "https://420blazin.com/cannabis-holidays-2026"),
     ("sc-domain:420blazin.com", "https://420blazin.com/710-dab-day-2026"),
