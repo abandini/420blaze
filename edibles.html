@@ -148,7 +148,7 @@ function cbdForward(p){ // Ratio is CBD:THC per the data spec; CBD-forward = CBD
   if(!m)return false; const cbd=parseFloat(m[1]),thc=parseFloat(m[2]);
   return cbd>0&&cbd>=thc;
 }
-function barsHTML(p){const max=1.0;let h='<div class="bars">';TKEYS.forEach(k=>{const v=val(p,k);if(v<=0)return;h+='<div class="bar-row"><span>'+TLABEL[k]+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.min(100,v/max*100)+'%;background:'+COLORS[k]+';"></span></span><span>'+v.toFixed(2)+'%</span></div>';});return h+'</div>';}
+function barsHTML(p){const max=1.0;let h='<div class="bars">';TKEYS.forEach(k=>{const v=val(p,k);if(v<=0||v>25)return;h+='<div class="bar-row"><span>'+TLABEL[k]+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.min(100,v/max*100)+'%;background:'+COLORS[k]+';"></span></span><span>'+v.toFixed(2)+'%</span></div>';});return h+'</div>';}
 
 let EDIBLES=[], STORES={}, FLOWER={}, STATS={};
 const profiled=()=>EDIBLES.filter(p=>p.profile&&p.profile!=="none");

@@ -20,7 +20,7 @@
    "color": "#16a085",
    "count": 130,
    "tierA": 34,
-   "profileable": 2
+   "profileable": 1
   },
   {
    "key": "botanist_solon",
@@ -30,7 +30,7 @@
    "color": "#2ecc71",
    "count": 104,
    "tierA": 8,
-   "profileable": 7
+   "profileable": 6
   },
   {
    "key": "dacut",
@@ -50,7 +50,7 @@
    "color": "#1abc9c",
    "count": 130,
    "tierA": 14,
-   "profileable": 6
+   "profileable": 3
   },
   {
    "key": "joyology",
@@ -80,7 +80,7 @@
    "color": "#e74c3c",
    "count": 125,
    "tierA": 13,
-   "profileable": 3
+   "profileable": 2
   },
   {
    "key": "puff",
@@ -130,7 +130,7 @@
    "color": "#1a8754",
    "count": 83,
    "tierA": 34,
-   "profileable": 4
+   "profileable": 2
   },
   {
    "key": "urb",
@@ -147,8 +147,8 @@
   "total": 2600,
   "tierA": 542,
   "distillate": 2040,
-  "profileable": 32,
-  "coa": 20,
+  "profileable": 24,
+  "coa": 12,
   "inherited": 12,
   "cardiac": 350
  },
@@ -2559,17 +2559,8 @@
    "cardiac": "",
    "price": "12",
    "size": "110mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.23,
-   "limonene": 0.85,
-   "caryophyllene": 4.14,
-   "linalool": 3.93,
-   "humulene": 1.23,
-   "apinene": 0.0,
-   "bpinene": 0.05,
-   "bisabolol": 0.87,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Encore RSO (I) Milk Chocolates 11mg 10pk",
@@ -5166,17 +5157,8 @@
    "cardiac": "",
    "price": "14",
    "size": "0.1064g",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.0,
-   "limonene": 0.0,
-   "caryophyllene": 6.0,
-   "linalool": 0.64,
-   "humulene": 2.27,
-   "apinene": 0.0,
-   "bpinene": 0.0,
-   "bisabolol": 3.21,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Pink Pineapple x Pacific Cool Live Rosin - 100mg 10pk Gummies",
@@ -13820,17 +13802,8 @@
    "cardiac": "",
    "price": "80",
    "size": "550mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.0,
-   "limonene": 0.0,
-   "caryophyllene": 961.4,
-   "linalool": 0.0,
-   "humulene": 0.0,
-   "apinene": 0.0,
-   "bpinene": 0.0,
-   "bisabolol": 0.0,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Sour Black Cherry RSO Gummies 550mg | 22pk",
@@ -13849,17 +13822,8 @@
    "cardiac": "",
    "price": "80",
    "size": "550mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.0,
-   "limonene": 3.3,
-   "caryophyllene": 523.6,
-   "linalool": 166.1,
-   "humulene": 183.7,
-   "apinene": 0.0,
-   "bpinene": 0.0,
-   "bisabolol": 206.8,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Cherry Lime Sunshine Liquid Live Resin Gummies 10pk | 200mg",
@@ -14036,17 +14000,8 @@
    "cardiac": "",
    "price": "20",
    "size": "10pk / 110mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 26.71,
-   "limonene": 58.8,
-   "caryophyllene": 489.44,
-   "linalool": 203.84,
-   "humulene": 159.04,
-   "apinene": 2.55,
-   "bpinene": 6.27,
-   "bisabolol": 112.56,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Lemon Ginger Pate De Fruit RSO Gummies 100mg | 10pk",
@@ -21091,14 +21046,14 @@
    "price": "28",
    "size": "10pk",
    "profile": "inherited",
-   "matchedCultivar": "Ice Cream Cake | 14.15g",
-   "myrcene": 0,
-   "limonene": 0.84,
-   "caryophyllene": 0.28,
-   "linalool": 0.51,
-   "humulene": 0,
-   "apinene": 0,
-   "bpinene": 0,
+   "matchedCultivar": "Ice Cream Cake",
+   "myrcene": 0.06,
+   "limonene": 0.83,
+   "caryophyllene": 0.67,
+   "linalool": 0.47,
+   "humulene": 0.24,
+   "apinene": 0.06,
+   "bpinene": 0.11,
    "bisabolol": 0,
    "leadTerp": "limonene"
   },
@@ -22319,17 +22274,8 @@
    "cardiac": "",
    "price": "72",
    "size": "22pk",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.37,
-   "limonene": 0.51,
-   "caryophyllene": 7.36,
-   "linalool": 0.89,
-   "humulene": 2.52,
-   "apinene": 0.0,
-   "bpinene": 0.08,
-   "bisabolol": 4.02,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Aura - Vanilla Shake Entourage - Gummies - 220mg [24pk]",
@@ -44473,17 +44419,8 @@
    "cardiac": "",
    "price": "20",
    "size": "110mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.48,
-   "limonene": 1.05,
-   "caryophyllene": 8.74,
-   "linalool": 3.64,
-   "humulene": 2.84,
-   "apinene": 0.05,
-   "bpinene": 0.11,
-   "bisabolol": 2.01,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Guava | Rosin Gummies | [105mg]",
@@ -44563,16 +44500,16 @@
    "price": "29",
    "size": "104.4mg / 110mg",
    "profile": "inherited",
-   "matchedCultivar": "Dark Rainbow",
-   "myrcene": 0.26,
-   "limonene": 0.69,
-   "caryophyllene": 0.78,
-   "linalool": 0.43,
-   "humulene": 0.29,
+   "matchedCultivar": "Dark Rainbow | Select | 3.5g",
+   "myrcene": 0.29,
+   "limonene": 0.68,
+   "caryophyllene": 0.59,
+   "linalool": 0.38,
+   "humulene": 0.22,
    "apinene": 0.06,
-   "bpinene": 0.11,
-   "bisabolol": 0.12,
-   "leadTerp": "caryophyllene"
+   "bpinene": 0.1,
+   "bisabolol": 0.08,
+   "leadTerp": "limonene"
   },
   {
    "name": "Tangerine | Rosin Gummies | [103.2mg]",
@@ -44631,17 +44568,8 @@
    "cardiac": "yes",
    "price": "20",
    "size": "110mg",
-   "profile": "coa",
-   "matchedCultivar": null,
-   "myrcene": 0.19,
-   "limonene": 0.72,
-   "caryophyllene": 6.81,
-   "linalool": 2.54,
-   "humulene": 2.2,
-   "apinene": 0.0,
-   "bpinene": 0.0,
-   "bisabolol": 1.16,
-   "leadTerp": "caryophyllene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Grape Punch | Rosin Gummies | [102mg]",

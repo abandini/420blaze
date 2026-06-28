@@ -71,7 +71,7 @@ syringes**, mints, and **beverages** (all ingestible).
 | `Ratio` | **CBD:THC ONLY**, CBD first (e.g., "2:1" = 2 CBD : 1 THC, CBD-heavy). Blank for THC-only or non-CBD (CBN) ratios. Do **not** put THC:CBN here. |
 | `Fast-acting` | "yes" if labeled nano / fast-acting / sublingual; else blank |
 | `Terps published` | "yes"/"no" — does the listing/COA give a terpene breakdown? |
-| terpene columns | **only if** a COA is published — same headers as the flower sheet (Beta Myrcene, Limonene, Beta Caryophyllene, Linalool, Humulene, Alpha Pinene, Beta Pinene, Bisabolol). Leave blank otherwise. |
+| terpene columns | **only if** a COA is published — same headers as the flower sheet (Beta Myrcene, Limonene, Beta Caryophyllene, Linalool, Humulene, Alpha Pinene, Beta Pinene, Bisabolol). **Units MUST be percent (% w/w)**, same as the flower sheet — a single terpene is realistically <~3%, total <~5%. **Do NOT enter mg/g or mg** (we caught COAs with caryophyllene 961, linalool 204 — impossible as a %; if your COA lists mg/g, divide by 10 to get %). Leave blank otherwise. |
 | `Price` | listed price |
 | `Size` | count + mg, e.g., "20pc · 5mg ea (100mg)" |
 | `Fidelity` | tier A/B/C — see below (your classification) |

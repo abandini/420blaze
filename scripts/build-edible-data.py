@@ -97,6 +97,7 @@ def main():
         sys.exit("pip install openpyxl")
     reps, brands, store_meta = load_flower()
     products, stores = [], {}
+    bad_coa = 0  # COA terpene rows rejected for implausible units (mg/g or mg, not % w/w)
     for f in sorted(SRC.glob("*_edibles.xlsx")):
         stem = f.stem.replace("_edibles", "")
         key = STORE_KEY.get(stem, stem)
@@ -121,8 +122,15 @@ def main():
                 t = {k: num(cell(r, lbl)) for k, lbl in zip(TERP_KEYS,
                      ["Beta Myrcene", "Limonene", "Beta Caryophyllene", "Linalool",
                       "Humulene", "Alpha Pinene", "Beta Pinene", "Bisabolol"])}
-                if sum(t.values()) > 0:
+                tot = sum(t.values())
+                # COA terps MUST be plausible % w/w. Several cowork COAs arrived in mg/g or mg
+                # (e.g. caryophyllene 961, linalool 204 — impossible as a percent). Reject those
+                # untrustworthy units rather than display a fabricated %; the row then falls
+                # through to cultivar-inherit. Real flower tops out ~5% total in our data.
+                if 0 < tot <= 8 and max(t.values()) <= 5:
                     terps, profile = t, "coa"
+                elif tot > 0:
+                    bad_coa += 1
             if terps is None and fid in ("A", "B"):  # inherit from a matched cultivar
                 fl = match_cultivar(src, reps, brands) or match_cultivar(strain, reps, brands)
                 if fl:
@@ -173,6 +181,8 @@ def main():
     print(f"\nwrote {OUT}")
     print(f"  {total} edibles | {s['tierA']} tier-A | {distillate} distillate ({100*distillate//total}% wall) | "
           f"{profileable} profileable ({s['coa']} COA + {s['inherited']} inherited) | {s['cardiac']} cardiac-lane")
+    if bad_coa:
+        print(f"  ⚠️  rejected {bad_coa} COA terpene row(s) for implausible units (>8% total or >5% single — likely mg/g or mg, not %)")
 
 if __name__ == "__main__":
     main()
