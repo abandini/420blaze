@@ -76,6 +76,12 @@
   .frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:9px 0;}
   .flabel{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--mut);margin-right:2px;}
   .frow.dim .chip{opacity:.4;}
+  .advtoggle{display:inline-block;margin:6px 0 2px;padding:8px 13px;border:1.5px dashed #c4c4c4;background:#fff;color:var(--mut);border-radius:10px;font-weight:700;cursor:pointer;font-size:0.82rem;}
+  .advtoggle:hover{border-color:var(--g);color:var(--gd);}
+  .advtoggle b{color:var(--gd);}
+  .advpanel{border:1px solid var(--line);border-radius:12px;padding:8px 12px 4px;margin:6px 0 4px;background:#fcfdfc;}
+  .skel{display:inline-block;min-width:2.6em;height:0.95em;vertical-align:middle;border-radius:4px;color:transparent!important;background:linear-gradient(90deg,#e9e9e9,#f6f6f6,#e9e9e9);background-size:200% 100%;animation:sh 1.2s ease-in-out infinite;}
+  @keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .storebar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:10px 0 4px;padding:11px;background:#fff;border:1px solid var(--line);border-radius:12px;}
   .storechip{display:inline-flex;align-items:center;gap:6px;}
   .storechip .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;}
@@ -93,10 +99,10 @@
 
   <h1>The Edible Decoder<span class="sub">Most edibles can&rsquo;t feel like your flower. Here are the ones that can — matched by terpene, dialed by dose.</span></h1>
 
-  <div class="proto" id="proto">Prototype · live data from <span id="storeN">—</span> Ohio &amp; Michigan dispensaries (more landing). Educational only — not medical advice.</div>
+  <div class="proto" id="proto">Prototype · live data from <span id="storeN" class="skel">—</span> Ohio &amp; Michigan dispensaries (more landing). Educational only — not medical advice.</div>
 
   <div class="wall">
-    <div class="big" id="wallPct">—%</div>
+    <div class="big" id="wallPct"><span class="skel">&nbsp;&nbsp;&nbsp;</span></div>
     <div>of edibles on these menus are <b>terpene-dead distillate</b> — stripped of the terpenes that give a strain its character, then sold under flavor names and indica/sativa labels that are <b>just marketing</b>. <span id="wallNums"></span></div>
   </div>
 
@@ -109,7 +115,7 @@
   </div>
 
   <div class="panel active" id="panel-match">
-    <div class="sf-explain" style="margin-top:14px;">Pick a feeling, or type a strain you love. We rank the <strong id="profN">—</strong> edibles that actually carry a terpene profile (lab COA or inherited from their source cultivar) by how well they match.</div>
+    <div class="sf-explain" style="margin-top:14px;">Pick a feeling, or type a strain you love. We rank the <strong id="profN" class="skel">—</strong> edibles that actually carry a terpene profile (lab COA or inherited from their source cultivar) by how well they match.</div>
     <div class="mood-grid" id="moodGrid"></div>
     <input class="sel" id="strainPick" list="flowerNames" placeholder="…or type a strain you love — e.g. Pave, Blue Dream, GMO" autocomplete="off" oninput="matchStrain(this.value)">
     <datalist id="flowerNames"></datalist>
@@ -118,6 +124,7 @@
 
   <div class="panel" id="panel-real">
     <div class="sf-explain" style="margin-top:14px;">The full-spectrum minority, surfaced. <strong>Find by effect</strong>, sort by store or strength, and narrow to your state or shop. By default we hide distillate; toggle it on to see the whole wall.</div>
+    <details class="sf-explain" style="margin-top:8px;"><summary>What do RSO, live rosin, COA mean?</summary><div class="body"><b>Live rosin / live resin</b> — solventless or fresh-frozen full-spectrum extract that keeps the plant&rsquo;s terpenes. <b>RSO / FECO</b> — full-extract cannabis oil, also terpene-rich. <b>Full-spectrum</b> — whole-plant, terpenes intact. <b>Distillate</b> — purified THC with the terpenes stripped, so the strain name is flavor branding only. <b>COA</b> — Certificate of Analysis, a product&rsquo;s lab report (where a real terpene breakdown comes from).</div></details>
     <div class="filters" id="realFilters"></div>
     <div id="realResult"></div>
   </div>
@@ -215,6 +222,7 @@ function pickMood(id){
   if(!ranked.length)h='<div class="empty">No terpene-profiled edibles match yet — the matchable catalog is still small (see the note below).</div>';
   else h=ranked.map((p,i)=>cardHTML(p,"#"+(i+1)+" "+m.label+" match — "+(p.leadTerp?TLABEL[p.leadTerp]+"-led":"")+".")).join("");
   document.getElementById("matchResult").innerHTML=h;
+  syncURL();
 }
 function renderFlowerList(){
   const names=Object.keys(FLOWER).map(k=>FLOWER[k].name).sort((a,b)=>a.localeCompare(b));
@@ -235,9 +243,10 @@ function matchStrain(name){
   if(!ranked.length||ranked[0].sim<=0)h+='<div class="empty">No profiled edible is close yet — the matchable set is small. Try the mood chips, or check back as more stores land.</div>';
   else h+=ranked.map(o=>cardHTML(o.p,Math.round(o.sim*100)+"% terpene-profile match.")).join("");
   box.innerHTML=h;
+  syncURL();
 }
 
-let realFilter={extract:"real",state:"all",store:"all",sort:"group",mood:"all"}, realShow=12;
+let realFilter={extract:"real",state:"all",store:"all",sort:"group",mood:"all",adv:false}, realShow=12;
 function storeLabel(k){return (STORES[k]||{}).label||k;}
 function realBase(){
   let list=EDIBLES.slice();
@@ -262,13 +271,25 @@ function renderRealFilters(){
   const ex=[["real","✅ Full-spectrum only"],["all","Show distillate too"]];
   const sorts=[["group","🏬 By store"],["strong","🔊 Strongest"],["gentle","🔈 Gentlest"]];
   const states=["all"].concat([...new Set(EDIBLES.map(p=>p.state).filter(Boolean))].sort());
-  let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
-  const sortPaused=realFilter.mood!=="all";
-  h+='<div class="frow'+(sortPaused?" dim":"")+'"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(!sortPaused&&realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.mood=\'all\';realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+(sortPaused?'<span class="note" style="margin-left:6px;align-self:center;">↳ ordered by effect</span>':"")+'</div>';
-  h+='<div class="frow"><span class="flabel">State</span>'+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realFilter.store=\'all\';realShow=12;renderReal()">'+(s==="all"?"All":esc(s))+'</span>').join("")+'</div>';
   const moods=[["all","✨ Any"]].concat(MOODS.map(m=>[m.id,m.mi+" "+m.label]));
-  h+='<div class="frow"><span class="flabel">Effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="realFilter.mood=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
-  h+=storeChips();
+  // PRIMARY — always visible: full-spectrum toggle + find-by-effect
+  let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  h+='<div class="frow"><span class="flabel">Find by effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="realFilter.mood=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  // ADVANCED — sort / state / store behind a toggle, with a summary of what's active when collapsed
+  const summ=[];
+  if(realFilter.sort!=="group"&&realFilter.mood==="all")summ.push(realFilter.sort==="strong"?"Strongest":"Gentlest");
+  if(realFilter.state!=="all")summ.push(realFilter.state);
+  if(realFilter.store!=="all")summ.push(storeLabel(realFilter.store));
+  const lbl=realFilter.adv?"▴ Hide sort, state &amp; store":("⚙ Sort, state &amp; store"+(summ.length?' · <b>'+esc(summ.join(" · "))+'</b>':""));
+  h+='<button class="advtoggle" onclick="realFilter.adv=!realFilter.adv;renderReal()">'+lbl+'</button>';
+  if(realFilter.adv){
+    const sortPaused=realFilter.mood!=="all";
+    h+='<div class="advpanel">';
+    h+='<div class="frow'+(sortPaused?" dim":"")+'"><span class="flabel">Sort</span>'+sorts.map(a=>'<span class="chip '+(!sortPaused&&realFilter.sort===a[0]?"on":"")+'" onclick="realFilter.mood=\'all\';realFilter.sort=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+(sortPaused?'<span class="note" style="margin-left:6px;align-self:center;">↳ ordered by effect</span>':"")+'</div>';
+    h+='<div class="frow"><span class="flabel">State</span>'+states.map(s=>'<span class="chip '+(realFilter.state===s?"on":"")+'" onclick="realFilter.state=\''+esc(s)+'\';realFilter.store=\'all\';realShow=12;renderReal()">'+(s==="all"?"All":esc(s))+'</span>').join("")+'</div>';
+    h+=storeChips();
+    h+='</div>';
+  }
   document.getElementById("realFilters").innerHTML=h;
 }
 function storeHeader(p){
@@ -278,6 +299,7 @@ function storeHeader(p){
 }
 function renderReal(){
   renderRealFilters();
+  syncURL();
   let list=realBase();
   if(realFilter.state!=="all")list=list.filter(p=>p.state===realFilter.state);
   if(realFilter.store!=="all")list=list.filter(p=>p.dispensary===realFilter.store);
@@ -308,9 +330,46 @@ function renderReal(){
   if(list.length>realShow){const left=list.length-realShow;el.insertAdjacentHTML("beforeend",'<button class="moreBtn" onclick="realShow+=12;renderReal()">Show '+Math.min(12,left)+' more · '+left+' left</button>');}
 }
 
+let curTab="match";
+function syncURL(){
+  try{
+    const p=new URLSearchParams();
+    p.set("t",curTab);
+    if(curTab==="match"){
+      const q=(document.getElementById("strainPick")||{}).value;
+      const am=MOODS.find(m=>{const el=document.getElementById("m-"+m.id);return el&&el.classList.contains("active");});
+      if(q&&q.trim())p.set("q",q.trim()); else if(am)p.set("mood",am.id);
+    } else {
+      if(realFilter.extract!=="real")p.set("x",realFilter.extract);
+      if(realFilter.mood!=="all")p.set("fx",realFilter.mood);
+      if(realFilter.sort!=="group")p.set("s",realFilter.sort);
+      if(realFilter.state!=="all")p.set("st",realFilter.state);
+      if(realFilter.store!=="all")p.set("store",realFilter.store);
+      if(realFilter.adv)p.set("adv","1");
+    }
+    const qs=p.toString();
+    history.replaceState(null,"",qs?("?"+qs):location.pathname);
+  }catch(e){}
+}
+function restoreURL(){
+  const p=new URLSearchParams(location.search);
+  if(p.get("x"))realFilter.extract=p.get("x");
+  if(p.get("fx"))realFilter.mood=p.get("fx");
+  if(p.get("s"))realFilter.sort=p.get("s");
+  if(p.get("st"))realFilter.state=p.get("st");
+  if(p.get("store"))realFilter.store=p.get("store");
+  if(p.get("adv"))realFilter.adv=true;
+  const q=p.get("q"), mood=p.get("mood");
+  if(q){document.getElementById("strainPick").value=q;matchStrain(q);}
+  else pickMood(mood&&MOODS.some(m=>m.id===mood)?mood:"calm");
+  if(p.get("t")==="real")showTab("real");
+}
+
 function showTab(t){
   ["match","real"].forEach(x=>{document.getElementById("panel-"+x).classList.toggle("active",t===x);document.getElementById("tab-"+x).classList.toggle("active",t===x);});
+  curTab=t;
   if(t==="real")renderReal();
+  syncURL();
   try{posthog&&posthog.capture("edible_tab",{tab:t});}catch(e){}
 }
 
@@ -330,10 +389,10 @@ Promise.all([
   const wallPct=Math.round(100*STATS.distillate/STATS.total);
   document.getElementById("wallPct").textContent=wallPct+"%";
   document.getElementById("wallNums").innerHTML="Across <b>"+STATS.total+"</b> edibles, only <b>"+STATS.profileable+"</b> carry a real terpene profile.";
-  document.getElementById("storeN").textContent=(ed.stores||[]).length;
-  document.getElementById("profN").textContent=STATS.profileable;
+  const sN=document.getElementById("storeN");sN.textContent=(ed.stores||[]).length;sN.classList.remove("skel");
+  const pN=document.getElementById("profN");pN.textContent=STATS.profileable;pN.classList.remove("skel");
   document.getElementById("footnote").innerHTML="Data: dated snapshots of "+(ed.stores||[]).length+" OH &amp; MI dispensary edible menus. THC dose is mg, not % — it doesn&rsquo;t map to a flower&rsquo;s THC%. Terpene profiles are a published COA or inherited from a product&rsquo;s named source cultivar via our "+EDIBLES.length+"-edible / 1,300+-flower database. Educational only; cannabis affects everyone differently, and THC carries cardiovascular risk — consult a clinician.";
-  renderMoods(); renderFlowerList(); pickMood("calm");
+  renderMoods(); renderFlowerList(); restoreURL();
 }).catch(function(e){document.getElementById("matchResult").innerHTML='<div class="empty">Could not load edible data.</div>';});
 </script>
 </body>
