@@ -153,7 +153,9 @@ function barsHTML(p){const max=1.0;let h='<div class="bars">';TKEYS.forEach(k=>{
 let EDIBLES=[], STORES={}, FLOWER={}, STATS={};
 const profiled=()=>EDIBLES.filter(p=>p.profile&&p.profile!=="none");
 
-function storeBadge(p){const s=STORES[p.dispensary]||{label:p.dispensary,color:"#777",location:""};return '<span class="bdg store" style="background:'+s.color+'">'+esc(s.label)+'</span>';}
+// pick black or white text for a badge background — whichever has higher WCAG contrast (always >=4.58:1)
+function fg(hex){hex=String(hex||"#777").replace("#","");if(hex.length===3)hex=hex.split("").map(c=>c+c).join("");const c=[0,2,4].map(i=>parseInt(hex.substr(i,2),16)/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));const L=0.2126*c[0]+0.7152*c[1]+0.0722*c[2];return (1.05/(L+0.05))>=((L+0.05)/0.05)?"#fff":"#000";}
+function storeBadge(p){const s=STORES[p.dispensary]||{label:p.dispensary,color:"#777",location:""};return '<span class="bdg store" style="background:'+s.color+';color:'+fg(s.color)+'">'+esc(s.label)+'</span>';}
 function extractBadge(p){
   const real=["live_rosin","live_resin","rso","feco","full_spectrum"].includes(p.extractType);
   const nice={live_rosin:"🧊 Live Rosin",live_resin:"🧊 Live Resin",rso:"🌿 RSO",feco:"🌿 FECO",full_spectrum:"🌿 Full-spectrum",distillate:"⚗️ Distillate",unknown:"❓ Unspecified"};

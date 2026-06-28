@@ -86,7 +86,9 @@ function isThcFree(p){
 }
 
 let EDIBLES=[], STORES={};
-function storeBadge(p){const s=STORES[p.dispensary]||{label:p.dispensary,color:"#777"};return '<span class="bdg store" style="background:'+s.color+'">'+esc(s.label)+'</span>';}
+// pick black or white text for a badge background — whichever has higher WCAG contrast (always >=4.58:1)
+function fg(hex){hex=String(hex||"#777").replace("#","");if(hex.length===3)hex=hex.split("").map(c=>c+c).join("");const c=[0,2,4].map(i=>parseInt(hex.substr(i,2),16)/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));const L=0.2126*c[0]+0.7152*c[1]+0.0722*c[2];return (1.05/(L+0.05))>=((L+0.05)/0.05)?"#fff":"#000";}
+function storeBadge(p){const s=STORES[p.dispensary]||{label:p.dispensary,color:"#777"};return '<span class="bdg store" style="background:'+s.color+';color:'+fg(s.color)+'">'+esc(s.label)+'</span>';}
 function doseStr(p){
   let d="";
   if(p.thcMg>0)d="💊 "+p.thcMg+" mg/pc";
