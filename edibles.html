@@ -120,6 +120,7 @@
 
   <div class="panel active" id="panel-match">
     <div class="sf-explain" style="margin-top:14px;">Pick a feeling, or type a strain you love. We rank the <strong id="profN" class="skel">—</strong> edibles that actually carry a terpene profile (lab COA or inherited from their source cultivar) by how well they match.</div>
+    <div style="margin:12px 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><label for="matchStore" style="font-weight:700;font-size:0.85rem;">🏬 Store:</label><select class="sel" id="matchStore" onchange="setMatchStore(this.value)" style="max-width:320px;width:auto;"></select></div>
     <div class="mood-grid" id="moodGrid"></div>
     <input class="sel" id="strainPick" list="flowerNames" placeholder="…or type a strain you love — e.g. Pave, Blue Dream, GMO" autocomplete="off" oninput="matchStrain(this.value,1)">
     <datalist id="flowerNames"></datalist>
@@ -163,7 +164,26 @@ function cbdForward(p){ // Ratio is CBD:THC per the data spec; CBD-forward = CBD
 function barsHTML(p){const max=3.0;/* ~typical top-terpene %, so bars differentiate instead of saturating at 1% */let h='<div class="bars">';TKEYS.forEach(k=>{const v=val(p,k);if(v<=0||v>25)return;h+='<div class="bar-row"><span>'+TLABEL[k]+'</span><span class="bar-track"><span class="bar-fill" style="width:'+Math.min(100,v/max*100)+'%;background:'+COLORS[k]+';"></span></span><span>'+v.toFixed(2)+'%</span></div>';});return h+'</div>';}
 
 let EDIBLES=[], STORES={}, FLOWER={}, STATS={};
-const profiled=()=>EDIBLES.filter(p=>p.profile&&p.profile!=="none");
+let matchStore="all";  // store filter for the Match tab (like the flower dispensary bar)
+const profiled=()=>EDIBLES.filter(p=>p.profile&&p.profile!=="none"&&(matchStore==="all"||p.dispensary===matchStore));
+// populate the Match-tab store dropdown from the FULL profiled pool (counts are store-independent)
+function renderMatchStores(){
+  const sel=document.getElementById("matchStore"); if(!sel)return;
+  const all=EDIBLES.filter(p=>p.profile&&p.profile!=="none"), by={};
+  all.forEach(p=>{by[p.dispensary]=(by[p.dispensary]||0)+1;});
+  const lab=k=>(STORES[k]||{}).label||k;
+  const opts=['<option value="all">All stores ('+all.length+')</option>'];
+  Object.keys(by).sort((a,b)=>lab(a).localeCompare(lab(b))).forEach(k=>opts.push('<option value="'+k+'">'+esc(lab(k))+' ('+by[k]+')</option>'));
+  sel.innerHTML=opts.join(""); sel.value=matchStore;
+}
+function setMatchStore(v){
+  matchStore=v;
+  try{posthog&&posthog.capture("edible_store",{store:v});}catch(e){}
+  // re-run the current view (fromUser=0 so we don't re-fire the mood/match event)
+  const q=(document.getElementById("strainPick")||{}).value;
+  const am=MOODS.find(m=>{const el=document.getElementById("m-"+m.id);return el&&el.classList.contains("active");});
+  if(q&&q.trim())matchStrain(q,0); else if(am)pickMood(am.id,0); else pickMood("calm",0);
+}
 
 // pick black or white text for a badge background — whichever has higher WCAG contrast (always >=4.58:1)
 function fg(hex){hex=String(hex||"#777").replace("#","");if(hex.length===3)hex=hex.split("").map(c=>c+c).join("");const c=[0,2,4].map(i=>parseInt(hex.substr(i,2),16)/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));const L=0.2126*c[0]+0.7152*c[1]+0.0722*c[2];return (1.05/(L+0.05))>=((L+0.05)/0.05)?"#fff":"#000";}
@@ -400,7 +420,7 @@ Promise.all([
   const sN=document.getElementById("storeN");sN.textContent=(ed.stores||[]).length;sN.classList.remove("skel");
   const pN=document.getElementById("profN");pN.textContent=STATS.profileable;pN.classList.remove("skel");
   document.getElementById("footnote").innerHTML="Data: dated snapshots of "+(ed.stores||[]).length+" OH &amp; MI dispensary edible menus. THC dose is mg, not % — it doesn&rsquo;t map to a flower&rsquo;s THC%. Terpene profiles are a published COA or inherited from a product&rsquo;s named source cultivar via our "+EDIBLES.length+"-edible / 1,300+-flower database. Educational only; cannabis affects everyone differently, and THC carries cardiovascular risk — consult a clinician.";
-  renderMoods(); renderFlowerList(); restoreURL();
+  renderMoods(); renderMatchStores(); renderFlowerList(); restoreURL();
 }).catch(function(e){document.getElementById("matchResult").innerHTML='<div class="empty">Could not load edible data.</div>';});
 </script>
 </body>
