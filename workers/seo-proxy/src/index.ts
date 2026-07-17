@@ -5,6 +5,7 @@
 
 import { handleAffiliateRedirect } from './affiliate.js';
 import { handleSubscribe, handleConfirm, handleUnsubscribe } from './subscribe.js';
+import { handlePostHogProxy, isIngestPath } from './posthog.js';
 import { SITEMAP_XML } from './sitemap-data.js';
 
 interface Env {
@@ -108,6 +109,12 @@ export default {
     if (url.hostname === 'www.420blazin.com') {
       url.hostname = '420blazin.com';
       return Response.redirect(url.toString(), 301);
+    }
+
+    // PostHog reverse proxy — first-party /ingest/* survives content blockers.
+    // High volume, so it short-circuits before any other routing.
+    if (isIngestPath(url.pathname)) {
+      return handlePostHogProxy(request);
     }
 
     // Serve sitemap and robots.txt
