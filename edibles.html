@@ -113,15 +113,15 @@
   <details class="sf-explain"><summary>Why this tool exists &amp; how the matching works</summary><div class="body">Distillate edibles can&rsquo;t carry a strain&rsquo;s terpene profile (the terpenes are cooked off in processing). Only <strong>cold-process, full-spectrum</strong> products — live rosin, live resin, RSO — keep a flower-like profile. This Decoder finds those, matches them to a strain or feeling you like, and lets you dial the dose in <strong>mg</strong> (the only thing that &ldquo;tracks&rdquo; in an edible — THC% doesn&rsquo;t translate). <a href="/strain-finder">Strain Finder &rarr;</a></div></details>
 
   <div class="tabs">
-    <div class="tab active" id="tab-match" onclick="showTab('match')">🎯 Match a vibe or strain</div>
-    <div class="tab" id="tab-real" onclick="showTab('real')">🔍 Skip the distillate</div>
+    <div class="tab active" id="tab-match" onclick="showTab('match',1)">🎯 Match a vibe or strain</div>
+    <div class="tab" id="tab-real" onclick="showTab('real',1)">🔍 Skip the distillate</div>
     <a class="tab tab-link" href="/heart-smart">🫀 Heart-smart &amp; low-dose ↗</a>
   </div>
 
   <div class="panel active" id="panel-match">
     <div class="sf-explain" style="margin-top:14px;">Pick a feeling, or type a strain you love. We rank the <strong id="profN" class="skel">—</strong> edibles that actually carry a terpene profile (lab COA or inherited from their source cultivar) by how well they match.</div>
     <div class="mood-grid" id="moodGrid"></div>
-    <input class="sel" id="strainPick" list="flowerNames" placeholder="…or type a strain you love — e.g. Pave, Blue Dream, GMO" autocomplete="off" oninput="matchStrain(this.value)">
+    <input class="sel" id="strainPick" list="flowerNames" placeholder="…or type a strain you love — e.g. Pave, Blue Dream, GMO" autocomplete="off" oninput="matchStrain(this.value,1)">
     <datalist id="flowerNames"></datalist>
     <div id="matchResult"></div>
   </div>
@@ -215,9 +215,9 @@ function listInto(elId,list,showN,moreCall,emptyMsg){
 }
 
 function renderMoods(){
-  document.getElementById("moodGrid").innerHTML=MOODS.map(m=>'<div class="mood-chip" id="m-'+m.id+'" onclick="pickMood(\''+m.id+'\')"><span class="mi">'+m.mi+'</span><strong>'+esc(m.label)+'</strong><span>'+esc(m.sub)+'</span></div>').join("");
+  document.getElementById("moodGrid").innerHTML=MOODS.map(m=>'<div class="mood-chip" id="m-'+m.id+'" onclick="pickMood(\''+m.id+'\',1)"><span class="mi">'+m.mi+'</span><strong>'+esc(m.label)+'</strong><span>'+esc(m.sub)+'</span></div>').join("");
 }
-function pickMood(id){
+function pickMood(id,fromUser){
   const m=MOODS.find(x=>x.id===id);
   MOODS.forEach(x=>document.getElementById("m-"+x.id).classList.toggle("active",x.id===id));
   document.getElementById("strainPick").value="";
@@ -226,7 +226,7 @@ function pickMood(id){
   if(!ranked.length)h='<div class="empty">No terpene-profiled edibles match yet — the matchable catalog is still small (see the note below).</div>';
   else h=ranked.map((p,i)=>cardHTML(p,"#"+(i+1)+" "+m.label+" match — "+(p.leadTerp?TLABEL[p.leadTerp]+"-led":"")+".")).join("");
   document.getElementById("matchResult").innerHTML=h;
-  try{posthog&&posthog.capture("edible_mood",{mood:id,top:ranked[0]&&ranked[0].name,results:ranked.length});}catch(e){}
+  if(fromUser){try{posthog&&posthog.capture("edible_mood",{mood:id,top:ranked[0]&&ranked[0].name,results:ranked.length});}catch(e){}}
   syncURL();
 }
 function renderFlowerList(){
@@ -235,7 +235,7 @@ function renderFlowerList(){
 }
 // normalize a strain name to a lookup key: drop size suffix AND store prefixes (e.g. "DELI - Blue Dream")
 function flowerKey(n){return String(n==null?"":n).replace(/\s*[\|\[(].*$/,"").replace(/^\s*(deli|select|premium)\s*-\s*/i,"").trim().toLowerCase();}
-function matchStrain(name){
+function matchStrain(name,fromUser){
   const box=document.getElementById("matchResult");
   const key=flowerKey(name);
   if(!key){box.innerHTML="";return;}
@@ -248,7 +248,7 @@ function matchStrain(name){
   if(!ranked.length||ranked[0].sim<=0)h+='<div class="empty">No profiled edible is close yet — the matchable set is small. Try the mood chips, or check back as more stores land.</div>';
   else h+=ranked.map(o=>cardHTML(o.p,Math.round(o.sim*100)+"% terpene-profile match.")).join("");
   box.innerHTML=h;
-  try{posthog&&posthog.capture("edible_match",{target:t.name,top:ranked[0]&&ranked[0].p.name,sim:ranked[0]&&Math.round(ranked[0].sim*100)});}catch(e){}
+  if(fromUser){var hit=ranked[0]&&ranked[0].sim>0;try{posthog&&posthog.capture("edible_match",{target:t.name,matched:!!hit,top:hit?ranked[0].p.name:null,sim:hit?Math.round(ranked[0].sim*100):0});}catch(e){}}
   syncURL();
 }
 
@@ -371,12 +371,12 @@ function restoreURL(){
   if(p.get("t")==="real")showTab("real");
 }
 
-function showTab(t){
+function showTab(t,fromUser){
   ["match","real"].forEach(x=>{document.getElementById("panel-"+x).classList.toggle("active",t===x);document.getElementById("tab-"+x).classList.toggle("active",t===x);});
   curTab=t;
   if(t==="real")renderReal();
   syncURL();
-  try{posthog&&posthog.capture("edible_tab",{tab:t});}catch(e){}
+  if(fromUser){try{posthog&&posthog.capture("edible_tab",{tab:t});}catch(e){}}
 }
 
 Promise.all([
