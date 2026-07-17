@@ -48,6 +48,23 @@ def num(x):
     except (TypeError, ValueError):
         return 0.0
 
+def pull_date(wb):
+    """Menu pull date from the Notes sheet — same logic as build-strain-data.py.
+    Combined line ('...pulled 2026-06-07') OR 2-column ('Pull date' | '2026-06-08')."""
+    if "Notes" not in wb.sheetnames:
+        return ""
+    rows = [" ".join(str(c) for c in r if c is not None) for r in wb["Notes"].iter_rows(values_only=True)]
+    for line in rows:  # prefer a line that mentions pulling
+        if "pull" in line.lower():
+            m = re.search(r"(\d{4}-\d{2}-\d{2})", line)
+            if m:
+                return m.group(1)
+    for line in rows:  # fallback: any date in the Notes sheet
+        m = re.search(r"(\d{4}-\d{2}-\d{2})", line)
+        if m:
+            return m.group(1)
+    return ""
+
 def load_flower():
     """cultivar base-name -> richest-terpene representative product; plus brand-token set."""
     d = json.loads(FLOWER.read_text())
@@ -97,12 +114,14 @@ def main():
         sys.exit("pip install openpyxl")
     reps, brands, store_meta = load_flower()
     products, stores = [], {}
+    dates = []  # menu pull dates across all edible workbooks -> feed "updated"
     bad_coa = 0  # COA terpene rows rejected for implausible units (mg/g or mg, not % w/w)
     for f in sorted(SRC.glob("*_edibles.xlsx")):
         stem = f.stem.replace("_edibles", "")
         key = STORE_KEY.get(stem, stem)
         meta = store_meta.get(key, {"key": key, "label": key, "location": "", "state": "", "color": "#777"})
         wb = openpyxl.load_workbook(f, data_only=True)
+        dates.append(pull_date(wb))
         ws = wb[wb.sheetnames[0]]
         rows = list(ws.iter_rows(values_only=True))
         H = {h: i for i, h in enumerate(rows[0]) if h is not None}
@@ -164,7 +183,7 @@ def main():
     distillate = sum(1 for p in products if p["extractType"] in ("distillate", "unknown"))
     profileable = sum(1 for p in products if p["profile"] != "none")
     payload = {
-        "updated": "",
+        "updated": max([d for d in dates if d] or [""]),
         "count": total,
         "stores": list(stores.values()),
         "stats": {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Runs scripts/refresh-feeds.sh at 00:00, 06:00, and 12:00 local time.
+  launchd coalesces missed runs: if the Mac is asleep at a scheduled time,
+  the job fires once on the next wake (unlike cron, which just skips it).
+
+  Install:   cp scripts/com.420blazin.refresh-feeds.plist ~/Library/LaunchAgents/
+             launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.420blazin.refresh-feeds.plist
+  Status:    launchctl print gui/$(id -u)/com.420blazin.refresh-feeds
+  Run now:   launchctl kickstart -k gui/$(id -u)/com.420blazin.refresh-feeds
+  Remove:    launchctl bootout gui/$(id -u)/com.420blazin.refresh-feeds
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.420blazin.refresh-feeds</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/billburkey/CascadeProjects/420blaze/scripts/refresh-feeds.sh</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+
+  <key>StandardOutPath</key>
+  <string>/Users/billburkey/CascadeProjects/420blaze/logs/refresh-feeds.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/billburkey/CascadeProjects/420blaze/logs/refresh-feeds.err.log</string>
+
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>
