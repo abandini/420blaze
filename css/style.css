@@ -237,6 +237,15 @@ nav .nav-cta:hover {
     border-bottom: none !important;
     color: #1a1a1a !important;
 }
+/* Tool CTA (Strain Finder) — brand green, distinct from the gold Festival CTA */
+nav .nav-cta-tool {
+    background: #1a8754;
+    color: #fff !important;
+}
+nav .nav-cta-tool:hover {
+    background: #146b43;
+    color: #fff !important;
+}
 
 /* Mobile hamburger */
 .hamburger {
