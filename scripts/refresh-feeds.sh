@@ -35,6 +35,13 @@ if [ "$BRANCH" != "main" ]; then
   exit 0
 fi
 
+# Explicit pause switch: `touch data/.refresh-hold` while editing sources/scripts,
+# `rm` it when done. Prevents a scheduled run from building off half-synced input.
+if [ -f data/.refresh-hold ]; then
+  log "data/.refresh-hold present — paused (manual work in progress); skipping"
+  exit 0
+fi
+
 # Rebuild. Flower FIRST: edibles inherit terpene profiles from the flower feed.
 if ! "$PY" scripts/build-strain-data.py >>"$LOG" 2>&1; then log "flower build FAILED"; exit 1; fi
 if ! "$PY" scripts/build-edible-data.py  >>"$LOG" 2>&1; then log "edibles build FAILED"; exit 1; fi
@@ -45,6 +52,15 @@ if git diff --quiet -- "${FILES[@]}"; then
   log "no data change — nothing to deploy"
   log "=== refresh done ==="
   exit 0
+fi
+
+# Validation gate: never ship an implausible feed (gutted count, big drop vs the
+# deployed version, bad/blank date, corrupt JSON, empty names). On failure, restore
+# the last-good committed feeds and bail — a bad build must not reach production.
+if ! "$PY" scripts/validate-feeds.py >>"$LOG" 2>&1; then
+  log "VALIDATION FAILED — refusing to commit/deploy; restoring last-good feeds"
+  git checkout -- "${FILES[@]}" 2>>"$LOG" || true
+  exit 1
 fi
 
 # Commit ONLY the two data files. Explicit pathspec on both add and commit so any

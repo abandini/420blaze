@@ -16,3 +16,5 @@ images/jack-herer-day-hero.png
 
 # scheduled feed-refresh logs
 logs/
+.refresh-hold
+data/.refresh-hold
