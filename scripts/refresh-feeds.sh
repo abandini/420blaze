@@ -63,8 +63,19 @@ if ! "$PY" scripts/validate-feeds.py >>"$LOG" 2>&1; then
   exit 1
 fi
 
-# Commit ONLY the two data files. Explicit pathspec on both add and commit so any
-# other uncommitted work in the tree (e.g. staged HTML) can never ride along.
+# Regenerate the crawlable JSON-LD (Dataset/ItemList) in the two JS tools from the
+# validated feeds, so AI answer engines see current terpene rows. Deterministic —
+# only the <!-- TOOL-SEO --> marker block changes. On failure, restore and bail.
+TOOLHTML=(strain-finder.html edibles.html)
+if ! "$PY" scripts/build-tool-seo.py >>"$LOG" 2>&1; then
+  log "tool-seo build FAILED — restoring feeds + tool pages"
+  git checkout -- "${FILES[@]}" "${TOOLHTML[@]}" 2>>"$LOG" || true
+  exit 1
+fi
+FILES+=("${TOOLHTML[@]}")
+
+# Commit the two data files + the regenerated tool pages. Explicit pathspec on both
+# add and commit so any other uncommitted work in the tree can never ride along.
 git add -- "${FILES[@]}"
 SUMMARY="$("$PY" - <<'EOF'
 import json
@@ -73,7 +84,7 @@ print(f"flower {f['count']} strains ({f['updated']}) · edibles {e['count']} ({e
 EOF
 )"
 git commit -q -m "data: scheduled feed refresh — $SUMMARY" \
-              -m "Automated by scripts/refresh-feeds.sh. Source: terrasana/*.xlsx." \
+              -m "Automated by scripts/refresh-feeds.sh. Source: terrasana/*.xlsx. Regenerates tool JSON-LD (Dataset/ItemList) so AI engines see current rows." \
               -- "${FILES[@]}"
 log "committed: $SUMMARY"
 
