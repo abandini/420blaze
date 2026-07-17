@@ -226,7 +226,7 @@ function pickMood(id,fromUser){
   if(!ranked.length)h='<div class="empty">No terpene-profiled edibles match yet — the matchable catalog is still small (see the note below).</div>';
   else h=ranked.map((p,i)=>cardHTML(p,"#"+(i+1)+" "+m.label+" match — "+(p.leadTerp?TLABEL[p.leadTerp]+"-led":"")+".")).join("");
   document.getElementById("matchResult").innerHTML=h;
-  if(fromUser){try{posthog&&posthog.capture("edible_mood",{mood:id,top:ranked[0]&&ranked[0].name,results:ranked.length});}catch(e){}}
+  if(fromUser){try{posthog&&posthog.capture("edible_mood",{mood:id,top:ranked[0]&&ranked[0].name});}catch(e){}}
   syncURL();
 }
 function renderFlowerList(){
@@ -253,6 +253,8 @@ function matchStrain(name,fromUser){
 }
 
 let realFilter={extract:"real",state:"all",store:"all",sort:"group",mood:"all",adv:false}, realShow=12;
+// user-triggered effect-screener refinement on the "Skip the distillate" tab
+function pickEffect(v){realFilter.mood=v;realShow=12;renderReal();try{posthog&&posthog.capture("edible_effect",{effect:v});}catch(e){}}
 function storeLabel(k){return (STORES[k]||{}).label||k;}
 function realBase(){
   let list=EDIBLES.slice();
@@ -280,7 +282,7 @@ function renderRealFilters(){
   const moods=[["all","✨ Any"]].concat(MOODS.map(m=>[m.id,m.mi+" "+m.label]));
   // PRIMARY — always visible: full-spectrum toggle + find-by-effect
   let h='<div class="frow">'+ex.map(a=>'<span class="chip '+(realFilter.extract===a[0]?"on":"")+'" onclick="realFilter.extract=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
-  h+='<div class="frow"><span class="flabel">Find by effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="realFilter.mood=\''+a[0]+'\';realShow=12;renderReal()">'+a[1]+'</span>').join("")+'</div>';
+  h+='<div class="frow"><span class="flabel">Find by effect</span>'+moods.map(a=>'<span class="chip '+(realFilter.mood===a[0]?"on":"")+'" onclick="pickEffect(\''+a[0]+'\')">'+a[1]+'</span>').join("")+'</div>';
   // ADVANCED — sort / state / store behind a toggle, with a summary of what's active when collapsed
   const summ=[];
   if(realFilter.sort!=="group"&&realFilter.mood==="all")summ.push(realFilter.sort==="strong"?"Strongest":"Gentlest");

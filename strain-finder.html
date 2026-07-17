@@ -507,7 +507,7 @@
       h+='<h3 style="margin:18px 0 4px;">Closest matches</h3>';
       h+=ranked.map(o=>cardHTML(o.p,Math.round(o.sim*100)+"% terpene-profile match. &middot; "+thcTag(val(o.p,"thc")))).join("");
       box.innerHTML=h;
-      try{posthog&&posthog.capture("strainfinder_match",{target:target.name,top:ranked[0]&&ranked[0].p.name});}catch(e){}
+      try{var mhit=ranked[0]&&ranked[0].sim>0;posthog&&posthog.capture("strainfinder_match",{target:target.name,matched:!!mhit,top:mhit?ranked[0].p.name:null,sim:mhit?Math.round(ranked[0].sim*100):0});}catch(e){}
     }
 
     let sortKey="terps",sortDir=-1;
@@ -528,7 +528,7 @@
       searchQuery=String(q==null?"":q).trim().toLowerCase();
       renderTable();
       clearTimeout(searchTimer);
-      if(searchQuery.length>=2){searchTimer=setTimeout(function(){try{posthog&&posthog.capture("strainfinder_search",{q:searchQuery});}catch(e){}},900);}
+      if(searchQuery.length>=2){searchTimer=setTimeout(function(){try{posthog&&posthog.capture("strainfinder_search",{q:searchQuery.slice(0,40)});}catch(e){}},900);}
     }
 
     function renderTable(){
