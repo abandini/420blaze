@@ -198,6 +198,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** PostHog session pages-per-session (currently ~1.4) and `$pageview` events on `/`, `/culture`, `/blog` from blog-post referrers. Target: +20% pages-per-session at T+30.
 **Status:** Active. Deployed via wrangler pages deploy on 2026-05-18. Verified on production: `https://420blazin.com/` and `https://420blazin.com/blog/cannabis-brownies-without-the-blackout` both render new header with clickable logo and correct relative paths.
 
+## EXP-018 — "How to Store Cannabis Flower" terpene-first evergreen post
+
+**Date:** 2026-07-20
+**Change:** Shipped /blog/how-to-store-cannabis-flower — a procedural, question-shaped storage guide built to beat Weedmaps' generic "how to store cannabis flower" article (their 7/20 newsletter lead). Differentiator: frames storage as *effect drift* (light monoterpenes evaporate first → the high flattens), not just potency loss. Fact-checked (Ross & ElSohly 16%/26% stat sourced; CBN-sedation myth corrected) + editorially reviewed. Schema: Article + HowTo + FAQPage + BreadcrumbList + Person(Blazin Bill). Inbound links from homepage cr-card, blog.html card, and inline from the grinder post.
+**Hypothesis:** Procedural evergreen in the proven brownies/grinder mold earns organic Google traffic within 14–30 days and AI citations for "how to store weed / cannabis humidity" queries; the terpene-effect-drift angle is a differentiator competitors don't run.
+**Metric:** Pageviews on the new post; GSC impressions/position for "how to store cannabis flower" + "cannabis humidity"; AI citation rate for storage queries. Target: first organic pv by T+7, indexed by T+7–14.
+**Status:** Active. Launched 2026-07-21. **T+0:** _pending GSC URL inspection._ Author schema shipped as "Blazin Bill" (Amazon book omitted from sameAs) pending the sitewide name decision. OG image still to be commissioned.
+
 ---
 
 ## UTM scheme
