@@ -49,6 +49,8 @@ const RULES = [
   { match: /^index$/,                                                   priority: '1.0', changefreq: 'weekly'  },
   { match: /^cleveland-420$/,                                           priority: '0.9', changefreq: 'weekly'  },
   { match: /^(events|music-events)$/,                                   priority: '0.9', changefreq: 'daily'   },
+  // Flagship interactive tools — feeds rebuild 3x/day, so signal daily + high priority
+  { match: /^(strain-finder|edibles)$/,                                 priority: '0.9', changefreq: 'daily'   },
   { match: /^(cannabis-holidays|710-dab-day|green-wednesday)-\d{4}$/,   priority: '0.9', changefreq: 'weekly'  },
   { match: /^festival$/,                                                priority: '0.9', changefreq: 'monthly' },
   { match: /^(stoner-movies|blog)$/,                                    priority: '0.8', changefreq: 'monthly' },
