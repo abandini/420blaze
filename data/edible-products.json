@@ -70,7 +70,7 @@
    "color": "#9b59b6",
    "count": 78,
    "tierA": 7,
-   "profileable": 4
+   "profileable": 5
   },
   {
    "key": "landing",
@@ -147,9 +147,9 @@
   "total": 2539,
   "tierA": 521,
   "distillate": 1998,
-  "profileable": 37,
+  "profileable": 38,
   "coa": 16,
-  "inherited": 21,
+  "inherited": 22,
   "cardiac": 185
  },
  "products": [
@@ -22037,8 +22037,17 @@
    "cardiac": "",
    "price": "28",
    "size": "10pk",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Purp 43",
+   "myrcene": 0.5,
+   "limonene": 0.16,
+   "caryophyllene": 0.21,
+   "linalool": 0.2,
+   "humulene": 0.06,
+   "apinene": 0.06,
+   "bpinene": 0.11,
+   "bisabolol": 0.05,
+   "leadTerp": "myrcene"
   },
   {
    "name": "RSO Infused Strawberry Crunch Bar",
