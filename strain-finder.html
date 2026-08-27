@@ -893,16 +893,20 @@
       shown=shown.slice(0,5);
       let h='<div class="sf-explain"><strong>'+m.label+' &rarr; '+m.recipe+'.</strong> '+m.say+'</div>';
       h+=moodSortBar();
-      // the mood's primary wanted terpene (biggest +weight) and primary avoided one (biggest -weight)
+      // this mood's wanted terpenes (positive weight) and its primary avoided one (biggest -weight)
       const wk=Object.keys(m.w);
-      const tgt=wk.filter(k=>m.w[k]>0&&TLABEL[k]).sort((a,b)=>m.w[b]-m.w[a])[0];
+      const wanted=wk.filter(k=>m.w[k]>0&&TLABEL[k]);
       const avd=wk.filter(k=>m.w[k]<0&&TLABEL[k]).sort((a,b)=>m.w[a]-m.w[b])[0];
       h+=shown.map((p,i)=>{
-        const tv=tgt?val(p,tgt):val(p,leadTerp(p)), tn=tgt?TLABEL[tgt]:TLABEL[leadTerp(p)];
+        // headline the wanted terpene THIS pick actually leads with — for multi-driver moods (energy/focus)
+        // the mood's top-weight terpene isn't always the one carrying a given strain (e.g. pinene-driven energy).
+        const drv=wanted.slice().sort((a,b)=>val(p,b)-val(p,a))[0]||leadTerp(p);
+        const tv=val(p,drv), tn=TLABEL[drv];
         let why=(MOODSORT==="match"?"#"+(i+1)+" match &mdash; ":"")+"<strong>"+tn+" "+tv.toFixed(2)+"%</strong>";
         if(avd){
           const av=val(p,avd);
-          why+=" &middot; "+TLABEL[avd]+" "+av.toFixed(2)+"% "+(av<=0.05?"<span style='color:#1a8754;'>(clean ✓)</span>":tv>av?"<span style='color:#1a8754;'>("+(tv/av).toFixed(1)+":1 in its favor)</span>":"<span style='color:#c0392b;'>("+(av/tv).toFixed(1)+":1 against)</span>");
+          // tv>0 guard prevents a divide-by-zero Infinity in the "X:1 against" ratio
+          why+=" &middot; "+TLABEL[avd]+" "+av.toFixed(2)+"% "+(av<=0.05?"<span style='color:#1a8754;'>(clean ✓)</span>":tv>av?"<span style='color:#1a8754;'>("+(tv/av).toFixed(1)+":1 in its favor)</span>":tv>0?"<span style='color:#c0392b;'>("+(av/tv).toFixed(1)+":1 against)</span>":"<span style='color:#c0392b;'>(no "+tn+")</span>");
         }
         why+=" &middot; "+thcTag(val(p,"thc"));
         return cardHTML(p,why+".");
