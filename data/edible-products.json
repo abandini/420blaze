@@ -20,7 +20,7 @@
    "color": "#16a085",
    "count": 191,
    "tierA": 48,
-   "profileable": 6
+   "profileable": 8
   },
   {
    "key": "botanist_solon",
@@ -80,7 +80,7 @@
    "color": "#e74c3c",
    "count": 66,
    "tierA": 19,
-   "profileable": 0
+   "profileable": 2
   },
   {
    "key": "puff",
@@ -90,7 +90,7 @@
    "color": "#2980b9",
    "count": 477,
    "tierA": 121,
-   "profileable": 2
+   "profileable": 3
   },
   {
    "key": "pure",
@@ -130,7 +130,7 @@
    "color": "#1a8754",
    "count": 88,
    "tierA": 32,
-   "profileable": 4
+   "profileable": 5
   },
   {
    "key": "urb",
@@ -147,9 +147,9 @@
   "total": 2602,
   "tierA": 522,
   "distillate": 2068,
-  "profileable": 49,
+  "profileable": 55,
   "coa": 21,
-  "inherited": 28,
+  "inherited": 34,
   "cardiac": 197
  },
  "products": [
@@ -3168,8 +3168,17 @@
    "cardiac": "",
    "price": "29",
    "size": "100mg",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Fruit Punch",
+   "myrcene": 0.84,
+   "limonene": 0.62,
+   "caryophyllene": 0.35,
+   "linalool": 0.19,
+   "humulene": 0.1,
+   "apinene": 0.1,
+   "bpinene": 0.11,
+   "bisabolol": 0.03,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Dialed In Strawberry (H) Rosin Gummies 10mg 10pk",
@@ -3426,8 +3435,17 @@
    "cardiac": "",
    "price": "29",
    "size": "100mg",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Honeydew",
+   "myrcene": 0.48,
+   "limonene": 0.44,
+   "caryophyllene": 0.19,
+   "linalool": 0.08,
+   "humulene": 0.06,
+   "apinene": 0.04,
+   "bpinene": 0.07,
+   "bisabolol": 0.05,
+   "leadTerp": "myrcene"
   },
   {
    "name": "UB Good Rainbow Sorbet (H) Live Resin Gummies 10mg 10pk",
@@ -3647,15 +3665,15 @@
    "price": "29",
    "size": "100mg",
    "profile": "inherited",
-   "matchedCultivar": "Glitter Bomb",
-   "myrcene": 1.07,
-   "limonene": 0.34,
-   "caryophyllene": 0.64,
-   "linalool": 0.07,
-   "humulene": 0.18,
-   "apinene": 0.02,
-   "bpinene": 0.05,
-   "bisabolol": 0.07,
+   "matchedCultivar": "Glitter Bomb [3.5g]",
+   "myrcene": 1.08,
+   "limonene": 0.12,
+   "caryophyllene": 0.43,
+   "linalool": 0.24,
+   "humulene": 0.12,
+   "apinene": 0.01,
+   "bpinene": 0.03,
+   "bisabolol": 0.04,
    "leadTerp": "myrcene"
   },
   {
@@ -16340,16 +16358,16 @@
    "price": "17.79",
    "size": "10pk / .2g",
    "profile": "inherited",
-   "matchedCultivar": "Wedding Cake",
-   "myrcene": 0.35,
-   "limonene": 1.26,
-   "caryophyllene": 0.75,
-   "linalool": 0.24,
-   "humulene": 0.3,
-   "apinene": 0.22,
-   "bpinene": 0.21,
-   "bisabolol": 0.05,
-   "leadTerp": "limonene"
+   "matchedCultivar": "Wedding Cake | 2.83g",
+   "myrcene": 1.0,
+   "limonene": 0.29,
+   "caryophyllene": 0.81,
+   "linalool": 0.17,
+   "humulene": 0.24,
+   "apinene": 0.02,
+   "bpinene": 0.05,
+   "bisabolol": 0.09,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Sauce | Sour Blue Razz Bursts | 200MG Live Hash Rosin Gummies",
@@ -22990,16 +23008,16 @@
    "price": "28",
    "size": "10pk",
    "profile": "inherited",
-   "matchedCultivar": "Pacific Cool",
-   "myrcene": 0.46,
-   "limonene": 0.68,
-   "caryophyllene": 0.13,
-   "linalool": 0.44,
-   "humulene": 0.04,
-   "apinene": 0.05,
-   "bpinene": 0.09,
-   "bisabolol": 0.02,
-   "leadTerp": "limonene"
+   "matchedCultivar": "Pineapple [14.15g]",
+   "myrcene": 0.57,
+   "limonene": 0.21,
+   "caryophyllene": 0.58,
+   "linalool": 0.03,
+   "humulene": 0.17,
+   "apinene": 0.08,
+   "bpinene": 0.15,
+   "bisabolol": 0.05,
+   "leadTerp": "caryophyllene"
   },
   {
    "name": "Lost Farm Purp 43 Grape Live Resin Gummies",
@@ -24647,8 +24665,17 @@
    "cardiac": "",
    "price": "29",
    "size": "10pk",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Honeydew",
+   "myrcene": 0.48,
+   "limonene": 0.44,
+   "caryophyllene": 0.19,
+   "linalool": 0.08,
+   "humulene": 0.06,
+   "apinene": 0.04,
+   "bpinene": 0.07,
+   "bisabolol": 0.05,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Dialed In - Moroccan Peaches Fruit Punch - Rosin Gummies - 100mg [10pk]",
@@ -24667,8 +24694,17 @@
    "cardiac": "",
    "price": "29",
    "size": "10pk",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Fruit Punch",
+   "myrcene": 0.84,
+   "limonene": 0.62,
+   "caryophyllene": 0.35,
+   "linalool": 0.19,
+   "humulene": 0.1,
+   "apinene": 0.1,
+   "bpinene": 0.11,
+   "bisabolol": 0.03,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Neighborgoods - Clementine Countdown - Live Resin Gummies - 100mg [20pk]",
@@ -28105,8 +28141,17 @@
    "cardiac": "",
    "price": "12",
    "size": "3.075g",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Fruit Punch",
+   "myrcene": 0.84,
+   "limonene": 0.62,
+   "caryophyllene": 0.35,
+   "linalool": 0.19,
+   "humulene": 0.1,
+   "apinene": 0.1,
+   "bpinene": 0.11,
+   "bisabolol": 0.03,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Sap Live Resin Cannabis Syrup - Strawberry",
@@ -44441,8 +44486,17 @@
    "cardiac": "",
    "price": "29",
    "size": "100mg / 110mg",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Fruit Punch",
+   "myrcene": 0.84,
+   "limonene": 0.62,
+   "caryophyllene": 0.35,
+   "linalool": 0.19,
+   "humulene": 0.1,
+   "apinene": 0.1,
+   "bpinene": 0.11,
+   "bisabolol": 0.03,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Rocket Berry 5:1 CBD:THC | Rosin Gummies | [102mg]",
