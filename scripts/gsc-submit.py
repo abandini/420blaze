@@ -45,6 +45,9 @@ NEW_PAGES = [
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/how-to-smoke-hash"),
     ("sc-domain:420blazin.com", "https://420blazin.com/strain-finder"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/how-to-clean-a-grinder"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/how-to-store-cannabis-flower"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/best-dry-herb-vaporizers"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/terpene-boiling-point-chart"),
 ]
 
 
