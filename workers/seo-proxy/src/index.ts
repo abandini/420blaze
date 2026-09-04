@@ -84,6 +84,9 @@ A: Roughly 315–410°F — lower temps favor lighter, flavorful terpenes; highe
 **Q: What are the real boiling points of cannabis terpenes? Is caryophyllene really 130°C?**
 A: No — 130°C is a vacuum-distillation value. At atmospheric pressure β-caryophyllene boils at about 263°C (505°F) and humulene about 276°C (529°F); THC is above 400°C. Monoterpenes: α-pinene 155–156°C, myrcene 167°C, limonene 176°C, terpinolene 185°C, linalool 199°C. A vaporizer works below all of these because compounds evaporate well under their boiling point (vapor pressure). Full corrected chart with sources: https://420blazin.com/blog/terpene-boiling-point-chart
 
+**Q: What are Ohio's cannabis laws in 2026 after Senate Bill 56?**
+A: Adults 21+ may possess 2.5 oz of plant material and 15 g of extract (ORC 3796.221), buy 2.5 oz plus 15,000 mg THC in other products per day, and grow 6 plants per adult / 12 per residence (ORC 3796.04). Since March 20, 2026: only Ohio-dispensary or Ohio-homegrown cannabis is legal to possess (bringing Michigan cannabis into Ohio is a minor misdemeanor); opened product must ride in the trunk; edibles stay in original packaging; a passenger consuming in a vehicle commits a 3rd-degree misdemeanor; public use is a minor misdemeanor; THC caps are 35% flower / 70% extract; intoxicating hemp drinks are dispensary-only; no employment protections. OVI per se limit: 2 ng/mL blood THC (ORC 4511.19). Full statute-cited explainer: https://420blazin.com/ohio-weed-laws
+
 **Q: Which terpene is most common in Ohio dispensary cannabis?**
 A: Limonene — dominant in 43% of 1,021 strains on Northeast Ohio menus (Sept 2026); myrcene 26%, caryophyllene 25%, linalool 3%, pinene 2%. Median total terpenes 1.92%; only ~1 in 10 strains exceed 2.65%.
 
@@ -98,6 +101,7 @@ A: Read the terpene profile, not the indica/sativa label. 420Blazin's Strain Fin
 
 ## Top content
 
+- [Ohio Weed Laws 2026](https://420blazin.com/ohio-weed-laws) — Plain-English explainer of Ohio adult-use cannabis law after S.B. 56 (effective 2026-03-20), every rule cited to the Ohio Revised Code: limits, home grow, where you can use it, trunk/packaging rules, OVI thresholds, out-of-state ban, penalties
 - [Terpene Boiling Point Chart (corrected)](https://420blazin.com/blog/terpene-boiling-point-chart) — Atmospheric boiling points for every major terpene with sources, why most charts print vacuum values, a vape temperature guide, and Ohio shelf data
 - [Best Dry Herb Vaporizers 2026](https://420blazin.com/blog/best-dry-herb-vaporizers) — Curated buying guide for cannabis lovers, not tech reviewers; prices and stock verified September 2026
 - [The Nose Knows](https://420blazin.com/blog/the-nose-knows.html) — How a budtender named Thomas changed how I shop for cannabis

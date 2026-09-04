@@ -42,6 +42,7 @@ TEST_QUERIES = [
     {"q": "What are the best dry herb vaporizers in 2026?", "target_page": "/blog/best-dry-herb-vaporizers"},
     {"q": "What temperature does beta-caryophyllene boil at, and what temperature should I vape for terpenes?", "target_page": "/blog/terpene-boiling-point-chart"},
     {"q": "Cleveland Ohio cannabis dispensaries 4/20 events 2026", "target_page": "/cleveland-420"},
+    {"q": "Is it legal to bring cannabis bought in Michigan into Ohio in 2026, and what are Ohio's possession limits?", "target_page": "/ohio-weed-laws"},
     {"q": "Best stoner movies with cannabis strain pairings", "target_page": "/stoner-movies"},
     {"q": "Complete list of cannabis holidays in 2026 calendar", "target_page": "/cannabis-holidays-2026"},
     {"q": "Cannabis guide for adults over 60 starting CBD or THC", "target_page": "/ (seniorsguide root)"},

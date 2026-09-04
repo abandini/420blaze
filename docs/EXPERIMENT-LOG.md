@@ -214,6 +214,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** PostHog pageviews + referrer mix for /blog/terpene-boiling-point-chart (host-filtered); GSC impressions for "terpene boiling point"; new ai-citation-test query "What temperature do cannabis terpenes boil at when vaping?" (add to scripts/ai-citation-test.py); potv_outbound_click with this page as referrer.
 **Status:** Active. Launched 2026-09-04 (commit 298709a; worker deploy 6339b2c3). **T+0:** live in 6 s; KV title rendered; sitemap + llms.txt carry the URL; GSC URL inspection = NEUTRAL ("Discovered — currently not indexed") within minutes of the sitemap ping; 5 inbound links from existing pages. Manual "Request Indexing" in the Search Console UI still worth doing (not exposed via API). **T+7 review due 2026-09-11.**
 
+## EXP-020 — Ohio Weed Laws 2026 hub (post-S.B. 56 consumer explainer)
+
+**Date:** 2026-09-04
+**Change:** Shipped /ohio-weed-laws (year-free slug, year in H1). Ohio's adult-use rules changed on 2026-03-20 (S.B. 56 repealed the Issue 2 chapter and moved adult use into ORC 3796); page one for "ohio weed laws 2026" is criminal-defense firms, dispensary chains and national aggregators, mostly pre-S.B. 56, with no Cleveland-voice consumer explainer. Every rule cites its ORC section (3796.221, .04, .06, .99, .28; 4511.19) plus OSU Moritz, Signal Cleveland, HPIO and WOUB; audit-driven (Auditor must fetch the statutes). Added to the site-wide Events nav dropdown as a hub page. Inbound: homepage cr-card, Cleveland 420, events page, terpene-chart post, nav.
+**Hypothesis:** Local + legal intent is the proven non-AI lane for this site (Bing/DDG/Yahoo already carry /events; Perplexity cites /cleveland-420). A dated, statute-cited explainer earns (a) Perplexity/ChatGPT citations for "Ohio weed laws" / "can I bring weed from Michigan to Ohio" / "can you smoke in public in Ohio" within 30 days and (b) GSC impressions on Ohio-law long-tail. It becomes the hub the Ohio spokes (where-to-smoke, Ohio-vs-Michigan, driving, dispensaries) link into.
+**Metric:** PostHog pageviews + referrers (host-filtered); GSC impressions/position for "ohio weed laws", "ohio marijuana laws 2026", "bring weed from michigan to ohio"; ai-citation-test query added ("Is it legal to bring cannabis bought in Michigan into Ohio in 2026?"). Update triggers: S.B. 55 passes; veto override; hemp-injunction ruling; federal hemp rule (Nov 2026).
+**Status:** Active. Launched 2026-09-04.
+
 ---
 
 ## UTM scheme
