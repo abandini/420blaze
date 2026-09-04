@@ -11,8 +11,11 @@ Usage:
     python3 measure-network.py --diff-only    # Skip data fetch, just compare existing
     python3 measure-network.py --quiet        # Suppress stdout summary
 
-Auth: reads OAuth token from ~/.wrangler/config/default.toml.
-If expired, run `wrangler whoami` first to refresh.
+Auth: the GraphQL call uses the scoped analytics token CLOUDFLARE_API_TOKEN
+from .dev.vars (never expires). Fallback is the wrangler OAuth token in
+~/.wrangler/config/default.toml, refreshed via `wrangler whoami` first —
+that token expires hourly, which is what 401'd every Friday cron in Aug 2026.
+The D1 affiliate queries shell out to `wrangler`, which refreshes itself.
 
 Sanity guard: exits with code 2 if all network pageviews come back zero —
 this catches silent auth/API failures.
@@ -109,11 +112,24 @@ def detect_anomalies(pageviews: list, affiliates: dict, baseline_pv: dict, basel
     return alerts
 
 
-def get_oauth_token() -> str:
+def get_cf_token() -> str:
+    """Scoped analytics token from .dev.vars, else a freshly refreshed wrangler OAuth token."""
+    dv = REPO_ROOT / ".dev.vars"
+    if dv.exists():
+        for line in dv.read_text().splitlines():
+            if line.startswith("CLOUDFLARE_API_TOKEN="):
+                tok = line.split("=", 1)[1].strip().strip('"').strip("'")
+                if tok:
+                    return tok
+    # No scoped token: the OAuth token expires hourly, so refresh before reading it.
+    try:
+        subprocess.run(["wrangler", "whoami"], capture_output=True, text=True, timeout=60)
+    except Exception as e:
+        print(f"WARN: wrangler whoami refresh failed: {e}", file=sys.stderr)
     text = WRANGLER_CONFIG.read_text()
     m = re.search(r'^oauth_token\s*=\s*"([^"]+)"', text, re.MULTILINE)
     if not m:
-        sys.exit("ERROR: No OAuth token in ~/.wrangler/config/default.toml. Run `wrangler whoami`.")
+        sys.exit("ERROR: No CLOUDFLARE_API_TOKEN in .dev.vars and no OAuth token in ~/.wrangler/config/default.toml.")
     return m.group(1)
 
 
@@ -385,7 +401,7 @@ def main():
     since = (dt.date.today() - dt.timedelta(days=7)).isoformat()
 
     if not args.diff_only:
-        token = get_oauth_token()
+        token = get_cf_token()
         if not args.quiet:
             print(f"Pulling data for {since} → {today}...")
         pageviews = fetch_pageviews(token, since, today)
@@ -451,4 +467,17 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception as e:
+        # A crash before the zero-metrics guard (e.g. HTTP 401 from GraphQL) used to
+        # die silently in launchd.error.log for weeks. Alert first, then re-raise so
+        # the traceback still lands in the log.
+        send_alert(
+            "420blazin: measure-network crashed",
+            f"{type(e).__name__}: {str(e)[:600]}\nSee docs/measurements/launchd.error.log",
+            priority="urgent",
+        )
+        raise

@@ -126,10 +126,10 @@ This is **mandatory before deploying.** A page with zero inbound links from exis
 | Experiment log | `/Users/billburkey/CascadeProjects/420blaze/docs/EXPERIMENT-LOG.md` |
 | Affiliate redirects | KV `AFFILIATE_LINKS` namespace, served by seo-proxy worker |
 | GSC OAuth token | `~/.claude/tokens/gsc-worldcupfutbol.json` |
-| Wrangler OAuth | `~/.wrangler/config/default.toml` (auto-refresh via `wrangler whoami`) |
+| Wrangler OAuth | `~/.wrangler/config/default.toml` — expires hourly; `measure-network.py` now uses the scoped `CLOUDFLARE_API_TOKEN` in `.dev.vars` instead |
 | Project secrets | `/Users/billburkey/CascadeProjects/420blaze/.dev.vars` |
 | Measurement scripts | `/Users/billburkey/CascadeProjects/420blaze/scripts/*.py` |
-| Weekly automation | `~/Library/LaunchAgents/com.420blazin.*.plist` (5 jobs, fire Friday 9:17-9:25 AM) |
+| Weekly automation | `~/Library/LaunchAgents/com.420blazin.*.plist` (5 jobs, fire Friday 9:17-9:25 AM). All run through `scripts/launchd-run.sh`, which waits for Wi-Fi/DNS after wake and retries — without it every job that fired while the Mac was waking failed with "nodename nor servname" (all of Aug 2026). Health check: `ls -lt docs/measurements/*.log` — if a `.log` is stale by >1 week, a job is broken. |
 
 ---
 
