@@ -206,6 +206,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** Pageviews on the new post; GSC impressions/position for "how to store cannabis flower" + "cannabis humidity"; AI citation rate for storage queries. Target: first organic pv by T+7, indexed by T+7–14.
 **Status:** Active. Launched 2026-07-21. **T+0:** _pending GSC URL inspection._ Author schema shipped as "Blazin Bill" (Amazon book omitted from sameAs) pending the sitewide name decision. OG image still to be commissioned.
 
+## EXP-019 — Corrected terpene boiling-point chart (AEO reference page)
+
+**Date:** 2026-09-04
+**Change:** Shipped /blog/terpene-boiling-point-chart. Context: Sept 4 analytics showed the vaporizer guide is an AI-answer-engine magnet (86% "direct" = ChatGPT app traffic, 105/119 POTV clicks in 60d) while Google sends ~2 impressions/week — so the target is citation by ChatGPT/Perplexity, not SERP position. Differentiator: the chart every competitor copies prints vacuum-distillation values (β-caryophyllene 116–130°C, humulene ~123°C) that make the heaviest terpenes look the most volatile; the atmospheric values (263°C / 276°C) come from Eyal et al. 2023 (Cannabis & Cannabinoid Research, PMC10249740) and Terpenes & Testing (updated Aug 2026). Page also carries site-only data: dominant-terpene share and median total-terpene % across Ohio dispensary menus from the Strain Finder feed. Audit-driven workflow (Creator → Auditor with mandatory source fetch → Corrector). Inbound links: homepage cr-card, blog.html card, feed.xml, inline from the vaporizer guide (temperature section), The Nose Knows, and the culture-terpenes hub.
+**Hypothesis:** A single-table reference page with a "the internet is wrong" hook and primary citations gets lifted into AI answers for "terpene boiling point chart" / "what temperature to vape for terpenes" within 30 days, and feeds the vaporizer guide (precision-temperature devices). Prediction: page appears in ai-citation-test results for a boiling-point query by T+30; ≥1 explicit chatgpt.com/perplexity referral by T+30; vaporizer-guide referrals from this page.
+**Metric:** PostHog pageviews + referrer mix for /blog/terpene-boiling-point-chart (host-filtered); GSC impressions for "terpene boiling point"; new ai-citation-test query "What temperature do cannabis terpenes boil at when vaping?" (add to scripts/ai-citation-test.py); potv_outbound_click with this page as referrer.
+**Status:** Active. Launched 2026-09-04.
+
 ---
 
 ## UTM scheme

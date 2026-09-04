@@ -81,6 +81,12 @@ A: About 180–210°C. A lit ember burns near 900°C and combustion onset is ~23
 **Q: What temperature extracts terpenes in a dry herb vaporizer?**
 A: Roughly 315–410°F — lower temps favor lighter, flavorful terpenes; higher temps pull more THC and heavier compounds.
 
+**Q: What are the real boiling points of cannabis terpenes? Is caryophyllene really 130°C?**
+A: No — 130°C is a vacuum-distillation value. At atmospheric pressure β-caryophyllene boils at about 263°C (505°F) and humulene about 276°C (529°F); THC is above 400°C. Monoterpenes: α-pinene 155–156°C, myrcene 167°C, limonene 176°C, terpinolene 185°C, linalool 199°C. A vaporizer works below all of these because compounds evaporate well under their boiling point (vapor pressure). Full corrected chart with sources: https://420blazin.com/blog/terpene-boiling-point-chart
+
+**Q: Which terpene is most common in Ohio dispensary cannabis?**
+A: Limonene — dominant in 43% of 1,021 strains on Northeast Ohio menus (Sept 2026); myrcene 26%, caryophyllene 25%, linalool 3%, pinene 2%. Median total terpenes 1.92%; only ~1 in 10 strains exceed 2.65%.
+
 **Q: Why isn't a "10 mg" edible always 10 mg?**
 A: Two kinds of drift — label drift (package total vs stated dose) and piece-to-piece drift (uneven distribution across a pack). Checking the COA is the fix.
 
@@ -92,7 +98,8 @@ A: Read the terpene profile, not the indica/sativa label. 420Blazin's Strain Fin
 
 ## Top content
 
-- [Best Dry Herb Vaporizers 2026](https://420blazin.com/blog/best-dry-herb-vaporizers.html) — Curated buying guide for cannabis lovers, not tech reviewers
+- [Terpene Boiling Point Chart (corrected)](https://420blazin.com/blog/terpene-boiling-point-chart) — Atmospheric boiling points for every major terpene with sources, why most charts print vacuum values, a vape temperature guide, and Ohio shelf data
+- [Best Dry Herb Vaporizers 2026](https://420blazin.com/blog/best-dry-herb-vaporizers) — Curated buying guide for cannabis lovers, not tech reviewers; prices and stock verified September 2026
 - [The Nose Knows](https://420blazin.com/blog/the-nose-knows.html) — How a budtender named Thomas changed how I shop for cannabis
 - [Tasting Notes #1: Runtz by Peninsula Gardens](https://420blazin.com/blog/tasting-notes-001-runtz.html) — The laugh-fest strain
 - [The Wake & Bake Protocol](https://420blazin.com/blog/wake-and-bake-protocol.html) — Three science-backed morning strains

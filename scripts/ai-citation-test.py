@@ -40,6 +40,7 @@ TEST_QUERIES = [
     {"q": "When is Green Wednesday 2026 and what cannabis deals run that day?", "target_page": "/green-wednesday-2026"},
     {"q": "What is 7/10 Dab Day and what does the date mean?", "target_page": "/710-dab-day-2026"},
     {"q": "What are the best dry herb vaporizers in 2026?", "target_page": "/blog/best-dry-herb-vaporizers"},
+    {"q": "What temperature does beta-caryophyllene boil at, and what temperature should I vape for terpenes?", "target_page": "/blog/terpene-boiling-point-chart"},
     {"q": "Cleveland Ohio cannabis dispensaries 4/20 events 2026", "target_page": "/cleveland-420"},
     {"q": "Best stoner movies with cannabis strain pairings", "target_page": "/stoner-movies"},
     {"q": "Complete list of cannabis holidays in 2026 calendar", "target_page": "/cannabis-holidays-2026"},
