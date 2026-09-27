@@ -76,16 +76,33 @@ FILES+=("${TOOLHTML[@]}")
 
 # Commit the two data files + the regenerated tool pages. Explicit pathspec on both
 # add and commit so any other uncommitted work in the tree can never ride along.
-git add -- "${FILES[@]}"
+# A stale .git/index.lock (left by a killed git, or a session that exited mid-commit) made
+# every add/commit below fail silently from 2026-09-09 to 2026-09-27 while this script still
+# logged "committed". If the lock is older than 10 minutes and no git process is running, it
+# is orphaned: remove it and say so. A live git process means a real concurrent operation —
+# bail and let the next scheduled run try again.
+if [ -f .git/index.lock ]; then
+  if pgrep -fq "git (commit|add|push|rebase|merge|stash)"; then
+    log "git index.lock present and a git process is running — skipping this run"; exit 0
+  fi
+  if [ -n "$(find .git/index.lock -mmin +10 2>/dev/null)" ]; then
+    rm -f .git/index.lock && log "removed stale .git/index.lock ($(stat -f '%Sm' .git/index.lock 2>/dev/null || echo 'age >10 min'))"
+  else
+    log "fresh .git/index.lock (<10 min) with no git process — waiting for next run"; exit 0
+  fi
+fi
+if ! git add -- "${FILES[@]}" >>"$LOG" 2>&1; then log "git add FAILED — see above"; exit 1; fi
 SUMMARY="$("$PY" - <<'EOF'
 import json
 f=json.load(open('data/strain-terpenes.json')); e=json.load(open('data/edible-products.json'))
 print(f"flower {f['count']} strains ({f['updated']}) · edibles {e['count']} ({e['updated']})")
 EOF
 )"
-git commit -q -m "data: scheduled feed refresh — $SUMMARY" \
+if ! git commit -q -m "data: scheduled feed refresh — $SUMMARY" \
               -m "Automated by scripts/refresh-feeds.sh. Source: terrasana/*.xlsx. Regenerates tool JSON-LD (Dataset/ItemList) so AI engines see current rows." \
-              -- "${FILES[@]}"
+              -- "${FILES[@]}" >>"$LOG" 2>&1; then
+  log "git commit FAILED — see above; nothing deployed"; exit 1
+fi
 log "committed: $SUMMARY"
 
 if [ "$PUSH" != "1" ]; then
