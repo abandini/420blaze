@@ -583,6 +583,7 @@
                     <ul class="dropdown">
                         <li><a href="cleveland-420">Cleveland 420</a></li>
                         <li><a href="ohio-weed-laws">Ohio Weed Laws 2026</a></li>
+                        <li><a href="florida-marijuana-laws">Florida Marijuana Laws</a></li>
                         <li><a href="music-events">Live Music</a></li>
                         <li><a href="cannabis-holidays-2026">Cannabis Holidays</a></li>
                         <li><a href="710-dab-day-2026">7/10 Dab Day</a></li>
@@ -1125,7 +1126,7 @@
           if(so)so.innerHTML="including "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(", ");
           var medStates=order.filter(function(s){return DISPENSARIES.some(function(x){return x.state===s&&x.medical;});});
           var md=document.getElementById("discMed");
-          if(md&&medStates.length)md.innerHTML=" "+esc(medStates.map(function(s){return STATENAME[s]||s;}).join(" and "))+" is a medical-only market: you need a state medical marijuana card to buy there (seasonal residents can qualify), and Naples/Collier County ban dispensaries, so the &ldquo;Naples area&rdquo; stores are in Bonita Springs and on Marco Island.";
+          if(md&&medStates.length)md.innerHTML=" "+esc(medStates.map(function(s){return STATENAME[s]||s;}).join(" and "))+" is a medical-only market: you need a state medical marijuana card to buy there (seasonal residents can qualify), and Naples/Collier County ban dispensaries, so the Naples-area stores are in Bonita Springs, Fort Myers and Cape Coral. Card rules, purchase caps and where you can use it: <a href=\"florida-marijuana-laws\">Florida marijuana laws</a>.";
         })();
         var stamp="Real lab data &mdash; <strong>"+esc(d.count)+"</strong> flowers";
         if(DISPENSARIES.length)stamp+=" across "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(" + ");
