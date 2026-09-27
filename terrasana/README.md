@@ -126,7 +126,7 @@ python3 -c "import json;d=json.load(open('data/strain-terpenes.json'));print(d['
 ## SW Florida ("Naples area") — added 2026-09-27
 
 - **There are no dispensaries in Naples.** The City of Naples prohibits them and Collier County
-  banned them in unincorporated areas (Feb 2025); the only Collier store is MÜV Marco Island.
+  banned them in unincorporated areas (ordinance passed unanimously Feb 14, 2023); the only Collier store is MÜV Marco Island.
   The market Naples patients actually use is the **Bonita Springs cluster** (Lee County, US-41).
   Label it "Naples area (Bonita Springs)", never "Naples".
 - Florida is **medical-only**. `SOURCES` entries carry `"medical": True`, which the converter
