@@ -50,6 +50,18 @@ def inject(path, blocks):
 def ld(obj):
     return '<script type="application/ld+json">\n' + json.dumps(obj, indent=1, ensure_ascii=False) + '\n</script>'
 
+STATE_NAMES = {"OH": "Ohio", "MI": "Michigan", "FL": "Florida", "MA": "Massachusetts", "IL": "Illinois", "NY": "New York", "PA": "Pennsylvania"}
+
+def state_phrase(d):
+    """'Ohio & Michigan' / 'Ohio, Michigan & Florida' from the states present in a feed (first-seen order)."""
+    seen = []
+    for x in d.get("dispensaries", []):
+        st = x.get("state")
+        if st and st not in seen:
+            seen.append(st)
+    names = [STATE_NAMES.get(st, st) for st in seen] or ["Ohio", "Michigan"]
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " & " + names[-1]
+
 def build_strain():
     d = json.loads(STRAIN.read_text())
     prods = d["products"]
@@ -65,7 +77,7 @@ def build_strain():
                       "item": {"@type": "Thing", "name": p["name"], "description": desc + "."}})
     dataset = {"@context": "https://schema.org", "@type": "Dataset",
         "name": "Cleveland-Area Dispensary Flower Terpene Profiles",
-        "description": "Lab-reported terpene percentages (myrcene, limonene, beta-caryophyllene, linalool, humulene, pinene, bisabolol) and THC for cannabis flower on real Ohio & Michigan dispensary menus. Powers the 420Blazin Strain Finder terpene-to-effect matcher.",
+        "description": "Lab-reported terpene percentages (myrcene, limonene, beta-caryophyllene, linalool, humulene, pinene, bisabolol) and THC for cannabis flower on real " + state_phrase(d) + " dispensary menus. Powers the 420Blazin Strain Finder terpene-to-effect matcher.",
         "url": "https://420blazin.com/strain-finder",
         "creator": {"@type": "Person", "name": "Bill Burkey", "url": "https://420blazin.com/about"},
         "keywords": ["cannabis terpenes", "myrcene", "limonene", "beta-caryophyllene", "linalool", "strain effects", "terpene profile", "Cleveland dispensary"],
@@ -75,7 +87,7 @@ def build_strain():
                          "contentUrl": "https://420blazin.com/data/strain-terpenes.json"}}
     itemlist = {"@context": "https://schema.org", "@type": "ItemList",
         "name": "Terpene-rich cannabis strains and their associated effects",
-        "description": f"Representative sample of {len(items)} terpene-rich flowers from Ohio & Michigan dispensary menus (of {len(prods)} tracked), each with its dominant terpene and associated effect.",
+        "description": f"Representative sample of {len(items)} terpene-rich flowers from {state_phrase(d)} dispensary menus (of {len(prods)} tracked), each with its dominant terpene and associated effect.",
         "numberOfItems": len(items), "itemListElement": items}
     inject(REPO / "strain-finder.html", [ld(dataset), ld(itemlist)])
     return len(items), len(prods), d.get("updated", "")
@@ -95,12 +107,12 @@ def build_edible():
     webapp = {"@context": "https://schema.org", "@type": "WebApplication",
         "name": "The Edible Decoder", "url": "https://420blazin.com/edibles",
         "applicationCategory": "LifestyleApplication", "operatingSystem": "Web",
-        "description": "Find full-spectrum (non-distillate) cannabis edibles by terpene profile, dial the dose in mg, filter a heart-smart low-THC lane, and scope by dispensary — from real Ohio & Michigan menus.",
+        "description": "Find full-spectrum (non-distillate) cannabis edibles by terpene profile, dial the dose in mg, filter a heart-smart low-THC lane, and scope by dispensary — from real " + state_phrase(d) + " menus.",
         "creator": {"@type": "Person", "name": "Bill Burkey", "url": "https://420blazin.com/about"},
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}
     dataset = {"@context": "https://schema.org", "@type": "Dataset",
         "name": "Full-Spectrum Cannabis Edibles — Terpene & Dose Data",
-        "description": f"Terpene-profiled (non-distillate) cannabis edibles from Ohio & Michigan dispensary menus with dose (mg), extract type, and inherited/COA terpene profile. {len(prof)} of {d.get('count','?')} tracked edibles carry a real terpene profile; the rest are terpene-dead distillate.",
+        "description": f"Terpene-profiled (non-distillate) cannabis edibles from {state_phrase(d)} dispensary menus with dose (mg), extract type, and inherited/COA terpene profile. {len(prof)} of {d.get('count','?')} tracked edibles carry a real terpene profile; the rest are terpene-dead distillate.",
         "url": "https://420blazin.com/edibles",
         "creator": {"@type": "Person", "name": "Bill Burkey", "url": "https://420blazin.com/about"},
         "keywords": ["cannabis edibles", "full-spectrum edibles", "live rosin gummies", "THC dose mg", "edible terpenes", "distillate"],

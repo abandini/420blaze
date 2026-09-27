@@ -22,6 +22,9 @@ SRC_DIR = Path(os.environ.get("TERRASANA_DIR", str(REPO / "terrasana")))
 OUT = REPO / "data" / "strain-terpenes.json"
 
 # Each dispensary the coworker keeps refreshed in SRC_DIR.
+# "medical": True marks a medical-only market (Florida) — the finder shows an MMJ badge and
+# the copy says a card is required. Naples/Collier County ban dispensaries, so the "Naples
+# area" is the Bonita Springs cluster (Lee County) plus MÜV Marco Island.
 SOURCES = [
     {"key": "terrasana", "label": "Terrasana", "location": "Cleveland, OH", "state": "OH",
      "color": "#1a8754", "url": "https://terrasanacannabisco.com/cleveland-medical-menu/",
@@ -71,6 +74,12 @@ SOURCES = [
     {"key": "ayr_woodmere", "label": "AYR", "location": "Woodmere, OH", "state": "OH",
      "color": "#16a085", "url": "https://ayrdispensaries.com/ohio/woodmere/shop/",
      "file": "ayr_woodmere_flower_terpenes.xlsx"},
+    {"key": "rise_bonita", "label": "RISE", "location": "Bonita Springs, FL", "state": "FL", "medical": True,
+     "color": "#c0392b", "url": "https://risecannabis.com/dispensaries/florida/bonita-springs/773/medical-menu/",
+     "file": "rise_bonita_springs_flower_terpenes.xlsx"},
+    {"key": "ayr_bonita", "label": "AYR", "location": "Bonita Springs, FL", "state": "FL", "medical": True,
+     "color": "#0e7c7b", "url": "https://ayrdispensaries.com/stores/ayr-fl-bonita-springs",
+     "file": "ayr_bonita_springs_flower_terpenes.xlsx"},
 ]
 
 # Sources sharing a merge_key collapse into one dispensary, deduping strains that
@@ -179,7 +188,7 @@ def main():
             mg["dates"].append(updated)
             print(f"  {src['key']}: {n} new products into '{mk}' (updated {updated or 'unknown'})")
         else:
-            dispensaries.append({k: src[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": n, "updated": updated})
+            dispensaries.append({k: src[k] for k in ("key", "label", "location", "state", "color", "url")} | {"medical": bool(src.get("medical")), "count": n, "updated": updated})
             print(f"  {src['key']}: {n} products (updated {updated or 'unknown'})")
 
     # emit one dispensary entry per merge group (after the standalone ones, preserving bar order)
@@ -187,7 +196,7 @@ def main():
         meta = MERGE_META[mk]
         cnt = sum(1 for p in products if p["dispensary"] == mk)
         upd = max([d for d in mg["dates"] if d] or [""])
-        dispensaries.append({k: meta[k] for k in ("key", "label", "location", "state", "color", "url")} | {"count": cnt, "updated": upd})
+        dispensaries.append({k: meta[k] for k in ("key", "label", "location", "state", "color", "url")} | {"medical": bool(meta.get("medical")), "count": cnt, "updated": upd})
         print(f"  -> merged '{mk}': {cnt} unique products (updated {upd or 'unknown'})")
 
     payload = {

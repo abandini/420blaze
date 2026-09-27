@@ -704,7 +704,7 @@
                 </div>
             </section>
 
-            <p class="blog-disclaimer" style="font-size:0.82rem;color:#777;margin-top:30px;"><em>Data: dated snapshots of Ohio &amp; Michigan dispensaries&rsquo; published lab results &mdash; including Terrasana &amp; RISE &amp; Story (Cleveland, OH) and Dacut (Monroe, MI) &mdash; refreshed periodically. Terpene levels vary batch to batch &mdash; always confirm the COA on the actual jar. This tool is for education, not medical advice; cannabis affects everyone differently. Ohio adult-use is 21+. Cannabis remains federally Schedule I.</em></p>
+            <p class="blog-disclaimer" style="font-size:0.82rem;color:#777;margin-top:30px;"><em>Data: dated snapshots of <span id="discStates">Ohio &amp; Michigan</span> dispensaries&rsquo; published lab results &mdash; <span id="discStores">including Terrasana &amp; RISE &amp; Story (Cleveland, OH) and Dacut (Monroe, MI)</span> &mdash; refreshed periodically.<span id="discMed"></span> Terpene levels vary batch to batch &mdash; always confirm the COA on the actual jar. This tool is for education, not medical advice; cannabis affects everyone differently. Ohio adult-use is 21+. Cannabis remains federally Schedule I.</em></p>
         </div>
     </main>
 
@@ -1002,7 +1002,7 @@
 
     // ---- dispensary filter ----
     function dispBtnStyle(key,color){const on=activeDisp===key;return "padding:8px 14px;border-radius:999px;border:2px solid "+color+";cursor:pointer;font-weight:700;font-size:0.85rem;background:"+(on?color:"#fff")+";color:"+(on?"#fff":color)+";";}
-    const STATENAME={OH:"Ohio",MI:"Michigan",MA:"Massachusetts",IL:"Illinois",NY:"New York",PA:"Pennsylvania"};
+    const STATENAME={OH:"Ohio",MI:"Michigan",FL:"Florida",MA:"Massachusetts",IL:"Illinois",NY:"New York",PA:"Pennsylvania"};
     function renderDispBar(){
       const bar=document.getElementById("dispBar");if(!bar)return;
       if(!DISPENSARIES.length){bar.innerHTML="";return;}
@@ -1015,7 +1015,7 @@
         var cnt=groups[s].reduce(function(a,x){return a+(x.count||0);},0);
         // the state label itself is a filter — tap to see every store in that state
         var head='<button onclick="pickDisp(\''+skey+'\')" title="Show all '+esc(nm)+' stores" style="padding:7px 13px;border-radius:999px;border:2px dashed #999;cursor:pointer;font-weight:800;font-size:0.78rem;letter-spacing:.05em;text-transform:uppercase;background:'+(son?"#444":"#f4f4f4")+';color:'+(son?"#fff":"#555")+';">'+esc(nm)+' ('+cnt+')</button>';
-        var chips=groups[s].map(function(x){return '<button onclick="pickDisp(\''+x.key+'\')" title="'+esc(x.location)+'" style="'+dispBtnStyle(x.key,x.color||"#777")+'">'+esc(x.label)+' ('+esc(x.count)+')</button>';}).join("");
+        var chips=groups[s].map(function(x){var med=x.medical?' <span title="Medical-only market: a state medical card is required to buy" style="font-size:0.68rem;font-weight:800;letter-spacing:.04em;padding:1px 5px;border-radius:6px;background:rgba(0,0,0,.08);">MMJ</span>':"";return '<button onclick="pickDisp(\''+x.key+'\')" title="'+esc(x.location)+(x.medical?" — medical card required":"")+'" style="'+dispBtnStyle(x.key,x.color||"#777")+'">'+esc(x.label)+' ('+esc(x.count)+')'+med+'</button>';}).join("");
         return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">'+head+chips+'</div>';
       }).join("");
       bar.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">'+h+'</div>';
@@ -1044,6 +1044,18 @@
           var joined=names.length>1?names.slice(0,-1).join(", ")+" and "+names[names.length-1]:names[0];
           introEl.innerHTML="Currently tracking "+joined+".";
         }
+        // disclaimer copy follows the data: state list, store list, medical-only note
+        (function(){
+          var order=[];DISPENSARIES.forEach(function(x){if(x.state&&order.indexOf(x.state)<0)order.push(x.state);});
+          var nm=order.map(function(s){return STATENAME[s]||s;});
+          var st=document.getElementById("discStates");
+          if(st&&nm.length)st.innerHTML=esc(nm.length>1?nm.slice(0,-1).join(", ")+" &amp; "+nm[nm.length-1]:nm[0]).replace(/&amp;amp;/g,"&amp;");
+          var so=document.getElementById("discStores");
+          if(so)so.innerHTML="including "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(", ");
+          var medStates=order.filter(function(s){return DISPENSARIES.some(function(x){return x.state===s&&x.medical;});});
+          var md=document.getElementById("discMed");
+          if(md&&medStates.length)md.innerHTML=" "+esc(medStates.map(function(s){return STATENAME[s]||s;}).join(" and "))+" is a medical-only market: you need a state medical marijuana card to buy there (seasonal residents can qualify), and Naples/Collier County ban dispensaries, so the &ldquo;Naples area&rdquo; stores are in Bonita Springs and on Marco Island.";
+        })();
         var stamp="Real lab data &mdash; <strong>"+esc(d.count)+"</strong> flowers";
         if(DISPENSARIES.length)stamp+=" across "+DISPENSARIES.map(function(x){return esc(x.label)+" ("+esc(x.location)+")";}).join(" + ");
         if(d.updated)stamp+=", updated <strong>"+esc(d.updated)+"</strong>";
