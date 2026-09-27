@@ -659,6 +659,37 @@
 
             <h2 id="browse" style="margin-top:42px;">Search &amp; browse every strain</h2>
             <p class="sf-note" id="dataStamp">Real lab data, sortable. Click any column header to sort.</p>
+
+            <!-- Share prompt: appears only after the visitor has done something (filtered / matched / picked a store) -->
+            <div id="sharePrompt" style="display:none;margin:14px 0 0;padding:12px 14px;border:1px solid #cfe3d3;border-radius:10px;background:#f4fbf5;font-size:0.93rem;">
+                <strong id="shareLead">Know someone shopping here?</strong> <span id="shareSub">Share these live terpene-ranked results.</span>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                    <button type="button" onclick="shareFinder('copy')" style="padding:7px 12px;border-radius:8px;border:1px solid #1a8754;background:#fff;color:#1a8754;font-weight:700;cursor:pointer;">Copy link</button>
+                    <button type="button" id="shareNative" onclick="shareFinder('native')" style="display:none;padding:7px 12px;border-radius:8px;border:0;background:#1a8754;color:#fff;font-weight:700;cursor:pointer;">Share&hellip;</button>
+                    <span id="shareMsg" class="sf-note" aria-live="polite"></span>
+                </div>
+            </div>
+
+            <!-- Next market: status board + waitlist. Statuses come from data/markets.json; requests go to D1 via /request-market. -->
+            <section id="nextMarket" class="sf-panel" style="margin-top:28px;">
+                <h2 style="font-family:'Righteous',sans-serif;font-size:1.35rem;margin:0 0 6px;">Where should the Strain Finder go next?</h2>
+                <p class="sf-note" style="margin:0 0 12px;">We add a market when its dispensaries publish product-level terpene panels on their menus. Tell us where you shop and we&rsquo;ll check the menus &mdash; and email you if it goes live.</p>
+                <div id="marketBoard" style="display:grid;gap:8px;margin:0 0 16px;"></div>
+                <form id="marketForm" onsubmit="return requestMarket(event)" style="display:grid;gap:10px;grid-template-columns:1fr 1fr;align-items:end;position:relative;">
+                    <label style="display:grid;gap:4px;font-size:0.88rem;font-weight:600;">City<input name="city" required maxlength="80" placeholder="Naples" class="sf-select" style="width:100%;"></label>
+                    <label style="display:grid;gap:4px;font-size:0.88rem;font-weight:600;">State<input name="state" required maxlength="2" pattern="[A-Za-z]{2}" placeholder="FL" class="sf-select" style="width:100%;text-transform:uppercase;"></label>
+                    <label style="display:grid;gap:4px;font-size:0.88rem;font-weight:600;">I am a<select name="role" class="sf-select" style="width:100%;"><option value="consumer">shopper / patient</option><option value="caregiver">caregiver</option><option value="budtender">budtender</option><option value="dispensary">dispensary owner or manager</option><option value="other">other</option></select></label>
+                    <label style="display:grid;gap:4px;font-size:0.88rem;font-weight:600;">Dispensary (optional)<input name="dispensary" maxlength="120" placeholder="RISE Bonita Springs" class="sf-select" style="width:100%;"></label>
+                    <label style="display:grid;gap:4px;font-size:0.88rem;font-weight:600;grid-column:1/-1;">Email &mdash; only to tell you if your market goes live (optional)<input type="email" name="email" maxlength="254" placeholder="you@email.com" class="sf-select" style="width:100%;"></label>
+                    <input class="ec-hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;">
+                    <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                        <button type="submit" style="padding:10px 18px;border-radius:8px;border:0;background:#1a8754;color:#fff;font-weight:700;cursor:pointer;">Request this market</button>
+                        <span class="sf-note">A request helps us prioritize; it doesn&rsquo;t guarantee a launch.</span>
+                    </div>
+                    <p id="marketMsg" class="sf-note" aria-live="polite" style="grid-column:1/-1;margin:0;"></p>
+                </form>
+                <p class="sf-note" style="margin:12px 0 0;"><strong>Work at a dispensary?</strong> If your menu publishes full terpene panels, or you can share COAs, pick &ldquo;budtender&rdquo; or &ldquo;dispensary&rdquo; above and add the store &mdash; a menu that already has the data is the fastest market we can add. Once your store is live you get a link that ranks only your shelf, made to hand to customers.</p>
+            </section>
             <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0;">
                 <input type="search" id="strainSearch" placeholder="🔍 Search a strain by name… e.g. Runtz, Cereal Milk, Wedding Cake" oninput="searchStrains(this.value)" aria-label="Search strains by name or brand" autocomplete="off" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:2px solid #1a8754;border-radius:10px;font-size:1rem;">
                 <span id="searchCount" class="sf-note" aria-live="polite" style="font-weight:600;"></span>
@@ -881,6 +912,7 @@
         o("match","Best match","terpene fit")+o("thc-hi","Strongest","THC high → low")+o("thc-lo","Gentlest","THC low → high")+'</div>';
     }
     function pickMood(id,fromUser){
+      if(fromUser){interacted=true;setTimeout(showSharePrompt,0);}
       const m=MOODS.find(x=>x.id===id);
       CURMOOD=id;
       MOODS.forEach(x=>document.getElementById("mood-"+x.id).classList.toggle("active",x.id===id));
@@ -1020,8 +1052,46 @@
       }).join("");
       bar.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">'+h+'</div>';
     }
+    // ---- share prompt (shown after the first real interaction, never on load) ----
+    var interacted=false;
+    function storeScopedUrl(){var u=new URL(location.origin+"/strain-finder");if(activeDisp&&activeDisp!=="all")u.searchParams.set("disp",activeDisp);return u.toString();}
+    function showSharePrompt(){
+      if(!interacted)return;var el=document.getElementById("sharePrompt");if(!el)return;
+      var lead=document.getElementById("shareLead"),sub=document.getElementById("shareSub");
+      if(activeDisp&&activeDisp.indexOf("state:")!==0&&activeDisp!=="all"){var d=DISPENSARIES.filter(function(x){return x.key===activeDisp;})[0];
+        if(d){lead.textContent="Know someone shopping at "+d.label+" ("+d.location+")?";sub.textContent="This link ranks only their shelf by terpene, from lab data updated "+(d.updated||"recently")+".";}}
+      else{lead.textContent="Know someone shopping here?";sub.textContent="Share these live terpene-ranked results.";}
+      if(navigator.share)document.getElementById("shareNative").style.display="";
+      el.style.display="";
+    }
+    function shareFinder(how){
+      var url=storeScopedUrl(),msg=document.getElementById("shareMsg");
+      try{posthog&&posthog.capture("finder_share_click",{how:how,disp:activeDisp});}catch(e){}
+      if(how==="native"&&navigator.share){navigator.share({title:"Strain Finder — flower ranked by terpene",url:url}).catch(function(){});return;}
+      (navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(function(){msg.textContent="Link copied.";},function(){msg.textContent=url;});
+    }
+    // ---- next-market board + waitlist ----
+    var STATUS_LABEL={live:["Live","#1a8754"],"in-progress":["In progress","#b7771a"],checking:["Checking menus","#6b7c72"],planned:["Planned","#6b7c72"],"not-feasible":["Not yet possible","#9b3a2e"]};
+    fetch("data/markets.json",{cache:"no-cache"}).then(function(r){return r.ok?r.json():null;}).then(function(m){
+      var b=document.getElementById("marketBoard");if(!b||!m||!m.markets)return;
+      b.innerHTML=m.markets.map(function(x){var st=STATUS_LABEL[x.status]||[x.status,"#777"];
+        return '<div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:8px 10px;border:1px solid #e3e9e4;border-radius:8px;background:#fff;"><span style="font-size:0.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:'+st[1]+';padding:2px 7px;border-radius:5px;">'+esc(st[0])+'</span><strong>'+esc(x.name)+'</strong>'+(x.note?'<span class="sf-note">'+esc(x.note)+'</span>':'')+'</div>';}).join("")
+        +(m.feasibility?'<p class="sf-note" style="margin:4px 0 0;">'+esc(m.feasibility)+'</p>':'');
+    }).catch(function(){});
+    function requestMarket(e){
+      e.preventDefault();var f=e.target,msg=document.getElementById("marketMsg"),btn=f.querySelector("button[type=submit]");
+      var body={city:f.city.value.trim(),state:f.state.value.trim().toUpperCase(),role:f.role.value,dispensary:f.dispensary.value.trim(),email:f.email.value.trim(),hp:f.hp?f.hp.value:"",source:"strain-finder"};
+      btn.disabled=true;
+      fetch("/request-market",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(d){
+        if(d&&d.ok){msg.textContent=body.email?"Got it — we'll check the menus and email you only if "+body.city+" goes live (confirm the email we just sent so we can).":"Got it — "+body.city+" is on the list. We'll check the menus.";f.reset();
+          try{posthog&&posthog.capture("market_request_submit",{market:d.market||"",role:body.role,has_email:!!body.email});}catch(e){}}
+        else{msg.textContent=d&&d.error==="invalid-email"?"That email doesn't look right.":d&&d.error==="invalid-state"?"Use the two-letter state code (FL, OH…).":"That didn't go through — try again in a sec.";btn.disabled=false;}
+      }).catch(function(){msg.textContent="Network hiccup — try again in a sec.";btn.disabled=false;});
+      return false;
+    }
     function pickDisp(key){
-      activeDisp=key;renderDispBar();renderStrainPicker();renderTable();
+      interacted=true;
+      activeDisp=key;renderDispBar();renderStrainPicker();renderTable();showSharePrompt();
       document.getElementById("strainResult").innerHTML="";
       var act=document.querySelector(".mood-chip.active");
       pickMood(act?act.id.replace("mood-",""):"laugh");
@@ -1038,6 +1108,7 @@
         DATA=d.products;
         DATA.forEach(function(p){if(!p.dispensary)p.dispensary="terrasana";});
         DISPENSARIES=d.dispensaries||[];
+        try{var want=new URLSearchParams(location.search).get("disp");if(want&&DISPENSARIES.some(function(x){return x.key===want;})){activeDisp=want;interacted=true;}}catch(e){}
         var introEl=document.getElementById("introStores");
         if(introEl&&DISPENSARIES.length){
           var names=DISPENSARIES.map(function(x){return "<strong>"+esc(x.label)+"</strong> ("+esc(x.location)+")";});

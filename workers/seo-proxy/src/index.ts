@@ -5,6 +5,7 @@
 
 import { handleAffiliateRedirect } from './affiliate.js';
 import { handleSubscribe, handleConfirm, handleUnsubscribe } from './subscribe.js';
+import { handleMarketRequest } from './market.js';
 import { handlePostHogProxy, isIngestPath } from './posthog.js';
 import { SITEMAP_XML } from './sitemap-data.js';
 
@@ -187,6 +188,18 @@ export default {
     }
     if (url.pathname === '/unsubscribe') {
       return handleUnsubscribe(request, url, env.AFFILIATE_DB);
+    }
+    // "Next market" waitlist for the Strain Finder — stores the request, then runs the same
+    // double-opt-in subscribe path for the email (verified before we ever send a launch note).
+    if (url.pathname === '/request-market') {
+      return handleMarketRequest(request, env.AFFILIATE_DB, async (email, source) => {
+        const req = new Request('https://420blazin.com/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Referer': request.headers.get('Referer') || '', 'User-Agent': request.headers.get('User-Agent') || '' },
+          body: JSON.stringify({ email, source }),
+        });
+        await handleSubscribe(req, env.AFFILIATE_DB, env.RESEND_API_KEY, { waitUntil: (p: Promise<unknown>) => ctx.waitUntil(p) });
+      }, ctx);
     }
 
     // Affiliate redirects — must be before origin fetch

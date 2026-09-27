@@ -222,6 +222,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** PostHog pageviews + referrers (host-filtered); GSC impressions/position for "ohio weed laws", "ohio marijuana laws 2026", "bring weed from michigan to ohio"; ai-citation-test query added ("Is it legal to bring cannabis bought in Michigan into Ohio in 2026?"). Update triggers: S.B. 55 passes; veto override; hemp-injunction ruling; federal hemp rule (Nov 2026).
 **Status:** Active. Launched 2026-09-04 (commit ff34143; worker deploy 934f7186). **T+0:** live in 72 s; KV title rendered; sitemap + llms.txt carry the URL; nav link verified on top-level and blog pages; GSC URL inspection = NEUTRAL ("Discovered — currently not indexed") minutes after the sitemap ping. Ask Bill to hit "Request Indexing" in Search Console (it took the terpene post from Discovered to Indexed in ~3 h). **T+7 review due 2026-09-11.**
 
+## EXP-021 — Strain Finder "next market" waitlist + post-value share prompt
+
+**Date:** 2026-09-27
+**Change:** Added to /strain-finder: (1) a market status board fed by `data/markets.json` (live / in-progress / checking / planned / not-feasible — deliberately no vote counts); (2) a waitlist form (city, state, role, optional dispensary + email) → Worker `POST /request-market` → D1 `market_requests`; an email also runs the existing double-opt-in subscribe path with source `market-<key>`, so a launch note only ever goes to a verified address; (3) a share prompt that appears only after the visitor filters/matches/picks a store, offering a store-scoped link (`/strain-finder?disp=<key>`, now honoured on load) via copy or native share; (4) a "work at a dispensary?" lane pointing staff at the same form. Cross-family review: Sol argued against a public tally (duplicate votes, big-city bias, false expectations) and for making the share ask only after value and only once a market is genuinely live — both adopted. Honeypot as on the newsletter form.
+**Hypothesis:** Requests concentrate on a few feasible metros and surface dispensary/budtender contacts (the RISE budtender and the Naples request were both unsolicited); the store-scoped share link is the object budtenders will actually hand to customers. The form is demand discovery + lead capture; it becomes a loop only if share links bring referred, engaged visitors.
+**Metric (30 days, per Sol's bar):** finder visitors → form starts → verified requests (target 5–10%); ≥1 metro with 5–10 independent requests and terpene-publishing menus; ≥2 credible staff contacts; `finder_share_click` → referred sessions landing on `?disp=` URLs from non-search referrers (target ≥0.05 activated per finder visitor). PostHog events: `market_request_submit` {market, role, has_email}, `finder_share_click` {how, disp}. D1: `SELECT market_key, role, COUNT(*) FROM market_requests GROUP BY 1,2`.
+**Status:** Active. Launched 2026-09-27.
+
 ---
 
 ## UTM scheme

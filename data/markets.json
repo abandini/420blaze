@@ -1,0 +1,10 @@
+{
+  "note": "Status board for the Strain Finder's 'next market' panel. Hand-edited; statuses are: live | in-progress | checking | planned | not-feasible. No vote counts on purpose — counts invite duplicate voting and favour cities whose menus publish no terpene panel.",
+  "updated": "2026-09-27",
+  "markets": [
+    { "key": "oh-cleveland", "name": "Cleveland & Northeast Ohio", "state": "OH", "status": "live", "note": "10 dispensary menus" },
+    { "key": "mi-monroe", "name": "Monroe, Michigan", "state": "MI", "status": "live", "note": "5 dispensary menus" },
+    { "key": "fl-naples-area", "name": "Naples area (Bonita Springs & Marco Island), Florida", "state": "FL", "status": "in-progress", "note": "RISE and AYR Bonita Springs publish full lab panels — first pull under way. Naples and Collier County ban dispensaries, so the stores are in Bonita Springs. Medical-only." }
+  ],
+  "feasibility": "We can add a market when its dispensaries publish product-level terpene panels (myrcene, limonene, caryophyllene…) on their online menus. Chains that show only total terpenes or a top-3 list can't be ranked yet."
+}
