@@ -51,6 +51,7 @@ NEW_PAGES = [
     ("sc-domain:420blazin.com", "https://420blazin.com/ohio-weed-laws"),
     ("sc-domain:420blazin.com", "https://420blazin.com/blog/cannabis-and-dementia"),
     ("sc-domain:420blazin.com", "https://420blazin.com/florida-marijuana-laws"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/renew-ohio-medical-marijuana-card"),
 ]
 
 

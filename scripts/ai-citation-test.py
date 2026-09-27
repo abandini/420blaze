@@ -45,6 +45,7 @@ TEST_QUERIES = [
     {"q": "Is it legal to bring cannabis bought in Michigan into Ohio in 2026, and what are Ohio's possession limits?", "target_page": "/ohio-weed-laws"},
     {"q": "Does CBD, THC, CBN or CBG help with agitation or sleep in someone with Alzheimer's or dementia, and what are the risks?", "target_page": "/blog/cannabis-and-dementia"},
     {"q": "Can a snowbird from Ohio get a Florida medical marijuana card, and what are Florida's purchase limits and penalties in 2026?", "target_page": "/florida-marijuana-laws"},
+    {"q": "How do I renew my Ohio medical marijuana card in 2026, how much does it cost, and how early can I renew?", "target_page": "/blog/renew-ohio-medical-marijuana-card"},
     {"q": "Best stoner movies with cannabis strain pairings", "target_page": "/stoner-movies"},
     {"q": "Complete list of cannabis holidays in 2026 calendar", "target_page": "/cannabis-holidays-2026"},
     {"q": "Cannabis guide for adults over 60 starting CBD or THC", "target_page": "/ (seniorsguide root)"},
