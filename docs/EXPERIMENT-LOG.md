@@ -230,6 +230,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric (30 days, per Sol's bar):** finder visitors → form starts → verified requests (target 5–10%); ≥1 metro with 5–10 independent requests and terpene-publishing menus; ≥2 credible staff contacts; `finder_share_click` → referred sessions landing on `?disp=` URLs from non-search referrers (target ≥0.05 activated per finder visitor). PostHog events: `market_request_submit` {market, role, has_email}, `finder_share_click` {how, disp}. D1: `SELECT market_key, role, COUNT(*) FROM market_requests GROUP BY 1,2`.
 **Status:** Active. Launched 2026-09-27.
 
+## EXP-022 — "Cannabis and dementia" evidence explainer (requested by a RISE budtender)
+
+**Date:** 2026-09-27
+**Change:** Shipped /blog/cannabis-and-dementia. Origin: a RISE Cleveland budtender who found the site asked for an honest page they could hand to families asking "will this help my mother's dementia?" Content: the honest hierarchy (nothing slows the disease; agitation is the only symptom with a trial signal), trial-by-trial numbers (Cochrane 2021; Herrmann 2019 nabilone; Rosenberg/Forester THC-AD dronabinol 2026; van den Elsen 2015; Volicer 1997; Hermush 2022 CBD-rich oil; Grayson 2017 warfarin case; Bonn-Miller 2024 CBN sleep; Liang 2022 CBN cell study; Leafreport 2022 labeling; ORC 3796.01; Alzheimer's Society UK), risks for frail older adults, an 8-item caregiver checklist, visible FAQ + FAQPage schema, a "talk to your doctor" box, and 14 cited sources. Process: draft brief → independent cross-family evidence review (Sol, GPT) → my own fetch-verification of every primary source → isolated Auditor agent that re-fetched each citation → corrections → publish. Community/second-person framing throughout; author identified as writer, not clinician.
+**Hypothesis:** YMYL query cluster ("cbd for dementia agitation", "cbn dementia", "thc alzheimer's agitation", "cannabis dementia risks") is served by dispensary marketing and generic health sites; a source-cited caregiver page with trial numbers gets cited by AI answer engines and Perplexity within 30 days and becomes the page budtenders link to. Also feeds the seniors book/site.
+**Metric:** PostHog pageviews + referrers (host-filtered); ai-citation-test query added; GSC impressions for "cbd dementia agitation" / "cannabis alzheimer's agitation"; Amazon book-CTA clicks from this page. Update trigger: NAB-IT (NCT04516057) results; any Cochrane update.
+**Status:** Active. Launched 2026-09-27.
+
 ---
 
 ## UTM scheme
