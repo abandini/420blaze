@@ -1,6 +1,6 @@
 # GSC Submit Report — 2026-09-27
 
-**Generated:** 2026-09-27T14:16:19Z
+**Generated:** 2026-09-27T14:50:00Z
 
 ## Sitemap submissions
 
@@ -23,7 +23,7 @@
 | https://420blazin.com/stoner-movies | PASS | Submitted and indexed |
 | https://420blazin.com/blog/half-baked-sour-diesel-pairing.html | NEUTRAL | Page with redirect |
 | https://420blazin.com/blog/cannabis-brownies-without-the-blackout.html | NEUTRAL | Page with redirect |
-| https://weedaseniorsguide.com/blog/cannabis-brownies-safe-dosing-seniors/ | NEUTRAL | Discovered - currently not indexed |
+| https://weedaseniorsguide.com/blog/cannabis-brownies-safe-dosing-seniors/ | NEUTRAL | URL is unknown to Google |
 | https://weedaseniorsguide.com/your-grandmother-probably-did/ | PASS | Submitted and indexed |
 | https://weedaseniorsguide.com/blog/senior-dog-frozen-treats-cbd-terpenes/ | NEUTRAL | Crawled - currently not indexed |
 | https://420blazin.com/blog/dosage-effect-drift-commercial-gummies | PASS | Submitted and indexed |
@@ -36,7 +36,8 @@
 | https://420blazin.com/blog/terpene-boiling-point-chart | PASS | Submitted and indexed |
 | https://420blazin.com/ohio-weed-laws | PASS | Submitted and indexed |
 | https://420blazin.com/blog/cannabis-and-dementia | PASS | Submitted and indexed |
-| https://420blazin.com/florida-marijuana-laws | NEUTRAL | Discovered - currently not indexed |
+| https://420blazin.com/florida-marijuana-laws | PASS | Submitted and indexed |
+| https://420blazin.com/blog/renew-ohio-medical-marijuana-card | NEUTRAL | Discovered - currently not indexed |
 
 ## Notes
 
