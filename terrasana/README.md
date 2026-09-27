@@ -46,6 +46,12 @@ display metadata (label/location/state/color/url).
    - `ayr_woodmere_flower_terpenes.xlsx`
    - `rise_bonita_springs_flower_terpenes.xlsx`   (SW Florida — added 2026-09-27)
    - `ayr_bonita_springs_flower_terpenes.xlsx`    (SW Florida — added 2026-09-27)
+   - `jungle_boys_bonita_springs_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
+   - `planet13_bonita_springs_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
+   - `planet13_cape_coral_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
+   - `cookies_fort_myers_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
+   - `ayr_fort_myers_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
+   - `ayr_cape_coral_flower_terpenes.xlsx`   (SW Florida phase 2 — added 2026-09-27)
 
 2. **Grid is the FIRST sheet.** Sheet name doesn't matter (converter uses sheet index 0),
    but the flower terpene grid must be first.
@@ -139,6 +145,14 @@ python3 -c "import json;d=json.load(open('data/strain-terpenes.json'));print(d['
 - **AYR Bonita Springs** — Dutchie api-3, `dutchieSlug` `ayr-fl-bonita-springs`
   (24611 S Tamiami Trail). Same helpers as AYR Woodmere; dispensaryId is recorded in
   `_swfl_task_prompt.md`.
+- **Phase 2 (2026-09-27), six more Dutchie api-3 stores, all MEDICAL pricing, full panels verified
+  live:** Jungle Boys Bonita Springs `64d3ef5b6d1beb00099c7f8a` · Planet 13 Bonita Springs
+  `667b3948cbf457a368d3b2a1` · Planet 13 Cape Coral `667b39b0a92b42ca87fce184` · Cookies Fort
+  Myers `67366da98578fbbad2f0eb80` · AYR Fort Myers (Cleveland Ave) `6074e5f6c2e3a100accf3239` ·
+  AYR Cape Coral `6074e56d9bf22d00ae8f55e4`. Keys/filenames are in `_build_swfl.py` STORES and the
+  `SOURCES` registry. The market label becomes "Naples–Fort Myers" once they ship.
 - Builder: `python3 _build_swfl.py` (skips a store whose `_<key>_rows.json` is absent).
-- Chains checked and NOT added (menus publish only total + top-3/4 terpenes; full panel is a
-  COA PDF): MÜV (Sweed), Curaleaf (Sweed), Trulieve (own storefront). Sunnyside unverified.
+- Chains checked and NOT added (menus publish only a total and/or top-3/4 terpenes; full panel is a
+  COA PDF): MÜV, Curaleaf, Fluent, Green Dragon, Goldflower (all Sweed), Trulieve (own storefront),
+  GrowHealthy and Mint (Dutchie, total terps only), Sunburn (empty terpene arrays). Unverified:
+  Sunnyside, The Flowery, Surterra.

@@ -80,6 +80,25 @@ SOURCES = [
     {"key": "ayr_bonita", "label": "AYR", "location": "Bonita Springs, FL", "state": "FL", "medical": True,
      "color": "#0e7c7b", "url": "https://ayrdispensaries.com/stores/ayr-fl-bonita-springs",
      "file": "ayr_bonita_springs_flower_terpenes.xlsx"},
+    # SW Florida phase 2 (added 2026-09-27; all Dutchie api-3, MEDICAL pricing, full terpene panels verified)
+    {"key": "jungleboys_bonita", "label": "Jungle Boys", "location": "Bonita Springs, FL", "state": "FL", "medical": True,
+     "color": "#145a32", "url": "https://jungleboysflorida.com/locations/jungle-boys-bonita-springs/",
+     "file": "jungle_boys_bonita_springs_flower_terpenes.xlsx"},
+    {"key": "planet13_bonita", "label": "Planet 13", "location": "Bonita Springs, FL", "state": "FL", "medical": True,
+     "color": "#6c3483", "url": "https://planet13.com/stores/bonita-springs",
+     "file": "planet13_bonita_springs_flower_terpenes.xlsx"},
+    {"key": "planet13_capecoral", "label": "Planet 13", "location": "Cape Coral, FL", "state": "FL", "medical": True,
+     "color": "#6c3483", "url": "https://planet13.com/stores/cape-coral",
+     "file": "planet13_cape_coral_flower_terpenes.xlsx"},
+    {"key": "cookies_fortmyers", "label": "Cookies", "location": "Fort Myers, FL", "state": "FL", "medical": True,
+     "color": "#1f618d", "url": "https://cookiesflorida.co/fort-myers/shop/",
+     "file": "cookies_fort_myers_flower_terpenes.xlsx"},
+    {"key": "ayr_fortmyers", "label": "AYR", "location": "Fort Myers, FL", "state": "FL", "medical": True,
+     "color": "#0e7c7b", "url": "https://ayrdispensaries.com/florida/fort-myers-cleveland/shop/",
+     "file": "ayr_fort_myers_flower_terpenes.xlsx"},
+    {"key": "ayr_capecoral", "label": "AYR", "location": "Cape Coral, FL", "state": "FL", "medical": True,
+     "color": "#0e7c7b", "url": "https://ayrdispensaries.com/stores/ayr-fl-cape-coral",
+     "file": "ayr_cape_coral_flower_terpenes.xlsx"},
 ]
 
 # Sources sharing a merge_key collapse into one dispensary, deduping strains that
