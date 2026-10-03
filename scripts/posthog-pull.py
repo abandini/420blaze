@@ -44,16 +44,25 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, help="rolling N-day window instead of month-to-date")
     ap.add_argument("--discover", action="store_true", help="list all events (host-filtered)")
+    ap.add_argument("--month", help="a whole calendar month, e.g. 2026-09 (overrides --days)")
     args = ap.parse_args()
     key = api_key()
 
-    if args.days:
+    until = None
+    if args.month:
+        y, m = map(int, args.month.split("-"))
+        since = dt.date(y, m, 1).isoformat()
+        until = (dt.date(y + (m == 12), (m % 12) + 1, 1)).isoformat()
+        label = f"month {args.month}"
+    elif args.days:
         since = (dt.date.today() - dt.timedelta(days=args.days)).isoformat()
         label = f"last {args.days} days"
     else:
         since = dt.date.today().replace(day=1).isoformat()
         label = f"month-to-date (since {since})"
     W = f"{HOST_FILTER} AND timestamp >= toDateTime('{since} 00:00:00')"
+    if until:
+        W += f" AND timestamp < toDateTime('{until} 00:00:00')"
 
     if args.discover:
         rows = hq(key, f"SELECT event, count() n, uniq(distinct_id) ppl FROM events WHERE {W} GROUP BY event ORDER BY n DESC LIMIT 100")
