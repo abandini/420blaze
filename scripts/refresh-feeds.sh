@@ -81,16 +81,20 @@ FILES+=("${TOOLHTML[@]}")
 # logged "committed". If the lock is older than 10 minutes and no git process is running, it
 # is orphaned: remove it and say so. A live git process means a real concurrent operation —
 # bail and let the next scheduled run try again.
-if [ -f .git/index.lock ]; then
+# 2026-10-01: a stale HEAD.lock (left by the monthly playlist refresh) did the same thing
+# to the commit step, so both lock files get the same treatment.
+for LOCK in .git/index.lock .git/HEAD.lock; do
+  [ -f "$LOCK" ] || continue
   if pgrep -fq "git (commit|add|push|rebase|merge|stash)"; then
-    log "git index.lock present and a git process is running — skipping this run"; exit 0
+    log "$LOCK present and a git process is running — skipping this run"; exit 0
   fi
-  if [ -n "$(find .git/index.lock -mmin +10 2>/dev/null)" ]; then
-    rm -f .git/index.lock && log "removed stale .git/index.lock ($(stat -f '%Sm' .git/index.lock 2>/dev/null || echo 'age >10 min'))"
+  if [ -n "$(find "$LOCK" -mmin +10 2>/dev/null)" ]; then
+    AGE="$(stat -f '%Sm' "$LOCK" 2>/dev/null || echo 'age >10 min')"
+    rm -f "$LOCK" && log "removed stale $LOCK ($AGE)"
   else
-    log "fresh .git/index.lock (<10 min) with no git process — waiting for next run"; exit 0
+    log "fresh $LOCK (<10 min) with no git process — waiting for next run"; exit 0
   fi
-fi
+done
 if ! git add -- "${FILES[@]}" >>"$LOG" 2>&1; then log "git add FAILED — see above"; exit 1; fi
 SUMMARY="$("$PY" - <<'EOF'
 import json
