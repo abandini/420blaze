@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-01",
+ "updated": "2026-10-04",
  "count": 2555,
  "stores": [
   {
@@ -70,7 +70,7 @@
    "color": "#9b59b6",
    "count": 59,
    "tierA": 4,
-   "profileable": 3
+   "profileable": 2
   },
   {
    "key": "landing",
@@ -90,7 +90,7 @@
    "color": "#2980b9",
    "count": 485,
    "tierA": 99,
-   "profileable": 2
+   "profileable": 3
   },
   {
    "key": "pure",
@@ -23791,17 +23791,8 @@
    "cardiac": "",
    "price": "28",
    "size": "10pk",
-   "profile": "inherited",
-   "matchedCultivar": "Purp 43",
-   "myrcene": 0.5,
-   "limonene": 0.16,
-   "caryophyllene": 0.21,
-   "linalool": 0.2,
-   "humulene": 0.06,
-   "apinene": 0.06,
-   "bpinene": 0.11,
-   "bisabolol": 0.05,
-   "leadTerp": "myrcene"
+   "profile": "none",
+   "matchedCultivar": null
   },
   {
    "name": "Lost Farm Orange 43 Juicy Peach Live Resin Gummies",
@@ -27398,8 +27389,17 @@
    "cardiac": "",
    "price": "15",
    "size": ".8g",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Super Boof",
+   "myrcene": 0.2,
+   "limonene": 0.49,
+   "caryophyllene": 0.37,
+   "linalool": 0.19,
+   "humulene": 0.11,
+   "apinene": 0.04,
+   "bpinene": 0.07,
+   "bisabolol": 0.06,
+   "leadTerp": "limonene"
   },
   {
    "name": "SUNO RSO Tincture \u2013 200MG",
