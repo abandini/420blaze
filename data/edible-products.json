@@ -50,7 +50,7 @@
    "color": "#1abc9c",
    "count": 55,
    "tierA": 9,
-   "profileable": 1
+   "profileable": 2
   },
   {
    "key": "joyology",
@@ -130,7 +130,7 @@
    "color": "#1a8754",
    "count": 43,
    "tierA": 21,
-   "profileable": 1
+   "profileable": 2
   },
   {
    "key": "urb",
@@ -147,9 +147,9 @@
   "total": 2157,
   "tierA": 465,
   "distillate": 1676,
-  "profileable": 43,
+  "profileable": 45,
   "coa": 15,
-  "inherited": 28,
+  "inherited": 30,
   "cardiac": 184
  },
  "products": [
@@ -13166,8 +13166,17 @@
    "cardiac": "",
    "price": "29",
    "size": "100mg",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Jungle Grapes",
+   "myrcene": 0.74,
+   "limonene": 0.08,
+   "caryophyllene": 0.18,
+   "linalool": 0.25,
+   "humulene": 0.05,
+   "apinene": 0.01,
+   "bpinene": 0.03,
+   "bisabolol": 0.01,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Grape Pate De Fruit RSO Gummies 100mg | 10pk",
@@ -35674,8 +35683,17 @@
    "cardiac": "",
    "price": "29",
    "size": "100.8mg / 110mg",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Jungle Grapes",
+   "myrcene": 0.74,
+   "limonene": 0.08,
+   "caryophyllene": 0.18,
+   "linalool": 0.25,
+   "humulene": 0.05,
+   "apinene": 0.01,
+   "bpinene": 0.03,
+   "bisabolol": 0.01,
+   "leadTerp": "myrcene"
   },
   {
    "name": "Strawberry | Rosin Gummies | [100.2mg]",
