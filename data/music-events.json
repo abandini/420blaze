@@ -1,27 +1,7 @@
 {
- "updated": "2026-10-05",
+ "updated": "2026-10-12",
  "note": "Curated 420-adjacent Cleveland shows (jam, Dead, psych, funk/soul, reggae/ska, doom/stoner, conscious hip-hop). Only events verified on a venue/ticketing calendar. Refresh weekly — regenerate this file and the page picks it up automatically; past events auto-hide.",
  "events": [
-  {
-   "date": "2026-10-09",
-   "artist": "SLIFT + Rhododendron + Nathan Carson",
-   "venue": "Beachland Ballroom, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "",
-   "genre": "Psych / Stoner Rock",
-   "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/slift-09-oct"
-  },
-  {
-   "date": "2026-10-09",
-   "artist": "Open Mike Eagle + Me:You",
-   "venue": "Beachland Tavern, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "",
-   "genre": "Conscious / Alt Hip-Hop",
-   "vibe": 4,
-   "url": "https://www.beachlandballroom.com/shows/open-mike-eagle-09-oct"
-  },
   {
    "date": "2026-10-12",
    "artist": "White Denim + Arc Iris",
@@ -31,6 +11,28 @@
    "genre": "Psych-Funk / Soul-Rock",
    "vibe": 5,
    "url": "https://www.beachlandballroom.com/shows/white-denim-12-oct"
+  },
+  {
+   "date": "2026-10-14",
+   "artist": "Wednesday Night Jam (host band + open jam)",
+   "venue": "Backstage Bar, Cleveland (West Park)",
+   "time": "Every Wed · Host band 8:00 PM, open jam after",
+   "price": "Free",
+   "genre": "Open Jam / Blues-Rock",
+   "vibe": 4,
+   "recurs": "weekly",
+   "url": "https://www.backstagebarcleveland.com/calendar.php"
+  },
+  {
+   "date": "2026-10-14",
+   "artist": "Wednesday Open Mic & Jam",
+   "venue": "CODA, Tremont (Cleveland)",
+   "time": "Every Wed · Doors 7:30 PM",
+   "price": "Free",
+   "genre": "Open Mic / Jam (indie · folk · blues · rock)",
+   "vibe": 4,
+   "recurs": "weekly",
+   "url": "https://danteboccuzzi.com/coda/"
   },
   {
    "date": "2026-10-16",
@@ -133,6 +135,16 @@
    "url": "https://www.beachlandballroom.com/shows/kitchen-dwellers-31-oct"
   },
   {
+   "date": "2026-11-01",
+   "artist": "Post Animal + GIFT",
+   "venue": "Beachland Ballroom, Cleveland",
+   "time": "Doors 7:00 PM · Show 8:00 PM",
+   "price": "",
+   "genre": "Psych Rock / Indie",
+   "vibe": 3,
+   "url": "https://www.beachlandballroom.com/shows/post-animal-01-nov"
+  },
+  {
    "date": "2026-11-06",
    "artist": "REPRISE: Recreating Iconic Phish Shows",
    "venue": "Beachland Ballroom, Cleveland",
@@ -201,6 +213,16 @@
    "genre": "Southern Rock / Jam Tribute",
    "vibe": 4,
    "url": "https://www.beachlandballroom.com/shows/revival-abb-27-nov"
+  },
+  {
+   "date": "2026-12-06",
+   "artist": "Voodoo Funk + Friday Night Astronauts (Matinee)",
+   "venue": "Beachland Ballroom, Cleveland",
+   "time": "Doors 2:00 PM · Show 3:00 PM",
+   "price": "",
+   "genre": "Funk / Soul",
+   "vibe": 4,
+   "url": "https://www.beachlandballroom.com/shows/voodoo-funk-06-dec"
   }
  ],
  "venues": [
