@@ -40,7 +40,7 @@
    "color": "#2471a3",
    "count": 347,
    "tierA": 82,
-   "profileable": 11
+   "profileable": 12
   },
   {
    "key": "forest_lakewood",
@@ -140,16 +140,16 @@
    "color": "#16a085",
    "count": 367,
    "tierA": 100,
-   "profileable": 5
+   "profileable": 6
   }
  ],
  "stats": {
   "total": 1902,
   "tierA": 404,
   "distillate": 1473,
-  "profileable": 42,
+  "profileable": 44,
   "coa": 13,
-  "inherited": 29,
+  "inherited": 31,
   "cardiac": 176
  },
  "products": [
@@ -312,14 +312,14 @@
    "size": "10pk",
    "profile": "inherited",
    "matchedCultivar": "Dark Rainbow",
-   "myrcene": 0.25,
+   "myrcene": 0.12,
    "limonene": 0.49,
-   "caryophyllene": 0.63,
-   "linalool": 0.3,
-   "humulene": 0.24,
-   "apinene": 0.03,
-   "bpinene": 0.06,
-   "bisabolol": 0.11,
+   "caryophyllene": 0.61,
+   "linalool": 0.32,
+   "humulene": 0.23,
+   "apinene": 0.05,
+   "bpinene": 0.09,
+   "bisabolol": 0.1,
    "leadTerp": "caryophyllene"
   },
   {
@@ -6772,8 +6772,17 @@
    "cardiac": "",
    "price": "11.99",
    "size": ".2g",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Strawnana | 3.5g",
+   "myrcene": 0.26,
+   "limonene": 0.48,
+   "caryophyllene": 0.29,
+   "linalool": 0.37,
+   "humulene": 0,
+   "apinene": 0.08,
+   "bpinene": 0.11,
+   "bisabolol": 0,
+   "leadTerp": "limonene"
   },
   {
    "name": "Edible Gems Pineapple 2:1 THC:CBN Live Resin Gummies 200mg",
@@ -32850,8 +32859,17 @@
    "cardiac": "",
    "price": "8",
    "size": "0.875g",
-   "profile": "none",
-   "matchedCultivar": null
+   "profile": "inherited",
+   "matchedCultivar": "Strawnana | 3.5g",
+   "myrcene": 0.26,
+   "limonene": 0.48,
+   "caryophyllene": 0.29,
+   "linalool": 0.37,
+   "humulene": 0,
+   "apinene": 0.08,
+   "bpinene": 0.11,
+   "bisabolol": 0,
+   "leadTerp": "limonene"
   },
   {
    "name": "Power Zowrs - Traverse City Cherry 200mg Rosin Squares",
