@@ -1,19 +1,19 @@
 {
- "updated": "2026-10-12",
+ "updated": "2026-10-19",
  "note": "Curated 420-adjacent Cleveland shows (jam, Dead, psych, funk/soul, reggae/ska, doom/stoner, conscious hip-hop). Only events verified on a venue/ticketing calendar. Refresh weekly — regenerate this file and the page picks it up automatically; past events auto-hide.",
  "events": [
   {
-   "date": "2026-10-12",
-   "artist": "White Denim + Arc Iris",
+   "date": "2026-10-19",
+   "artist": "Osees (Night 2 of 2)",
    "venue": "Beachland Ballroom, Cleveland",
    "time": "Doors 7:00 PM · Show 8:00 PM",
    "price": "",
-   "genre": "Psych-Funk / Soul-Rock",
+   "genre": "Garage Psych / Kraut-Rock",
    "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/white-denim-12-oct"
+   "url": "https://www.beachlandballroom.com/shows/osees-19-oct"
   },
   {
-   "date": "2026-10-14",
+   "date": "2026-10-21",
    "artist": "Wednesday Night Jam (host band + open jam)",
    "venue": "Backstage Bar, Cleveland (West Park)",
    "time": "Every Wed · Host band 8:00 PM, open jam after",
@@ -24,7 +24,7 @@
    "url": "https://www.backstagebarcleveland.com/calendar.php"
   },
   {
-   "date": "2026-10-14",
+   "date": "2026-10-21",
    "artist": "Wednesday Open Mic & Jam",
    "venue": "CODA, Tremont (Cleveland)",
    "time": "Every Wed · Doors 7:30 PM",
@@ -33,56 +33,6 @@
    "vibe": 4,
    "recurs": "weekly",
    "url": "https://danteboccuzzi.com/coda/"
-  },
-  {
-   "date": "2026-10-16",
-   "artist": "Acid Mothers Temple + Magick Potion",
-   "venue": "Beachland Tavern, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "",
-   "genre": "Japanese Psych / Space Rock",
-   "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/acid-mothers-temple-16-oct"
-  },
-  {
-   "date": "2026-10-16",
-   "artist": "Vibe & Direct + Carlos Jones & The P.L.U.S. Band",
-   "venue": "Grog Shop, Cleveland Heights",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "$15 adv / $20 dos",
-   "genre": "Reggae / Jam-Rock",
-   "vibe": 5,
-   "url": "https://grogshop.gs/tm-event/vibe-direct-carlos-jones-the-p-l-u-s-band/"
-  },
-  {
-   "date": "2026-10-16",
-   "artist": "Earl Sweatshirt & MIKE — Home on the Range Tour",
-   "venue": "Rock & Roll Hall of Fame, Cleveland (Grog Shop presents)",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "$47.50 adv",
-   "genre": "Abstract / Conscious Hip-Hop",
-   "vibe": 4,
-   "url": "https://grogshop.gs/tm-event/earl-sweatshirt-mike-home-on-the-range-tour-2026-2/"
-  },
-  {
-   "date": "2026-10-16",
-   "artist": "Eggy",
-   "venue": "Beachland Ballroom, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM (An Evening With)",
-   "price": "",
-   "genre": "Jam Band",
-   "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/eggy-04-mar"
-  },
-  {
-   "date": "2026-10-18",
-   "artist": "Osees + Traps PS (Night 1 of 2 — also Oct 19)",
-   "venue": "Beachland Ballroom, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "",
-   "genre": "Garage Psych / Kraut-Rock",
-   "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/osees-18-oct"
   },
   {
    "date": "2026-10-23",
@@ -96,6 +46,16 @@
   },
   {
    "date": "2026-10-28",
+   "artist": "Daniel Donato's Cosmic Country",
+   "venue": "Globe Iron, Cleveland (Beachland presents)",
+   "time": "Doors 7:00 PM · Show 8:00 PM",
+   "price": "",
+   "genre": "Cosmic Country / Jam",
+   "vibe": 5,
+   "url": "https://www.beachlandballroom.com/shows/daniel-donato-s-cosmic-country-28-oct"
+  },
+  {
+   "date": "2026-10-28",
    "artist": "TreeHouse! + Rockstead + Jaluski — The COWABUNGA! Tour",
    "venue": "Grog Shop, Cleveland Heights",
    "time": "Doors 7:00 PM · Show 8:00 PM",
@@ -105,14 +65,14 @@
    "url": "https://grogshop.gs/tm-event/treehouse-with-rockstead-the-cowabunga-tour-with-special-guest-jaluski/"
   },
   {
-   "date": "2026-10-28",
-   "artist": "Daniel Donato's Cosmic Country",
-   "venue": "Globe Iron, Cleveland (Beachland presents)",
+   "date": "2026-10-30",
+   "artist": "The Cleveland Brown: A Tribute to Ween",
+   "venue": "Beachland Ballroom, Cleveland",
    "time": "Doors 7:00 PM · Show 8:00 PM",
    "price": "",
-   "genre": "Cosmic Country / Jam",
-   "vibe": 5,
-   "url": "https://www.beachlandballroom.com/shows/daniel-donato-s-cosmic-country-28-oct"
+   "genre": "Psych-Weirdo Rock / Ween Tribute",
+   "vibe": 4,
+   "url": "https://www.beachlandballroom.com/shows/the-cleveland-brown-a-tribute-to-ween-30-oct"
   },
   {
    "date": "2026-10-30",
@@ -133,16 +93,6 @@
    "genre": "Galaxy Grass / Jamgrass",
    "vibe": 5,
    "url": "https://www.beachlandballroom.com/shows/kitchen-dwellers-31-oct"
-  },
-  {
-   "date": "2026-11-01",
-   "artist": "Post Animal + GIFT",
-   "venue": "Beachland Ballroom, Cleveland",
-   "time": "Doors 7:00 PM · Show 8:00 PM",
-   "price": "",
-   "genre": "Psych Rock / Indie",
-   "vibe": 3,
-   "url": "https://www.beachlandballroom.com/shows/post-animal-01-nov"
   },
   {
    "date": "2026-11-06",
@@ -203,6 +153,16 @@
    "genre": "Instrumental Soul-Funk",
    "vibe": 5,
    "url": "https://grogshop.gs/tm-event/surprise-chef-dj-teddy-eisenberg/"
+  },
+  {
+   "date": "2026-11-24",
+   "artist": "Blu and Nickelus F w/ Kipp Stone + Peerless!",
+   "venue": "Grog Shop, Cleveland Heights",
+   "time": "Doors 7:00 PM · Show 8:00 PM",
+   "price": "$20 adv / $25 dos",
+   "genre": "Conscious / Underground Hip-Hop",
+   "vibe": 4,
+   "url": "https://grogshop.gs/tm-event/blu-and-nickelus-f-w-kipp-stone-apocalyps-records-peerless/"
   },
   {
    "date": "2026-11-27",
