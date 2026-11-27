@@ -121,13 +121,6 @@
       .legend div{font-size:0.85rem;}
       .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle;}
       .sf-note{font-size:0.8rem;color:#777;}
-      .pwa-bar{display:none;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;padding:10px 12px;border:1px solid #cfe3d3;border-radius:10px;background:#f4fbf5;font-size:0.9rem;}
-      .pwa-bar.show{display:flex;}
-      .pwa-bar button{padding:8px 14px;border-radius:999px;border:2px solid #1a8754;background:#1a8754;color:#fff;font-weight:700;cursor:pointer;font-size:0.9rem;}
-      .pwa-bar .pwa-x{background:none;border:none;color:#777;font-size:1.1rem;cursor:pointer;margin-left:auto;padding:0 4px;}
-      .sf-toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0D3320;color:#fff;padding:10px 16px;border-radius:999px;font-size:0.9rem;box-shadow:0 4px 18px rgba(0,0,0,.25);display:none;z-index:9999;max-width:92vw;}
-      .sf-toast.show{display:block;}
-      .sf-toast button{background:#F7A400;color:#0D3320;border:none;border-radius:999px;padding:5px 12px;margin-left:10px;font-weight:700;cursor:pointer;}
       .fav-star{background:none;border:none;cursor:pointer;font-size:1.05rem;color:#c9c9c9;padding:0 3px;line-height:1;vertical-align:middle;transition:color .12s,transform .12s;}
       .fav-star:hover{color:#f2b104;transform:scale(1.2);}
       .fav-star.on{color:#f2b104;}
@@ -647,12 +640,6 @@
 
             <p class="sf-note" style="margin:4px 0 6px;">📍 Filter by store, or browse all &mdash; <a href="blog/the-nose-knows">Dacut is Thomas&rsquo;s shop</a>, where this terpene rabbit hole started.</p>
             <div id="dispBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 4px;"></div>
-            <div id="pwaBar" class="pwa-bar" role="region" aria-label="Add Strain Finder to your phone">
-                <span id="pwaText">📲 Keep the Strain Finder on your phone &mdash; it opens instantly in the dispensary line and still works on bad Wi-Fi.</span>
-                <button type="button" id="pwaInstall" style="display:none;">Add to home screen</button>
-                <span id="pwaIos" style="display:none;color:#555;">On iPhone: tap <strong>Share</strong> <span aria-hidden="true">&#x2191;</span> then <strong>Add to Home Screen</strong>.</span>
-                <button type="button" class="pwa-x" id="pwaDismiss" aria-label="Dismiss">&times;</button>
-            </div>
 
             <div class="sf-tabs" role="tablist">
                 <button class="sf-tab active" id="tab-mood" onclick="showTab('mood')">😌 Pick a feeling</button>
@@ -1156,41 +1143,7 @@
       }
     }).catch(function(){});
     </script>
-    <div id="sfToast" class="sf-toast" role="status" aria-live="polite"></div>
-    <script>
-    /* Installable Strain Finder: service worker (scoped to this page), install prompt, fresh-data toast. */
-    (function(){
-      var cap=function(n,p){try{window.posthog&&posthog.capture(n,p||{});}catch(e){}};
-      var standalone=window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
-      if(standalone)cap("strainfinder_pwa_launch");
-      var toast=document.getElementById("sfToast");
-      function showToast(html,ms){if(!toast)return;toast.innerHTML=html;toast.classList.add("show");if(ms)setTimeout(function(){toast.classList.remove("show");},ms);}
-      if("serviceWorker" in navigator){
-        navigator.serviceWorker.register("/sw.js",{scope:"/strain-finder"}).catch(function(){});
-        navigator.serviceWorker.addEventListener("message",function(ev){
-          var d=ev.data||{};
-          if(d.type==="feed-updated"){showToast("Fresh menu data is in. <button type=\"button\" onclick=\"location.reload()\">Reload</button>");cap("strainfinder_pwa_feed_updated");}
-          else if(d.type==="feed-offline"){showToast("You look offline &mdash; showing the last menu data saved on this device.",6000);cap("strainfinder_pwa_offline");}
-        });
-      }
-      var bar=document.getElementById("pwaBar"),btn=document.getElementById("pwaInstall"),ios=document.getElementById("pwaIos"),x=document.getElementById("pwaDismiss");
-      var dismissed=false;try{dismissed=localStorage.getItem("sfPwaDismissed")==="1";}catch(e){}
-      var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
-      var deferred=null;
-      window.addEventListener("beforeinstallprompt",function(e){
-        e.preventDefault();deferred=e;
-        if(standalone||dismissed||!bar)return;
-        btn.style.display="";bar.classList.add("show");cap("strainfinder_pwa_prompt_shown");
-      });
-      if(isIOS&&!standalone&&!dismissed&&bar){ios.style.display="";bar.classList.add("show");cap("strainfinder_pwa_prompt_shown",{ios:true});}
-      if(btn)btn.addEventListener("click",function(){
-        if(!deferred)return;deferred.prompt();
-        deferred.userChoice.then(function(c){cap("strainfinder_pwa_prompt_result",{outcome:c&&c.outcome});deferred=null;bar.classList.remove("show");});
-      });
-      if(x)x.addEventListener("click",function(){bar.classList.remove("show");try{localStorage.setItem("sfPwaDismissed","1");}catch(e){}cap("strainfinder_pwa_dismissed");});
-      window.addEventListener("appinstalled",function(){cap("strainfinder_pwa_installed");if(bar)bar.classList.remove("show");showToast("Added. Find the Strain Finder on your home screen.",5000);});
-    })();
-    </script>
+    <script src="js/pwa-install.js" data-app="Strain Finder" data-scope="/strain-finder" data-prefix="strainfinder" data-mount="#dispBar" data-mount-pos="after"></script>
     <script src="js/script.js"></script>
     <script src="js/particles.js"></script>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8f6c4d4d13b646129837d042ed29c9d5"}'></script>

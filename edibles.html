@@ -11,6 +11,11 @@
 <meta property="og:url" content="https://420blazin.com/edibles">
 <link rel="canonical" href="https://420blazin.com/edibles">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="manifest" href="/manifest-edibles.webmanifest">
+<meta name="theme-color" content="#2D1B4E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Edible Decoder">
+<link rel="apple-touch-icon" href="/images/pwa/edibles-apple-touch-icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -20,8 +25,11 @@
   body{font-family:Inter,system-ui,sans-serif;color:var(--ink);margin:0;background:#f7f8f5;line-height:1.5;}
   .wrap{max-width:880px;margin:0 auto;padding:20px 18px 80px;}
   a{color:var(--gd);}
-  .topnav{font-size:0.85rem;margin-bottom:14px;}
-  .topnav a{text-decoration:none;font-weight:600;margin-right:14px;}
+  .topnav{font-size:0.85rem;margin:0 0 14px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);}
+  .topnav a{text-decoration:none;font-weight:600;white-space:nowrap;}
+  .topnav a.home{font-family:Righteous,cursive;font-size:1rem;color:var(--gd);margin-right:4px;}
+  .topnav a.tool{background:#eef7f1;border:1px solid #cfe3d3;border-radius:999px;padding:3px 10px;}
+  .topnav a.tool.on{background:var(--g);color:#fff;border-color:var(--g);}
   h1{font-family:Righteous,cursive;font-size:2.1rem;line-height:1.1;margin:.2em 0 .1em;}
   h1 .sub{display:block;font-family:Inter;font-size:1rem;font-weight:600;color:var(--mut);margin-top:6px;}
   .wall{background:linear-gradient(135deg,#fff3e0,#ffebee);border:1px solid #f3c9c0;border-radius:14px;padding:16px 18px;margin:18px 0;}
@@ -716,11 +724,22 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="topnav"><a href="/">← 420Blazin</a><a href="/strain-finder">🌿 Strain Finder</a><a href="/edibles">🍬 Edible Decoder</a></div>
+  <nav class="topnav" aria-label="Primary">
+    <a class="home" href="/">420Blazin</a>
+    <a href="/events">Events</a>
+    <a href="/culture">Culture</a>
+    <a href="/blog">Blog</a>
+    <a href="/ohio-weed-laws">Ohio Laws</a>
+    <a href="/florida-marijuana-laws">Florida Laws</a>
+    <a href="/festival">Festival</a>
+    <a class="tool" href="/strain-finder">🌿 Strain Finder</a>
+    <a class="tool on" href="/edibles" aria-current="page">🍬 Edible Decoder</a>
+  </nav>
 
   <h1>The Edible Decoder<span class="sub">Most edibles can&rsquo;t feel like your flower. Here are the ones that can — matched by terpene, dialed by dose.</span></h1>
 
   <div class="proto" id="proto">Prototype · live data from <span id="storeN" class="skel">—</span> Ohio &amp; Michigan dispensaries (more landing). Educational only — not medical advice.</div>
+  <p style="font-size:0.85rem;margin:6px 0 10px;color:var(--mut);">🧮 Making your own? Try the <a href="/blog/edible-dosage-calculator">edible dosage calculator</a>, the <a href="/blog/cannabutter-ratio-calculator">cannabutter ratio calculator</a> and the <a href="/blog/decarb-temperature-chart">decarb temperature chart</a>.</p>
 
   <div class="wall">
     <div class="big" id="wallPct"><span class="skel">&nbsp;&nbsp;&nbsp;</span></div>
@@ -1040,5 +1059,6 @@ Promise.all([
   renderMoods(); renderMatchStores(); renderFlowerList(); restoreURL();
 }).catch(function(e){document.getElementById("matchResult").innerHTML='<div class="empty">Could not load edible data.</div>';});
 </script>
+<script src="/js/pwa-install.js" data-app="Edible Decoder" data-scope="/edibles" data-prefix="edibledecoder" data-mount="#proto" data-mount-pos="after"></script>
 </body>
 </html>

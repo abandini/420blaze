@@ -1,0 +1,19 @@
+{
+  "name": "420Blazin Edible Decoder",
+  "short_name": "Edible Decoder",
+  "description": "Find full-spectrum edibles matched to a strain's terpenes and dialed by dose, from live Ohio and Michigan dispensary menus.",
+  "id": "/edibles",
+  "start_url": "/edibles?utm_source=pwa&utm_medium=homescreen",
+  "scope": "/edibles",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8f5",
+  "theme_color": "#2D1B4E",
+  "lang": "en-US",
+  "categories": ["health", "lifestyle", "utilities"],
+  "icons": [
+    { "src": "/images/pwa/edibles-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/edibles-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/edibles-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

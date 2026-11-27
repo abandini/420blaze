@@ -1,5 +1,5 @@
 /* 420Blazin Strain Finder service worker.
- * Scope: /strain-finder only (registered with {scope:"/strain-finder"}).
+ * Scopes: /strain-finder and /edibles (the same script is registered once per scope).
  * Goals: open instantly on a phone, work on bad dispensary Wi-Fi, never show
  * menu data older than a day without going back to the network first.
  *
@@ -13,7 +13,7 @@
  *  - Analytics, fonts CDN, cross-origin: pass through untouched.
  * Bump VERSION whenever the shell changes so old caches are dropped.
  */
-var VERSION = "sf-v1";
+var VERSION = "sf-v2";
 var SHELL_CACHE = VERSION + "-shell";
 var FEED_CACHE = VERSION + "-feed";
 var FEED_MAX_AGE = 24 * 60 * 60 * 1000; // 1 day
@@ -21,6 +21,8 @@ var NETWORK_TIMEOUT = 6000;
 
 var SHELL_URLS = [
   "/strain-finder",
+  "/edibles",
+  "/js/pwa-install.js",
   "/css/style.css",
   "/js/script.js",
   "/js/tracking.js",
@@ -54,7 +56,7 @@ function isFeed(url) {
 }
 function isShell(url, req) {
   if (url.origin !== self.location.origin) return false;
-  if (req.mode === "navigate") return url.pathname === "/strain-finder" || url.pathname === "/strain-finder.html";
+  if (req.mode === "navigate") return /^\/(strain-finder|edibles)(\.html)?$/.test(url.pathname);
   return /^\/(css|js|images|favicon)/.test(url.pathname) && !/tracking|ingest/.test(url.pathname);
 }
 function cachedAt(res) {
@@ -112,7 +114,7 @@ function handleFeed(req) {
 }
 
 function handleShell(req) {
-  var key = req.mode === "navigate" ? "/strain-finder" : req;
+  var key = req.mode === "navigate" ? new URL(req.url).pathname.replace(/\.html$/, "") : req;
   return caches.open(SHELL_CACHE).then(function (cache) {
     return cache.match(key).then(function (hit) {
       var net = fetch(req).then(function (res) {
