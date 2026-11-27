@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26",
+ "updated": "2026-11-27",
  "dispensaries": [
   {
    "key": "terrasana",
@@ -9,8 +9,8 @@
    "color": "#1a8754",
    "url": "https://terrasanacannabisco.com/cleveland-medical-menu/",
    "medical": false,
-   "count": 101,
-   "updated": "2026-11-26"
+   "count": 97,
+   "updated": "2026-11-27"
   },
   {
    "key": "dacut",
@@ -20,8 +20,8 @@
    "color": "#2471a3",
    "url": "https://dacut.com/",
    "medical": false,
-   "count": 94,
-   "updated": "2026-11-26"
+   "count": 93,
+   "updated": "2026-11-27"
   },
   {
    "key": "rise",
@@ -31,8 +31,8 @@
    "color": "#e67e22",
    "url": "https://oh.risecannabis.com/dispensaries/ohio/cleveland-pearl-rd/6013/recreational-menu/",
    "medical": false,
-   "count": 266,
-   "updated": "2026-11-26"
+   "count": 264,
+   "updated": "2026-11-27"
   },
   {
    "key": "urb",
@@ -42,8 +42,8 @@
    "color": "#16a085",
    "url": "https://dutchie.com/stores/urb-cannabis-monroe/products/flower",
    "medical": false,
-   "count": 154,
-   "updated": "2026-11-26"
+   "count": 148,
+   "updated": "2026-11-27"
   },
   {
    "key": "joyology",
@@ -53,8 +53,8 @@
    "color": "#d35400",
    "url": "https://dutchie.com/stores/grams-club-monroe-rec/products/flower",
    "medical": false,
-   "count": 142,
-   "updated": "2026-11-26"
+   "count": 144,
+   "updated": "2026-11-27"
   },
   {
    "key": "puff",
@@ -65,7 +65,7 @@
    "url": "https://dutchie.com/stores/puff-monroe-rec/products/flower",
    "medical": false,
    "count": 140,
-   "updated": "2026-11-26"
+   "updated": "2026-11-27"
   },
   {
    "key": "pure",
@@ -76,7 +76,7 @@
    "url": "https://dutchie.com/stores/pure-dixie-monroe-rec/products/flower",
    "medical": false,
    "count": 34,
-   "updated": "2026-11-26"
+   "updated": "2026-11-27"
   },
   {
    "key": "klutch",
@@ -87,7 +87,7 @@
    "url": "https://dutchie.com/stores/klutch-cannabis-cleveland/products/flower",
    "medical": false,
    "count": 55,
-   "updated": "2026-11-26"
+   "updated": "2026-11-27"
   },
   {
    "key": "botanist_solon",
@@ -98,7 +98,7 @@
    "url": "https://shopbotanist.com/stores/solon-menu/products/flower",
    "medical": false,
    "count": 253,
-   "updated": "2026-11-26"
+   "updated": "2026-11-27"
   },
   {
    "key": "landing",
@@ -108,8 +108,8 @@
    "color": "#e74c3c",
    "url": "https://cleveland-menu.thelandingdispensaries.com/stores/cleveland-ohio/products/flower",
    "medical": false,
-   "count": 90,
-   "updated": "2026-11-26"
+   "count": 89,
+   "updated": "2026-11-27"
   },
   {
    "key": "amplify",
@@ -119,8 +119,8 @@
    "color": "#f39c12",
    "url": "https://amplifydispensary.com/stores/amplify-coventry/products/flower",
    "medical": false,
-   "count": 206,
-   "updated": "2026-11-26"
+   "count": 205,
+   "updated": "2026-11-27"
   },
   {
    "key": "forest_lakewood",
@@ -130,8 +130,8 @@
    "color": "#1abc9c",
    "url": "https://theforestdispensary.com/stores/the-forest-lakewood/products/flower",
    "medical": false,
-   "count": 168,
-   "updated": "2026-11-26"
+   "count": 167,
+   "updated": "2026-11-27"
   },
   {
    "key": "roam",
@@ -142,7 +142,7 @@
    "url": "https://roamdispensary.com/adult-use/",
    "medical": false,
    "count": 206,
-   "updated": "2026-11-26"
+   "updated": "2026-11-27"
   },
   {
    "key": "ayr_woodmere",
@@ -152,8 +152,8 @@
    "color": "#16a085",
    "url": "https://ayrdispensaries.com/ohio/woodmere/shop/",
    "medical": false,
-   "count": 151,
-   "updated": "2026-11-26"
+   "count": 150,
+   "updated": "2026-11-27"
   },
   {
    "key": "rise_bonita",
@@ -255,7 +255,7 @@
    "updated": "2026-11-25"
   }
  ],
- "count": 2674,
+ "count": 2659,
  "products": [
   {
    "dispensary": "terrasana",
@@ -619,26 +619,6 @@
   },
   {
    "dispensary": "terrasana",
-   "name": "Hippie Crasher (Popcorn)",
-   "size": "[14.15g]",
-   "brand": "Neighborgoods",
-   "type": "Indica",
-   "thc": 26.1,
-   "terps": 2.58,
-   "myrcene": 0.05,
-   "limonene": 1.01,
-   "caryophyllene": 0.6,
-   "linalool": 0.31,
-   "humulene": 0.19,
-   "apinene": 0.2,
-   "bpinene": 0.16,
-   "bisabolol": 0.06,
-   "caryophylleneoxide": 0.0,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0
-  },
-  {
-   "dispensary": "terrasana",
    "name": "Screamin OG",
    "size": "[3.5g]",
    "brand": "RYTHM",
@@ -674,26 +654,6 @@
    "bpinene": 0.07,
    "bisabolol": 0.12,
    "caryophylleneoxide": 0.04,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0
-  },
-  {
-   "dispensary": "terrasana",
-   "name": "Egg Roll (popcorn)",
-   "size": "[14.15g]",
-   "brand": "Neighborgoods",
-   "type": "Indica",
-   "thc": 21.71,
-   "terps": 2.53,
-   "myrcene": 0.08,
-   "limonene": 0.86,
-   "caryophyllene": 0.85,
-   "linalool": 0.33,
-   "humulene": 0.21,
-   "apinene": 0.07,
-   "bpinene": 0.1,
-   "bisabolol": 0.03,
-   "caryophylleneoxide": 0.0,
    "eucalyptol": 0.0,
    "nerolidol": 0.0
   },
@@ -1019,26 +979,6 @@
   },
   {
    "dispensary": "terrasana",
-   "name": "Stadankohhh",
-   "size": "[3.5g]",
-   "brand": "Cheech & Chong",
-   "type": "Hybrid",
-   "thc": 29.17,
-   "terps": 2.17,
-   "myrcene": 0.29,
-   "limonene": 0.55,
-   "caryophyllene": 0.7,
-   "linalool": 0.21,
-   "humulene": 0.22,
-   "apinene": 0.05,
-   "bpinene": 0.09,
-   "bisabolol": 0.05,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0
-  },
-  {
-   "dispensary": "terrasana",
    "name": "Madd Fruit",
    "size": "[3.5g]",
    "brand": "Supply",
@@ -1254,26 +1194,6 @@
    "bpinene": 0.07,
    "bisabolol": 0.1,
    "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0
-  },
-  {
-   "dispensary": "terrasana",
-   "name": "Black Amber",
-   "size": "[14.15g]",
-   "brand": "Neighborgoods",
-   "type": "Hybrid",
-   "thc": 26.47,
-   "terps": 1.95,
-   "myrcene": 0.17,
-   "limonene": 0.62,
-   "caryophyllene": 0.45,
-   "linalool": 0.3,
-   "humulene": 0.2,
-   "apinene": 0.06,
-   "bpinene": 0.09,
-   "bisabolol": 0.06,
-   "caryophylleneoxide": 0.0,
    "eucalyptol": 0.0,
    "nerolidol": 0.0
   },
@@ -2779,7 +2699,7 @@
   },
   {
    "dispensary": "dacut",
-   "name": "DELI - Bob Hope",
+   "name": "DELI - Tegridy",
    "brand": "DACUT",
    "type": "N/A",
    "thc": 27.77,
@@ -2855,26 +2775,6 @@
    "caryophylleneoxide": 0.0,
    "eucalyptol": 0.0,
    "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "dacut",
-   "name": "DELI - GANS Rollie",
-   "brand": "GANS",
-   "type": "Hybrid",
-   "thc": 29.7,
-   "terps": 2.85,
-   "myrcene": 0.6,
-   "limonene": 1.21,
-   "caryophyllene": 0.26,
-   "linalool": 0.43,
-   "humulene": 0.09,
-   "apinene": 0.06,
-   "bpinene": 0.11,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.02,
    "size": ""
   },
   {
@@ -2959,7 +2859,7 @@
   },
   {
    "dispensary": "dacut",
-   "name": "DELI - Curacao",
+   "name": "DELI - Purple Churro",
    "brand": "DACUT",
    "type": "N/A",
    "thc": 27.14,
@@ -3679,26 +3579,6 @@
   },
   {
    "dispensary": "dacut",
-   "name": "Ice Cream Float 28 G",
-   "brand": "DACUT",
-   "type": "N/A",
-   "thc": 28.7,
-   "terps": 1.99,
-   "myrcene": 0.0,
-   "limonene": 0.46,
-   "caryophyllene": 0.38,
-   "linalool": 0.0,
-   "humulene": 0.18,
-   "apinene": 0.32,
-   "bpinene": 0.15,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.0,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "dacut",
    "name": "DELI - Banana Conda Smalls",
    "brand": "DACUT",
    "type": "Hybrid",
@@ -4035,6 +3915,26 @@
    "caryophylleneoxide": 0.06,
    "eucalyptol": 0.0,
    "nerolidol": 0.01,
+   "size": ""
+  },
+  {
+   "dispensary": "dacut",
+   "name": "Lemon Berry 28 G",
+   "brand": "DACUT",
+   "type": "Sativa",
+   "thc": 27.8,
+   "terps": 1.2,
+   "myrcene": 0.0,
+   "limonene": 0.33,
+   "caryophyllene": 0.49,
+   "linalool": 0.14,
+   "humulene": 0.17,
+   "apinene": 0.0,
+   "bpinene": 0.06,
+   "bisabolol": 0.0,
+   "caryophylleneoxide": 0.0,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.0,
    "size": ""
   },
   {
@@ -4615,26 +4515,6 @@
    "caryophylleneoxide": 0.02,
    "eucalyptol": 0.0,
    "nerolidol": 0.01,
-   "size": ""
-  },
-  {
-   "dispensary": "rise",
-   "name": "Soap",
-   "brand": "The Goods by Neighborgoods",
-   "type": "Sativa",
-   "thc": 30.5,
-   "terps": 2.81,
-   "myrcene": 0.04,
-   "limonene": 0.87,
-   "caryophyllene": 0.99,
-   "linalool": 0.37,
-   "humulene": 0.3,
-   "apinene": 0.08,
-   "bpinene": 0.08,
-   "bisabolol": 0.08,
-   "caryophylleneoxide": 0.0,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
    "size": ""
   },
   {
@@ -5492,26 +5372,6 @@
    "apinene": 0.02,
    "bpinene": 0.05,
    "bisabolol": 0.12,
-   "caryophylleneoxide": 0.02,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "rise",
-   "name": "Hash Queen",
-   "brand": "Good Green",
-   "type": "Sativa",
-   "thc": 26.9,
-   "terps": 2.29,
-   "myrcene": 1.15,
-   "limonene": 0.28,
-   "caryophyllene": 0.5,
-   "linalool": 0.07,
-   "humulene": 0.15,
-   "apinene": 0.03,
-   "bpinene": 0.06,
-   "bisabolol": 0.03,
    "caryophylleneoxide": 0.02,
    "eucalyptol": 0.0,
    "nerolidol": 0.0,
@@ -13879,26 +13739,6 @@
   },
   {
    "dispensary": "urb",
-   "name": "Tip Top Crop - Yellow Mermaid Jar",
-   "brand": "Tip Top Crop",
-   "type": "Sativa",
-   "thc": 28.1,
-   "terps": 3.07,
-   "myrcene": 0.56,
-   "limonene": 0.65,
-   "caryophyllene": 0.63,
-   "linalool": 0.56,
-   "humulene": 0.27,
-   "apinene": 0.05,
-   "bpinene": 0.09,
-   "bisabolol": 0.07,
-   "caryophylleneoxide": 0.07,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.09,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
    "name": "Loud Tier Deli - Gary Satan",
    "brand": "High Grade",
    "type": "Indica Hybrid",
@@ -13935,6 +13775,26 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.01,
    "nerolidol": 0.06,
+   "size": ""
+  },
+  {
+   "dispensary": "urb",
+   "name": "Wise Guys - Permanent Cherries",
+   "brand": "Wise Guys Farms",
+   "type": "Indica",
+   "thc": 26.68,
+   "terps": 3.0,
+   "myrcene": 0.42,
+   "limonene": 0.95,
+   "caryophyllene": 0.52,
+   "linalool": 0.33,
+   "humulene": 0.15,
+   "apinene": 0.11,
+   "bpinene": 0.16,
+   "bisabolol": 0.08,
+   "caryophylleneoxide": 0.03,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.05,
    "size": ""
   },
   {
@@ -14055,26 +13915,6 @@
    "caryophylleneoxide": 0.0,
    "eucalyptol": 0.0,
    "nerolidol": 0.08,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Euphoria - Orange Cookie Chem",
-   "brand": "Euphoria",
-   "type": "N/A",
-   "thc": 26.12,
-   "terps": 2.87,
-   "myrcene": 1.48,
-   "limonene": 0.22,
-   "caryophyllene": 0.12,
-   "linalool": 0.04,
-   "humulene": 0.05,
-   "apinene": 0.59,
-   "bpinene": 0.19,
-   "bisabolol": 0.04,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
    "size": ""
   },
   {
@@ -14439,6 +14279,26 @@
   },
   {
    "dispensary": "urb",
+   "name": "Gas Tier Deli - Freezer Jam",
+   "brand": "Glacier Cannabis",
+   "type": "Hybrid",
+   "thc": 34.55,
+   "terps": 2.65,
+   "myrcene": 0.18,
+   "limonene": 0.74,
+   "caryophyllene": 0.95,
+   "linalool": 0.19,
+   "humulene": 0.29,
+   "apinene": 0.12,
+   "bpinene": 0.11,
+   "bisabolol": 0.01,
+   "caryophylleneoxide": 0.01,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.04,
+   "size": ""
+  },
+  {
+   "dispensary": "urb",
    "name": "Gas Tier Deli - Hood Candy",
    "brand": "Beyond Green",
    "type": "Indica Hybrid",
@@ -14515,26 +14375,6 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
    "nerolidol": 0.03,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Tip Top Crop - Lantz Jar",
-   "brand": "Tip Top Crop",
-   "type": "Hybrid",
-   "thc": 26.44,
-   "terps": 2.55,
-   "myrcene": 0.25,
-   "limonene": 0.67,
-   "caryophyllene": 0.3,
-   "linalool": 0.8,
-   "humulene": 0.11,
-   "apinene": 0.06,
-   "bpinene": 0.1,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.07,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.09,
    "size": ""
   },
   {
@@ -14635,6 +14475,26 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
    "nerolidol": 0.09,
+   "size": ""
+  },
+  {
+   "dispensary": "urb",
+   "name": "Zaza Tier Deli - Ruby Weapon",
+   "brand": "Mitten Canna Co.",
+   "type": "N/A",
+   "thc": 28.3,
+   "terps": 2.49,
+   "myrcene": 0.09,
+   "limonene": 0.97,
+   "caryophyllene": 0.68,
+   "linalool": 0.16,
+   "humulene": 0.19,
+   "apinene": 0.08,
+   "bpinene": 0.13,
+   "bisabolol": 0.06,
+   "caryophylleneoxide": 0.05,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.04,
    "size": ""
   },
   {
@@ -14939,22 +14799,22 @@
   },
   {
    "dispensary": "urb",
-   "name": "Monroe Cultivation - BBL Shake",
-   "brand": "Monroe Cultivation",
-   "type": "Hybrid",
-   "thc": 29.9,
+   "name": "Dankems - Pamela Jar",
+   "brand": "Dankems",
+   "type": "N/A",
+   "thc": 25.9,
    "terps": 2.3,
-   "myrcene": 0.47,
-   "limonene": 0.95,
-   "caryophyllene": 0.22,
-   "linalool": 0.36,
-   "humulene": 0.08,
-   "apinene": 0.06,
+   "myrcene": 0.45,
+   "limonene": 0.75,
+   "caryophyllene": 0.39,
+   "linalool": 0.25,
+   "humulene": 0.14,
+   "apinene": 0.05,
    "bpinene": 0.11,
-   "bisabolol": 0.0,
+   "bisabolol": 0.01,
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
-   "nerolidol": 0.02,
+   "nerolidol": 0.04,
    "size": ""
   },
   {
@@ -15459,26 +15319,6 @@
   },
   {
    "dispensary": "urb",
-   "name": "Gas Tier Deli - Ridgeline Lantz",
-   "brand": "Chronicseur",
-   "type": "N/A",
-   "thc": 25.8,
-   "terps": 2.05,
-   "myrcene": 0.16,
-   "limonene": 0.61,
-   "caryophyllene": 0.27,
-   "linalool": 0.67,
-   "humulene": 0.1,
-   "apinene": 0.04,
-   "bpinene": 0.07,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.07,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
    "name": "Loud Tier Deli - Dirty Dante",
    "brand": "Intrinsic",
    "type": "N/A",
@@ -15615,26 +15455,6 @@
    "caryophylleneoxide": 0.02,
    "eucalyptol": 0.0,
    "nerolidol": 0.07,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Euphoria - Dark Passenger",
-   "brand": "Euphoria",
-   "type": "N/A",
-   "thc": 23.99,
-   "terps": 2.04,
-   "myrcene": 0.04,
-   "limonene": 0.24,
-   "caryophyllene": 0.87,
-   "linalool": 0.08,
-   "humulene": 0.45,
-   "apinene": 0.02,
-   "bpinene": 0.03,
-   "bisabolol": 0.08,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
    "size": ""
   },
   {
@@ -15939,46 +15759,6 @@
   },
   {
    "dispensary": "urb",
-   "name": "Glacier - Twin Peaks - Blast Chiller",
-   "brand": "Glacier Cannabis",
-   "type": "Indica Hybrid",
-   "thc": 27.9,
-   "terps": 1.82,
-   "myrcene": 0.26,
-   "limonene": 0.76,
-   "caryophyllene": 0.25,
-   "linalool": 0.23,
-   "humulene": 0.06,
-   "apinene": 0.13,
-   "bpinene": 0.11,
-   "bisabolol": 0.02,
-   "caryophylleneoxide": 0.0,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Glacier - Polar Pack - Island Freeze",
-   "brand": "Glacier Cannabis",
-   "type": "Sativa Hybrid",
-   "thc": 23.01,
-   "terps": 1.81,
-   "myrcene": 0.52,
-   "limonene": 0.31,
-   "caryophyllene": 0.52,
-   "linalool": 0.15,
-   "humulene": 0.14,
-   "apinene": 0.04,
-   "bpinene": 0.06,
-   "bisabolol": 0.03,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.03,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
    "name": "Glacier - Polar Pack Mini - Island Freeze",
    "brand": "Glacier Cannabis",
    "type": "Sativa Hybrid",
@@ -16135,26 +15915,6 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
    "nerolidol": 0.02,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Legasea Farms - Honey Buns Jar",
-   "brand": "LegaSea Farms",
-   "type": "Hybrid",
-   "thc": 28.62,
-   "terps": 1.66,
-   "myrcene": 0.04,
-   "limonene": 0.66,
-   "caryophyllene": 0.26,
-   "linalool": 0.16,
-   "humulene": 0.08,
-   "apinene": 0.15,
-   "bpinene": 0.1,
-   "bisabolol": 0.04,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
    "size": ""
   },
   {
@@ -16435,26 +16195,6 @@
    "caryophylleneoxide": 0.07,
    "eucalyptol": 0.0,
    "nerolidol": 0.05,
-   "size": ""
-  },
-  {
-   "dispensary": "urb",
-   "name": "Zaza Tier Deli - Blue Nerdz",
-   "brand": "Dankems",
-   "type": "Hybrid",
-   "thc": 21.1,
-   "terps": 1.37,
-   "myrcene": 0.36,
-   "limonene": 0.3,
-   "caryophyllene": 0.25,
-   "linalool": 0.14,
-   "humulene": 0.1,
-   "apinene": 0.03,
-   "bpinene": 0.06,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.04,
    "size": ""
   },
   {
@@ -16815,6 +16555,26 @@
    "caryophylleneoxide": 0.04,
    "eucalyptol": 0.0,
    "nerolidol": 0.11,
+   "size": ""
+  },
+  {
+   "dispensary": "joyology",
+   "name": "OG Runtz - Buds",
+   "brand": "Trapstars",
+   "type": "N/A",
+   "thc": 29.87,
+   "terps": 3.54,
+   "myrcene": 0.66,
+   "limonene": 1.02,
+   "caryophyllene": 0.52,
+   "linalool": 0.65,
+   "humulene": 0.16,
+   "apinene": 0.1,
+   "bpinene": 0.17,
+   "bisabolol": 0.02,
+   "caryophylleneoxide": 0.01,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.13,
    "size": ""
   },
   {
@@ -18275,6 +18035,26 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
    "nerolidol": 0.04,
+   "size": ""
+  },
+  {
+   "dispensary": "joyology",
+   "name": "Zanimalz - Buds",
+   "brand": "Trapstars",
+   "type": "N/A",
+   "thc": 29.8,
+   "terps": 2.14,
+   "myrcene": 0.72,
+   "limonene": 0.71,
+   "caryophyllene": 0.16,
+   "linalool": 0.26,
+   "humulene": 0.06,
+   "apinene": 0.05,
+   "bpinene": 0.1,
+   "bisabolol": 0.0,
+   "caryophylleneoxide": 0.0,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.02,
    "size": ""
   },
   {
@@ -30439,26 +30219,6 @@
   },
   {
    "dispensary": "landing",
-   "name": "Northwoods Cannabis - RNTZ Supreme - Flower - 28.3g",
-   "brand": "Northwoods Cannabis",
-   "type": "Hybrid",
-   "thc": 21.0,
-   "terps": 1.58,
-   "myrcene": 0.24,
-   "limonene": 0.56,
-   "caryophyllene": 0.21,
-   "linalool": 0.15,
-   "humulene": 0.06,
-   "apinene": 0.18,
-   "bpinene": 0.15,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.02,
-   "size": ""
-  },
-  {
-   "dispensary": "landing",
    "name": "Firelands Scientific - Black Maple - Flower - 2.83g",
    "brand": "Firelands Scientific",
    "type": "Indica",
@@ -33713,26 +33473,6 @@
    "bpinene": 0.09,
    "bisabolol": 0.06,
    "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "amplify",
-   "name": "Dosi 3.5g",
-   "brand": "Buckeye",
-   "type": "Indica",
-   "thc": 18.34,
-   "terps": 1.66,
-   "myrcene": 0.14,
-   "limonene": 0.2,
-   "caryophyllene": 0.69,
-   "linalool": 0.23,
-   "humulene": 0.17,
-   "apinene": 0.02,
-   "bpinene": 0.04,
-   "bisabolol": 0.11,
-   "caryophylleneoxide": 0.06,
    "eucalyptol": 0.0,
    "nerolidol": 0.0,
    "size": ""
@@ -37735,26 +37475,6 @@
    "caryophylleneoxide": 0.0,
    "eucalyptol": 0.0,
    "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "forest_lakewood",
-   "name": "Tallymon | 14.15g",
-   "brand": "Firebrand Infusions",
-   "type": "Hybrid",
-   "thc": 24.7,
-   "terps": 1.5,
-   "myrcene": 0.4,
-   "limonene": 0.55,
-   "caryophyllene": 0.2,
-   "linalool": 0.11,
-   "humulene": 0.06,
-   "apinene": 0.05,
-   "bpinene": 0.09,
-   "bisabolol": 0.02,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.01,
    "size": ""
   },
   {
@@ -42679,26 +42399,6 @@
   },
   {
    "dispensary": "ayr_woodmere",
-   "name": "Kynd Caesar (I) Flower 14.15g",
-   "brand": "Kynd",
-   "type": "Indica",
-   "thc": 28.06,
-   "terps": 3.23,
-   "myrcene": 0.89,
-   "limonene": 0.91,
-   "caryophyllene": 0.43,
-   "linalool": 0.64,
-   "humulene": 0.13,
-   "apinene": 0.08,
-   "bpinene": 0.15,
-   "bisabolol": 0.0,
-   "caryophylleneoxide": 0.0,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "ayr_woodmere",
    "name": "Kynd NY Sour Diesel (S) Flower Smalls 5.66g",
    "brand": "Kynd",
    "type": "Sativa",
@@ -42979,6 +42679,26 @@
   },
   {
    "dispensary": "ayr_woodmere",
+   "name": "Kynd Caesar (I) Flower 2.83g",
+   "brand": "Kynd",
+   "type": "Indica",
+   "thc": 26.9,
+   "terps": 2.74,
+   "myrcene": 0.63,
+   "limonene": 0.66,
+   "caryophyllene": 0.47,
+   "linalool": 0.56,
+   "humulene": 0.14,
+   "apinene": 0.07,
+   "bpinene": 0.13,
+   "bisabolol": 0.01,
+   "caryophylleneoxide": 0.01,
+   "eucalyptol": 0.0,
+   "nerolidol": 0.06,
+   "size": ""
+  },
+  {
+   "dispensary": "ayr_woodmere",
    "name": "Kynd Caesar (I) Flower Smalls 5.66g",
    "brand": "Kynd",
    "type": "Indica",
@@ -43055,26 +42775,6 @@
    "caryophylleneoxide": 0.01,
    "eucalyptol": 0.0,
    "nerolidol": 0.0,
-   "size": ""
-  },
-  {
-   "dispensary": "ayr_woodmere",
-   "name": "Kynd Caesar (I) Flower 2.83g",
-   "brand": "Kynd",
-   "type": "Indica",
-   "thc": 27.7,
-   "terps": 2.55,
-   "myrcene": 0.48,
-   "limonene": 0.69,
-   "caryophyllene": 0.45,
-   "linalool": 0.53,
-   "humulene": 0.13,
-   "apinene": 0.07,
-   "bpinene": 0.13,
-   "bisabolol": 0.01,
-   "caryophylleneoxide": 0.01,
-   "eucalyptol": 0.0,
-   "nerolidol": 0.05,
    "size": ""
   },
   {
