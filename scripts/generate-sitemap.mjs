@@ -29,6 +29,7 @@ const OUTPUT = path.join(ROOT, 'workers/seo-proxy/src/sitemap-data.ts');
 
 // Files to skip even though they exist as .html (thank-you / checkout-flow / noindex)
 const EXCLUDE_FILES = new Set([
+  '404.html',      // noindex error page — GSC flagged it as a sitemap URL excluded by noindex
   'returns.html',
   'shipping.html',
   'thank-you.html',
@@ -39,6 +40,7 @@ const EXCLUDE_DIRS = new Set([
   'node_modules', '.wrangler', 'dist', 'workers', 'test-results',
   '.playwright-mcp', 'videos', '.git', 'images', 'css', 'js',
   'scripts', 'docs', '.vscode', 'archive',
+  'research_notes', 'reports', 'terrasana',   // local-only research + data folders, never deployed
 ]);
 
 /**
