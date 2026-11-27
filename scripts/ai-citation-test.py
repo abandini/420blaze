@@ -53,7 +53,9 @@ TEST_QUERIES = [
     {"q": "Why does Sour Diesel pair well with comedy movies", "target_page": "/blog/half-baked-sour-diesel-pairing"},
     {"q": "420Blazin festival Cleveland 2027", "target_page": "/festival"},
     # Brownie-specific GEO targets
-    {"q": "How do I calculate THC dosage in homemade cannabis brownies?", "target_page": "/blog/cannabis-brownies-without-the-blackout"},
+    {"q": "How do I calculate THC dosage in homemade cannabis brownies?", "target_page": "/blog/edible-dosage-calculator"},
+    {"q": "What is the right cannabutter ratio and how strong is it per tablespoon?", "target_page": "/blog/cannabutter-ratio-calculator"},
+    {"q": "Decarb temperature chart: how long to decarb weed at 240 F?", "target_page": "/blog/decarb-temperature-chart"},
     {"q": "What temperature for decarbing cannabis flower for brownies?", "target_page": "/blog/cannabis-brownies-without-the-blackout"},
     {"q": "How many brownies does a Pillsbury family size box make?", "target_page": "/blog/cannabis-brownies-without-the-blackout"},
     {"q": "Why do edibles hit harder than smoking cannabis?", "target_page": "/blog/cannabis-brownies-without-the-blackout"},

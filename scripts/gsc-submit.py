@@ -27,6 +27,11 @@ SITEMAPS = [
 ]
 
 NEW_PAGES = [
+    # EXP-026 edibles cluster (2026-11-27)
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/decarb-temperature-chart"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/cannabutter-ratio-calculator"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/edible-dosage-calculator"),
+    ("sc-domain:420blazin.com", "https://420blazin.com/blog/cannabis-brownies-without-the-blackout"),
     # Edible Decoder initiative (launched June 2026)
     ("sc-domain:420blazin.com", "https://420blazin.com/edibles"),
     ("sc-domain:420blazin.com", "https://420blazin.com/heart-smart"),
