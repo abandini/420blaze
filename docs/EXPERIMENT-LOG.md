@@ -222,6 +222,14 @@ All 10 /go/ slugs now return 200. Refersion affiliate ID (9035362) preserved on 
 **Metric:** PostHog pageviews + referrers (host-filtered); GSC impressions/position for "ohio weed laws", "ohio marijuana laws 2026", "bring weed from michigan to ohio"; ai-citation-test query added ("Is it legal to bring cannabis bought in Michigan into Ohio in 2026?"). Update triggers: S.B. 55 passes; veto override; hemp-injunction ruling; federal hemp rule (Nov 2026).
 **Status:** Active. Launched 2026-09-04 (commit ff34143; worker deploy 934f7186). **T+0:** live in 72 s; KV title rendered; sitemap + llms.txt carry the URL; nav link verified on top-level and blog pages; GSC URL inspection = NEUTRAL ("Discovered — currently not indexed") minutes after the sitemap ping. Ask Bill to hit "Request Indexing" in Search Console (it took the terpene post from Discovered to Indexed in ~3 h). **T+7 review due 2026-09-11.**
 
+## EXP-025 — Strain Finder installable (PWA shell, scoped service worker)
+
+**Date:** 2026-11-27
+**Change:** /strain-finder is installable: web manifest (manifest.webmanifest, icons in images/pwa/), a service worker (sw.js) registered with scope /strain-finder only, an "Add to home screen" bar (Chrome/Android prompt; iPhone Share instructions), and a "fresh menu data" toast. The worker serves the 1.1 MB terpene feed from the device cache when it is under a day old and refreshes in the background; older than a day it goes network-first and only falls back to the cached copy offline. The page keeps showing the feed's own "updated" date. Cloudflare Pages _headers keeps sw.js uncached so updates roll out next visit. Nothing else on the site is controlled by the worker.
+**Hypothesis:** Not a traffic play (finder had 5–11 visitors/month Sep–Nov). It is a retention and in-dispensary speed play for the few heavy users (one Cleveland user ran 14 matches in Nov; Bill wants it on his phone). If install events appear and pwa-launched sessions recur, the finder earns a home-screen slot; if not, cost was one afternoon.
+**Metric:** PostHog events strainfinder_pwa_prompt_shown / _prompt_result / _installed / _launch / _feed_updated / _offline (host-filtered); /strain-finder repeat-visitor share; feed fetch time on repeat loads.
+**Status:** Active. **T+0:** local headless test: worker activated with scope /strain-finder, feed cached (1,119,445 bytes, dated), repeat fetch 5 ms from cache, data stamp still reads the feed's own date. Review at T+30 (2026-12-27): any installs? any pwa_launch sessions?
+
 ## EXP-024 — Ohio medical card renewal how-to (Bill's request)
 
 **Date:** 2026-09-27

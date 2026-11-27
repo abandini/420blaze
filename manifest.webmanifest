@@ -1,0 +1,19 @@
+{
+  "name": "420Blazin Strain Finder",
+  "short_name": "Strain Finder",
+  "description": "Match cannabis strains by terpene profile and mood using real dispensary lab data from Ohio, Michigan and Southwest Florida.",
+  "id": "/strain-finder",
+  "start_url": "/strain-finder?utm_source=pwa&utm_medium=homescreen",
+  "scope": "/strain-finder",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D3320",
+  "theme_color": "#007A38",
+  "lang": "en-US",
+  "categories": ["health", "lifestyle", "utilities"],
+  "icons": [
+    { "src": "/images/pwa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
