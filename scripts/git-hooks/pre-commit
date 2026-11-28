@@ -1,0 +1,23 @@
+#!/bin/bash
+# pre-commit: keep sitemap.xml in step with the pages it lists.
+#
+# Runs only when the staged changes add, remove, rename or modify an .html file, then
+# regenerates sitemap.xml (scripts/generate-sitemap.mjs) and stages it into the same
+# commit. The Pages origin serves sitemap.xml and the SEO worker passes it through, so
+# the push that ships a page ships its sitemap entry. No worker deploy.
+#
+# Activate once per clone:  git config core.hooksPath scripts/git-hooks
+#
+# Never blocks a commit. The launchd feed watcher (scripts/refresh-feeds.sh) commits
+# through this hook three times a day; a generator failure must not stop a feed commit.
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$root" || exit 0
+if git diff --cached --name-only --diff-filter=ADMR | grep -qE '\.html$'; then
+  if node scripts/generate-sitemap.mjs --quiet; then
+    git add -- sitemap.xml
+  else
+    echo "pre-commit: sitemap.xml not refreshed (generator failed); commit continues" >&2
+  fi
+fi
+exit 0

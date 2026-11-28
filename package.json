@@ -9,7 +9,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sitemap:gen": "node scripts/generate-sitemap.mjs",
-    "predeploy:seo": "npm run sitemap:gen",
     "deploy:seo": "cd workers/seo-proxy && wrangler deploy"
   },
   "repository": {

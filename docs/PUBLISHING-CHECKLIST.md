@@ -63,8 +63,8 @@ This is **mandatory before deploying.** A page with zero inbound links from exis
 
 ## Phase 4 — Update sitemap + KV titles
 
-- [x] ~~Add the new URL to `workers/seo-proxy/src/index.ts` `SITEMAP` constant~~ — **auto-generated** as of 2026-05-24. The sitemap is rebuilt from the filesystem by `scripts/generate-sitemap.mjs`, which runs automatically on every `wrangler deploy` via the `[build]` hook in `workers/seo-proxy/wrangler.toml`. Preview locally without deploying: `npm run sitemap:gen` from repo root. To customize a new URL's priority/changefreq, edit the `RULES` array in `scripts/generate-sitemap.mjs`. To exclude a page (e.g. thank-you flows), add its filename to `EXCLUDE_FILES`.
-- [ ] Add the new URL + description to the `LLMS` constant in the same file (AI engine sitemap)
+- [x] ~~Add the new URL to the sitemap~~ — **automatic** as of 2026-11-28. `scripts/git-hooks/pre-commit` regenerates `sitemap.xml` (repo root) whenever a commit adds, removes, renames or changes an `.html` file, and the Pages push ships it. No worker deploy. If the hook is not active in your clone: `git config core.hooksPath scripts/git-hooks`. Manual preview: `npm run sitemap:gen`. Rules (priority/changefreq) live in `scripts/generate-sitemap.mjs`.
+- [ ] Add the new URL + description to `llms.txt` in the repo root (AI engine sitemap; served by Pages, passed through by the worker). Same commit as the page.
 - [ ] **If the page goes through the seo-proxy worker (most pages do)**, write a KV entry:
   ```bash
   cd workers/seo-proxy
